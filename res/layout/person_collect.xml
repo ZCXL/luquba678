@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <!-- style="@style/style_top_base" -->
+
+        <LinearLayout
+            android:id="@+id/top_back"
+            android:layout_width="wrap_content"
+            android:minWidth="60dp"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <ImageView
+                android:id="@+id/title_top_image"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:clickable="false"
+                android:src="@drawable/back_array"
+                />
+            <TextView 
+                android:id="@+id/title_top_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="取消"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/top_submit"
+            style="@style/style_top_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/collect_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:text="编辑"
+            android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/collect_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:text="删除"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <View style="@style/under_line" />
+
+    <cn.luquba678.view.PullToRefreshListView
+        android:id="@+id/collect_listView"
+        style="@style/list_view_nofading"
+        android:layout_margin="0dp"
+        android:divider="#DADADA"
+        android:dividerHeight="0.5dp"
+        android:padding="0dp" >
+    </cn.luquba678.view.PullToRefreshListView>
+
+</LinearLayout>

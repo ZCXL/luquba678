@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/circle" android:state_checked="false"/>
+    <item android:drawable="@drawable/ic_choosed_circle" android:state_checked="true"/>
+</selector>
+<!-- From: file:/Y:/Android/luquba678/res/drawable/collect_select.xml -->

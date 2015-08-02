@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/editer_top"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/bg_recommend_school"
+        android:gravity="center"
+        />
+
+    
+      <cn.luquba678.view.PullToRefreshListView
+        android:id="@+id/universityList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#0000"
+        android:layout_marginLeft="15dp"
+        android:divider="#DADADA"
+        android:dividerHeight="0.5dp"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="0dp"
+        android:overScrollMode="never"
+      />
+
+</LinearLayout>

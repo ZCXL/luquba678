@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_wdjy_write" >
+
+     <include
+        android:id="@+id/editer_top"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+    
+    <EditText
+        android:id="@+id/et_my_wish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/frame_radius12_alfa5_black"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="说点什么吧!"
+        android:inputType="text|textMultiLine"
+        android:maxLength="140"
+        android:minHeight="130dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFC0C0C0"
+        android:textSize="18sp" >
+
+        <requestFocus />
+    </EditText>
+
+</LinearLayout>

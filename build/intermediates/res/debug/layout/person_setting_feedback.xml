@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_e"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/person_setting_feedback_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/ed_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:gravity="top|start"
+            android:background="@color/white"
+            android:hint="请不要吝啬地写下您的意见和建议，这是对我们最大的支持，谢谢！" />
+
+        <Button
+            android:id="@+id/ed_commit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/ed_feedback"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/main_color"
+            android:layout_marginTop="30dp"
+            android:text="确认提交" />
+    </RelativeLayout>
+
+</LinearLayout><!-- From: file:/Y:/Android/luquba678/res/layout/person_setting_feedback.xml -->

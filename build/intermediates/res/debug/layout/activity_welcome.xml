@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/start_Button"
+        android:layout_width="180dp"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/selector_button_start"
+        android:text="进入软件"
+        android:textColor="@color/main_color"
+        android:textSize="15sp"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/skip"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:background="@drawable/bg_skip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/skip"
+        android:gravity="center"
+        android:textColor="@color/main_color"
+        android:textSize="12sp"
+         />
+
+    <LinearLayout
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+</RelativeLayout><!-- From: file:/Y:/Android/luquba678/res/layout/activity_welcome.xml -->

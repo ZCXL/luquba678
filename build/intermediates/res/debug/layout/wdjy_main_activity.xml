@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/editer_top"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <LinearLayout
+            android:id="@+id/id_tab_bottom_wdjy"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:src="@drawable/wdjy" />
+
+            <Button
+                android:id="@+id/btn_tab_bottom_wdjy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:paddingLeft="5dp"
+                android:text="我的寄语"
+                android:textColor="#464444"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/under_line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/id_tab_bottom_write"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_normal"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                                android:enabled="false"
+                android:focusable="false"                android:clickable="false"
+                
+                android:background="@drawable/write" />
+
+            <Button
+                android:id="@+id/btn_tab_bottom_write"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0000"
+                android:paddingLeft="5dp"
+                                android:focusable="false"
+                android:clickable="false"
+                android:enabled="false"
+                android:text="写寄语"
+                android:textColor="#464444"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/under_line"
+        android:layout_height="1dp" />
+
+    <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
+        android:id="@+id/asset_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:columnWidth="92dip"
+        android:horizontalSpacing="3dip"
+        android:numColumns="auto_fit"
+        android:padding="3dp"
+        android:verticalSpacing="3dip" />
+
+</LinearLayout><!-- From: file:/Y:/Android/luquba678/res/layout/wdjy_main_activity.xml -->

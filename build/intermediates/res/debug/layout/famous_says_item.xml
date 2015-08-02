@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/story_previewimage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_famous_says" />
+
+    <LinearLayout
+        android:id="@+id/famous_says_relativelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/story_previewimage"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/story_title"
+            style="@style/home_title_text_style"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:maxLines="2"
+            android:text="我是标题我是标题我是标题我是标题我是标题我是标题"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/come_from_str"
+                 style="@style/famous_says_info_style"
+                android:layout_marginLeft="10dp"
+                
+                android:text="来源："
+                />
+
+            <TextView
+                android:id="@+id/come_from"
+                android:layout_marginRight="10dp"
+                 android:text="aaa"
+              style="@style/famous_says_info_style" />
+
+            <TextView
+                android:id="@+id/creat_date_str"
+                style="@style/famous_says_info_style"
+                android:layout_marginLeft="5dp"
+                android:text="发布时间：" />
+
+            <TextView
+                android:id="@+id/creat_date"
+                style="@style/famous_says_info_style"
+                android:layout_marginRight="10dp"
+                android:text="3分钟前"
+                 />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout><!-- From: file:/Y:/Android/luquba678/res/layout/famous_says_item.xml -->

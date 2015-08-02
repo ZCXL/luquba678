@@ -1,0 +1,215 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_search"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/editer_top"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="22.5dp"
+        android:background="@drawable/frame_radius8_alfa8_black"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:clickable="false"
+            android:text="高考分数"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/query_score"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:hint="请输入高考分数"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp" >
+
+        </EditText>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/frame_radius8_alfa8_black" >
+
+        <RadioGroup
+            android:id="@+id/query_kelei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/search_like"
+                android:layout_width="22.5dp"
+                android:layout_height="22.5dp"
+                android:layout_marginRight="5dp"
+                android:checked="true"
+                android:background="@drawable/radiobutton_cube"
+                android:button="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="理科"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/search_wenke"
+                android:layout_width="22.5dp"
+                android:layout_height="22.5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/radiobutton_cube"
+                android:button="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文科"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/query_kelei"
+            android:text="选择文理科"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/query_home_place"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_bgframe_radius8_black"
+        android:clickable="true" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/query_home_place_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="湖北"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_forword_arraw" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:clickable="false"
+            android:text="考生所在地"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/query_school_place"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_bgframe_radius8_black"
+        android:clickable="true" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:clickable="false"
+            android:text="大学所在地"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/query_school_place_school"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="湖北"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_forword_arraw" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/do_search"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="86dp"
+        android:layout_marginTop="30dp"
+        android:layout_height="86dp"
+        android:background="@drawable/ic_search_big" />
+
+</LinearLayout>

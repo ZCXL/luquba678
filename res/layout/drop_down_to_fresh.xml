@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/get_more"
+    style="@style/more_btn_style"
+                android:text="@string/get_more" >
+    
+
+</TextView>

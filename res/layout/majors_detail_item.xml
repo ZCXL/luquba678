@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/click_zhankai"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/frame_radius5_alfa0_main_color" >
+
+        <TextView
+            android:id="@+id/major_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="物理"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/major_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/major_content_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:text="录取分数线"
+            android:textColor="@color/text_black_color"
+            android:textSize="18sp" />
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            layout="@layout/grade_line_item" />
+
+        <cn.luquba678.view.NoScrollListView
+            android:id="@+id/gradelinelistview"
+            style="@style/list_view_nofading"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:divider="@color/white"
+            android:dividerHeight="5dp"
+            android:padding="0dp" >
+        </cn.luquba678.view.NoScrollListView>
+    </LinearLayout>
+
+</LinearLayout>

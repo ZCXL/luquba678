@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <WebView
+        android:id="@+id/story_content_web"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:lineSpacingExtra="2dp"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="#898985"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/comment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <View
+            style="@style/gray_e_line"
+            />
+
+        <LinearLayout
+            android:id="@+id/comment_con"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="3dp"
+                android:background="@color/main_color" />
+
+            <TextView
+                style="@style/width_wrap_height_wrap"
+                android:text="热门评论"
+                android:textColor="@color/gray_5"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+<!-- From: file:/Y:/Android/luquba678/res/layout/detail_container.xml -->

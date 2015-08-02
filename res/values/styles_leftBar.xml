@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>  
+			
+<!-- 左边选项卡样式-->
+  <style name="leftbar_radioGroup" parent="layout_horizontal">  
+    <item name="android:orientation">vertical</item>  
+    <item name="android:layout_gravity">left</item>  
+  </style>  
+
+<!-- 选项卡标签样式-->
+  <style name="leftbar_radioButton" parent="layout_vertical">  
+    <item name="android:button">@null</item>  
+    <item name="android:background">@drawable/radiobutton_bottom_bg</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:gravity">center</item>      
+  </style>   
+	
+</resources>  

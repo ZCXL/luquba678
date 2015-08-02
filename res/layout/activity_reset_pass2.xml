@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/regist_top"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/regist_top"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="0dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="vertical" >
+
+
+                    <LinearLayout
+                        android:id="@+id/regist_verify"
+                        style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/verify"
+                            style="@style/regist_editor_style"
+                            android:hint="@string/verify" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+
+                    <LinearLayout style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/password"
+                            style="@style/regist_editor_style"
+                            android:hint="重新设置密码"
+                            android:inputType="textPassword"
+                            android:password="true" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+
+                    <LinearLayout style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/repassword"
+                            style="@style/regist_editor_style"
+                            android:hint="@string/repid_password"
+                            android:inputType="textPassword"
+                            android:password="true" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/do_resetpass"
+                    style="@style/btn_green_style"
+                    android:text="确认提交" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.luquba678"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="10" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="zeALmS0L83dhQ27jMQgL6VCD" />
+
+        <activity android:name="cn.luquba678.activity.welcome.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="cn.luquba678.activity.welcome.WelcomeActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.welcome.HomeActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.fragment.SearchFragment" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.CityChooserActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.QueryResultActivity" >
+        </activity>
+        <activity
+            android:name="cn.luquba678.activity.MainFragmentActivity"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.UniversityDetailActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.MajorsDetailActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.WdjyWriteActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.WdjySaveActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.SubMainActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.FunnyDetailActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.CommonNewsActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.UniversityListActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.PrettySchoolMateActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.LoginActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.RegisterActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.FunnyActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.ResetPassActivity1" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.ResetPassActivity2" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.PersonMessageActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.SelectPhotosActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.ImageGridActivity" >
+        </activity>
+        <activity android:name="cn.luquba678.activity.person.PersonCollectActivity" >
+        </activity>
+        <activity
+            android:name="cn.luquba678.activity.CitiesActivity"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="cn.luquba678.activity.BirthdayActivity"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <!-- 微信分享回调 -->
+        <activity
+            android:name="cn.luquba678.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

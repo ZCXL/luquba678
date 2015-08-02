@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="10dp"
+    android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants"
+     >
+
+    <CheckBox
+        android:id="@+id/collect_check"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/collect_select"
+        android:button="@null"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/collect_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/collect_check"
+        android:background="@drawable/empty_photo" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/collect_img"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/collect_img"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/collect_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/collection"
+            android:textColor="@color/text_black_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/collect_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签"
+            android:textColor="@color/gray_6"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/collect_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/collect_img"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="14dp"
+        android:text="1天前"
+        android:textColor="@color/gray_7"
+        android:textSize="15sp" />
+
+</RelativeLayout><!-- From: file:/Y:/Android/luquba678/res/layout/item_collect.xml -->

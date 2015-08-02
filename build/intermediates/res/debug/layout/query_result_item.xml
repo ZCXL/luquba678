@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@color/white"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp" >
+
+    <cn.luquba678.view.CircularImage
+        android:id="@+id/school_logo"
+        android:layout_width="50dp"
+        android:src="@color/gray_6"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:id="@+id/school_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/major"
+        android:layout_toRightOf="@+id/school_logo"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/school_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="0dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="武汉大学"
+            android:textColor="#333030"
+            android:textSize="19sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/school_type_text"
+                style="@style/text_frame_radius_style"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/frame_radius5_alfa0_orange"
+                android:text="理工类"
+                 />
+
+            <TextView
+                android:id="@+id/is_985"
+                style="@style/text_frame_radius_style"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/frame_radius5_alfa0_main_color"
+                android:text="985" />
+
+            <TextView
+                android:id="@+id/is_211"
+                style="@style/text_frame_radius_style"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/frame_radius5_alfa0_main_color"
+                android:text="211" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_locate" />
+
+            <TextView
+                android:id="@+id/school_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:text="湖北"
+                android:textColor="@color/gray_9"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/major"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/homologous_major"
+        android:textColor="#13b199"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/major"
+        android:background="#DFDBDB" />
+
+</RelativeLayout><!-- From: file:/Y:/Android/luquba678/res/layout/query_result_item.xml -->

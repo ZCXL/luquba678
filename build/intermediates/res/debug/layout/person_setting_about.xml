@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/person_setting_title"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <LinearLayout
+        android:id="@+id/check_update"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/check_update" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout
+        android:id="@+id/clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/clear_cache" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout
+        android:id="@+id/use_detail"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:clickable="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/use_detail" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+
+    <LinearLayout
+        android:id="@+id/about_us"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/about" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+</LinearLayout><!-- From: file:/Y:/Android/luquba678/res/layout/person_setting_about.xml -->

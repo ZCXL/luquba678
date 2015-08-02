@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/person_accout_title"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <LinearLayout style="@style/linearlayout_line_item" >
+
+        <TextView
+            style="@style/textview_left_black"
+            android:text="手机号" />
+
+        <TextView
+            android:id="@+id/phone_number"
+            style="@style/text_view_right_gray"
+            android:text="15527704110" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout style="@style/linearlayout_line_item" >
+
+        <TextView
+            style="@style/textview_left_black"
+            android:text="微信号" />
+
+        <TextView
+            android:id="@+id/wechat_number"
+            style="@style/text_view_right_gray"
+            android:text="15527704110" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout style="@style/linearlayout_line_item" >
+
+        <TextView
+            style="@style/textview_left_black"
+            android:text="QQ号" />
+
+        <TextView
+            android:id="@+id/QQ_number"
+            style="@style/text_view_right_gray"
+            android:text="15527704110" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout style="@style/linearlayout_line_item" >
+
+        <TextView
+            style="@style/textview_left_black"
+            android:text="微博号" />
+
+        <TextView
+            android:id="@+id/microblog_number"
+            style="@style/text_view_right_gray"
+            android:text="15527704110" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout style="@style/linearlayout_line_item" >
+
+        <TextView
+            style="@style/textview_left_black"
+            android:text="账号保护" />
+
+        <TextView
+            style="@style/text_view_right_gray"
+            android:text="已保护" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+</LinearLayout><!-- From: file:/Y:/Android/luquba678/res/layout/person_account.xml -->

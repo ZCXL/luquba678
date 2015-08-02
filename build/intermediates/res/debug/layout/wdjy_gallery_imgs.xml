@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    
+	<cn.luquba678.ui.UGallery
+         android:id="@+id/gallery_wdjy_imgs"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:spacing="0dip" />
+
+</LinearLayout>
+<!-- From: file:/Y:/Android/luquba678/res/layout/wdjy_gallery_imgs.xml -->

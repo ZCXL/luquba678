@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="gray">#777777</color>
+    <color name="white">#ffffff</color>
+    <color name="white_half">#88ffffff</color>
+    <color name="green_4">#4ac3b4</color>
+    <color name="green_49">#49F259</color>
+    <color name="green_3a">#3AC247</color>
+    <color name="blue_bg">#66cccc</color>
+    <color name="normal_text_color">#989898</color>
+    <color name="common_top_bar_blue">#22292c</color>
+    <color name="common_botton_bar_blue">#2ea7e0</color>
+    <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="btn_gray_pressed_status">#b5b5b6</color>
+    <color name="btn_blue_normal">#1e90ff</color>
+    <color name="btn_blue_pressed">#0066FF</color>
+    <color name="main_color">#13B199</color>
+    <color name="pale_green">#62DACE</color>
+    <color name="text_black_color">#333030</color>
+    <color name="coment_gray_1">#F7F5F6</color>
+    <color name="gray_f">#F4F3F2</color>
+    <color name="gray_e">#ffeaeaea</color>
+    <color name="gray_d">#dddddd</color>
+    <color name="black">#151314</color>
+    <color name="gray_c">#ffcccccc</color>
+    <color name="gray_b">#ffbbbbbb</color>
+    <color name="gray_9">#ff999999</color>
+    <color name="gray_8">#85857D</color>
+    <color name="gray_6">#666666</color>
+    <color name="gray_7">#777777</color>
+    <color name="gray_3">#ff333333</color>
+    <color name="gray_5">#555555</color>
+    <color name="gray_a">#a2a7a6</color>
+    <color name="red">#ff0000</color>
+    <color name="touming">#00000000</color>
+
+</resources>

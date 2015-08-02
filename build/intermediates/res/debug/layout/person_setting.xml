@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/person_setting_title"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <LinearLayout
+        android:id="@+id/person_account_line"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/give_mark" />
+
+        <ImageView style="@style/image_button_forword" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout
+        android:id="@+id/person_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:clickable="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/feedback" />
+
+        <ImageView style="@style/image_button_forword" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout
+        android:id="@+id/person_question"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/question" />
+
+        <ImageView style="@style/image_button_forword" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout
+        android:id="@+id/person_about"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/about_software" />
+
+        <ImageView style="@style/image_button_forword" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+    <LinearLayout
+        android:id="@+id/share_friend"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/personal_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1.0"
+            android:gravity="left|center_vertical"
+            android:text="@string/share_friend" />
+    </LinearLayout>
+
+    <View style="@style/under_line" />
+
+</LinearLayout><!-- From: file:/Y:/Android/luquba678/res/layout/person_setting.xml -->

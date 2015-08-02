@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/id_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <cn.luquba678.view.MainViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:background="#ADADAD" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="49dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true" >
+
+            <LinearLayout
+                android:id="@+id/navigation_home"
+                style="@style/style_cell_navigation" >
+
+                <ImageView
+                    android:id="@+id/img_home"
+                    style="@style/style_image_navigation"
+                    android:src="@drawable/ic_home" />
+
+                <TextView
+                    android:id="@+id/text_home"
+                    style="@style/style_text_navigation"
+                    android:text="首页"
+                     />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navigation_search"
+                style="@style/style_cell_navigation" >
+
+                <ImageView
+                    android:id="@+id/img_search"
+                    style="@style/style_image_navigation"
+                    android:src="@drawable/ic_search" />
+
+                <TextView
+                    android:id="@+id/text_search"
+                    style="@style/style_text_navigation"
+                    android:text="查询" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navigation_blog"
+                style="@style/style_cell_navigation" >
+
+                <ImageView
+                    android:id="@+id/img_blog"
+                    style="@style/style_image_navigation"
+                    android:src="@drawable/ic_msg" />
+
+                <TextView
+                    android:id="@+id/text_blog"
+                    style="@style/style_text_navigation"
+                    android:text="寄语" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navigation_personal"
+                style="@style/style_cell_navigation" >
+
+                <ImageView
+                    android:id="@+id/img_personal"
+                    style="@style/style_image_navigation"
+                    android:src="@drawable/ic_personal_info" />
+
+                <TextView
+                    android:id="@+id/text_personal"
+                    style="@style/style_text_navigation"
+                    android:text="个人" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

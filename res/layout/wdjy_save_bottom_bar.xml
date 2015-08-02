@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    android:gravity="center_vertical" >
+
+    <LinearLayout
+        android:id="@+id/id_tab_bottom_switch_line"
+        style="@style/save_wdjy_btn_item"
+         >
+
+        <ImageButton
+            android:id="@+id/btn_tab_bottom_switch"
+            style="@style/save_wdjy_buttom_btn"
+            android:background="@drawable/switch_pic" />
+
+        <TextView
+            android:id="@+id/tv_tab_bottom_switch_text"
+            style="@style/save_wdjy_buttom_btn_text"
+            android:text="换图" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/id_tab_bottom_album_line"
+        style="@style/save_wdjy_btn_item" >
+
+        <ImageButton
+            android:id="@+id/btn_tab_bottom_album"
+            style="@style/save_wdjy_buttom_btn"
+            android:background="@drawable/album" />
+
+        <TextView
+            android:id="@+id/tv_tab_bottom_album_text"
+            style="@style/save_wdjy_buttom_btn_text"
+            android:text="相册" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/id_tab_bottom_font_line"
+        style="@style/save_wdjy_btn_item" >
+
+        <ImageButton
+            android:id="@+id/btn_tab_bottom_font"
+            style="@style/save_wdjy_buttom_btn"
+            android:background="@drawable/font" />
+
+        <TextView
+            android:id="@+id/tv_tab_bottom_font_text"
+            style="@style/save_wdjy_buttom_btn_text"
+            android:text="字体" />
+    </LinearLayout>
+
+</LinearLayout>

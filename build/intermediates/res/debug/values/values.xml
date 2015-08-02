@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Y:/Android/luquba678/res/values/color.xml -->
+    <eat-comment/>
+    <color name="black">#151314</color>
+    <color name="blue_bg">#66cccc</color>
+    <color name="btn_blue_normal">#1e90ff</color>
+    <color name="btn_blue_pressed">#0066FF</color>
+    <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="btn_gray_pressed_status">#b5b5b6</color>
+    <color name="coment_gray_1">#F7F5F6</color>
+    <color name="common_botton_bar_blue">#2ea7e0</color>
+    <color name="common_top_bar_blue">#22292c</color>
+    <color name="gray">#777777</color>
+    <color name="gray_3">#ff333333</color>
+    <color name="gray_5">#555555</color>
+    <color name="gray_6">#666666</color>
+    <color name="gray_7">#777777</color>
+    <color name="gray_8">#85857D</color>
+    <color name="gray_9">#ff999999</color>
+    <color name="gray_a">#a2a7a6</color>
+    <color name="gray_b">#ffbbbbbb</color>
+    <color name="gray_c">#ffcccccc</color>
+    <color name="gray_d">#dddddd</color>
+    <color name="gray_e">#ffeaeaea</color>
+    <color name="gray_f">#F4F3F2</color>
+    <color name="green_3a">#3AC247</color>
+    <color name="green_4">#4ac3b4</color>
+    <color name="green_49">#49F259</color>
+    <color name="main_color">#13B199</color>
+    <color name="normal_text_color">#989898</color>
+    <color name="pale_green">#62DACE</color>
+    <color name="red">#ff0000</color>
+    <color name="text_black_color">#333030</color>
+    <color name="touming">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_half">#88ffffff</color>
+    <!-- From: file:/Y:/Android/luquba678/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="height_top_bar">48dp</dimen>
+    <dimen name="image_detail_pager_margin">80dp</dimen>
+    <dimen name="image_thumbnail_size">100dp</dimen>
+    <dimen name="image_thumbnail_spacing">1dp</dimen>
+    <!-- From: file:/Y:/Android/luquba678/res/values/picture_dimens.xml -->
+    <eat-comment/>
+    <dimen name="pciture_view_pager_margin">80dp</dimen>
+    <dimen name="picture_action_bar_button_margin">0dp</dimen>
+    <dimen name="picture_action_bar_height">48dp</dimen>
+    <dimen name="picture_action_bar_page_index_text_size">18dp</dimen>
+    <dimen name="picture_album_column_margin">5dp</dimen>
+    <dimen name="picture_album_item_title_height">30dp</dimen>
+    <dimen name="picture_album_text_margin">6dp</dimen>
+    <dimen name="picture_album_title_text_size">12dp</dimen>
+    <dimen name="picture_album_top_margin">10dp</dimen>
+    <dimen name="picture_album_view_margin">8dp</dimen>
+    <dimen name="picture_album_view_margin_bottom">9dp</dimen>
+    <dimen name="picture_count_text_size">12dp</dimen>
+    <dimen name="picture_loading_text_top_margin">12dp</dimen>
+    <dimen name="picture_pull_to_refresh_footer_height">40dp</dimen>
+    <dimen name="picture_pull_to_refresh_last_update_time_text_size">10dp</dimen>
+    <dimen name="picture_pull_to_refresh_last_update_time_top_margin">6dp</dimen>
+    <dimen name="picture_pull_to_refresh_loading_text_size">14dp</dimen>
+    <dimen name="picture_reload_text_size">16dp</dimen>
+    <dimen name="picture_user_guide_margin">8dp</dimen>
+    <!-- From: file:/Y:/Android/luquba678/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="top_radius">3dp</dimen>
+    <dimen name="top_radius_wrap">3.5dp</dimen>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="about">关于我们</string>
+    <string name="about_software">关于软件</string>
+    <string name="about_us_one">武汉简之易科技公司是由4位拥有共同理想的年青人创立，公司主要经营计算机软硬件开发及销售，电子产品开发及销售，网络技术服务和电子商务。我们用“创造价值”的理念为用户打造简洁而易用的产品。我们希望用惊艳的设计和人性化的功能解决用户遇到的问题。\n</string>
+    <string name="about_us_two">“录取吧”是公司开发的一款APP,其主要功能是帮助考生便捷的，科学的填报高考志愿，并且为高中生提供健康有趣的生活方式。我们希望用“录取吧”让每一个高中生都能选择最合适自己的学校和专业，让他们在繁忙的学习过程中能保持愉悦的心情和高昂的斗志，迎接高考，迎接挑战，成就人生的梦想。</string>
+    <string name="action_settings">Settings</string>
+    <string name="agree_str">点击上面的\"注册\"按钮,即表示您已查看同意</string>
+    <string name="agreement">用户协议</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/string_agreement.xml -->
+    <eat-comment/>
+    <string name="agreement_cntent">                  录取吧用户协议
+
+尊敬的用户您好，请您仔细阅读以下条款，如果您对本协议的任何条款表示异议，您可以选择不使用；使用则意味着您将同意遵守本协议的全部规定，以及我们后续对使用协议随时所做的任何修改，并完全服从于我们的统一管理。
+
+第一章 总则
+第1条 录取吧是向用户提供分享信息、谈论交流的平台。
+第2条 录取吧所有权、经营权、管理权均属于公司。
+第3条 本协议最终解释权归属本公司。
+
+第二章
+第4条 凡是下载、浏览和发布内容的用户均属于录取吧用户。
+第5条 用户的个人信息及隐私收到保护，不接受任何个人或单位的查询，本公司也不对外做它用。国家机关依法查询除外，用户的个人设置除外。
+第6条 用户享有言论自由的权利。
+第7条 用户的言行不得违反《计算机信息网络国际联网安全保护管理办法》、《互联网信息服务管理办法》、《互联网电子广告服务管理规定》、《维护互联网安全的决定》、《互联网新闻信息服务管理规定》等相关法律规定，不得在录取吧上发布、传播或以其它方式传送含有下列内容之一的信息：
+1、反对宪法所确定的基本原则的；
+2、危害国家安全、泄露国家机密、颠覆国家政权、破坏国家统一的；
+3、损害国家荣誉和利益的；
+4、煽动民族仇恨、民族歧视、破坏民族团结的；
+5、破坏国家宗教政策、宣扬邪教和封建迷信的；
+6、散布谣言、扰乱社会秩序、破坏社会稳定的；
+7、散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的； 
+8、侮辱或者诽谤他人，侵害他人合法合法权利的；
+9、煽动非法集会、结社、游行、示威、聚众扰乱社会秩序的；
+10、以非法民间组织名义活动的；
+11、含有虚假、有害、胁迫、侵害他人隐私、骚扰、中伤、粗俗、猥亵、或其它道德上令人反感的内容；
+12、含有中国法律、法规、规章、条例以及任何具有法律效力之规范所限制或禁止的其它内容的。
+第8条 用户不得在录取吧内发布任何形式的广告。
+第9条 用户应承担一切因个人的行为而直接或间接导致的民事或刑事法律责任，因用户行为给本公司造成损失的，用户应负责赔偿。
+第10条 本公司拥有对违反协议的用户进行处理的权利，直至禁止在其录取吧内发布信息。
+第11条 禁止任何使用非法软件进行刷内容、违规发布内容的行为。
+第12条 任何用户发现在录取吧上有内容涉嫌侮辱或者诽谤他人、侵害他人合法权益的或违反本协议的，有权进行直接举报。
+第13条 为了能够给广大用户提供一个优质的交流平台，同时使得录取吧能够良性、健康的发展、将对涉及反动、色情和发布不良内容的用户，进行严厉处理。一经发现此类行为，将给予永久封禁并清空所有发言的处罚。
+
+第三章 权利说明
+第14条 录取吧发布的内容仅代表用户的观点，与本公司无关。对于用户言论的真实性引发的全部责任，由用户自行承担，本公司不承担任何责任。
+第15条 用户之间因使用录取吧而产生或可能产生的任何纠纷或损失，由用户自行解决并承担相应的责任，与本公司无关。
+第16条 用户在录取吧上发布的内容，本公司有权转载或引用。
+第17条 用户在任何时间段在录取吧上发表的任何内容的著作财产权，用户许可本公司在全世界范围内免费地、永久性地、不可撤销地、可分许可地和非独家的使用的权利，包括但不限于：复制权、发行权、出租权、展览权、表演权、放映权、广播权、信息网络传播权、摄制权、改编权、翻译权、汇编权以及《著作权法》规定的由著作权人享有的其它著作财产权利。并且，用户许可本公司有权利就任何主体侵权而单独提起诉讼，并获得全部赔偿。
+
+        
+    </string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="agreement_xieyi">《使用条款与隐私政策》</string>
+    <string name="app_name">录取吧</string>
+    <string name="attention">关注我们</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="baidutieba">百度贴吧</string>
+    <string name="baidutieba_client_inavailable">目前您的百度贴吧版本过低或未安装，需要安装百度贴吧才能使用</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="blog">社 区</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="bluetooth">蓝牙</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="cancel">取消</string>
+    <string name="check_update">检查更新</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="collection">我的收藏</string>
+    <string name="cream">精华</string>
+    <string name="detail_comment">评论</string>
+    <string name="detail_title">详情</string>
+    <string name="device_sensor_desc">仅用设备定位模式下，只使用用户的GPS进行定位。这个模式下，由于GPS芯片锁定需要时间，首次定位速度会需要一定的时间</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="douban">豆瓣</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="email">邮件</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="error_code_desc">错误码说明</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="evernote">印象笔记</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="exist_login">退出登录</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="facebook">Facebook</string>
+    <string name="facebookmessenger">Facebook Messenger</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="feedback">意见反馈</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="finish">完成</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="flickr">Flickr</string>
+    <string name="foursquare">FourSquare</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="get_more">正在加载</string>
+    <string name="get_verify">获取验证码</string>
+    <string name="give_mark">评分支持</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="google_plus_client_inavailable">Google+ 版本过低或者没有安装，需要升级或安装Google+才能使用！</string>
+    <string name="googleplus">Google+</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="hello_world">Hello world!</string>
+    <string name="hight_accuracy_desc">高精度定位模式下，会同时使用GPS、Wifi和基站定位，返回的是当前条件下精度最好的定位结果</string>
+    <string name="homologous_major">对应专业</string>
+    <string name="hot">热门</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="instagram">Instagram</string>
+    <string name="instagram_client_inavailable">Instagram版本过低或者没有安装，需要升级或安装Instagram才能使用！</string>
+    <string name="instapager_email_or_password_incorrect">Email或密码不正确</string>
+    <string name="instapaper">Instapaper</string>
+    <string name="instapaper_email">邮箱</string>
+    <string name="instapaper_login">登录</string>
+    <string name="instapaper_logining">登录中…</string>
+    <string name="instapaper_pwd">密码</string>
+    <string name="kaixin">开心网</string>
+    <string name="kakaostory">KakaoStory</string>
+    <string name="kakaostory_client_inavailable">目前您的KakaoStory版本过低或未安装，需要安装KakaoStory才能使用</string>
+    <string name="kakaotalk">KakaoTalk</string>
+    <string name="kakaotalk_client_inavailable">目前您的KakaoTalk版本过低或未安装，需要安装KakaoTalk才能使用</string>
+    <string name="laiwang">来往</string>
+    <string name="laiwang_client_inavailable">目前您的来往版本过低或未安装，需要安装来往才能使用</string>
+    <string name="laiwangmoments">来往动态</string>
+    <string name="line">Line</string>
+    <string name="line_client_inavailable">目前您的Line版本过低或未安装，需要安装Line才能使用</string>
+    <string name="linkedin">领英</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="list_friends">%s的朋友</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="locating">正在定位...</string>
+    <string name="login">登录</string>
+    <string name="major_chooser">专业设置</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="mingdao">明道</string>
+    <string name="mingdao_share_content">网页分享</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="more">• • •</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="multi_share">图文分享</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="my_collection">我的收藏</string>
+    <string name="my_username">我的账号</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="neteasemicroblog">网易微博</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="newest">最新</string>
+    <string name="ok">确定</string>
+    <string name="our_blog">录取吧</string>
+    <string name="person_name">lebron</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/pull_refresh_strings.xml -->
+    <eat-comment/>
+    <string name="picture_image_loading">正在加载…</string>
+    <string name="picture_load_image_failed">点击屏幕，重新加载</string>
+    <string name="picture_next_album">下一组：</string>
+    <string name="picture_previous_album">上一组：</string>
+    <string name="picture_save_fail">保存图片失败</string>
+    <string name="picture_save_succeed">图片已保存到相册</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="pinterest">Pinterest</string>
+    <string name="pinterest_client_inavailable">Pinterest版本过低或者没有安装，需要升级或安装Pinterest才能使用！</string>
+    <string name="pocket">Pocket</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="pretty_boy">校草</string>
+    <string name="pretty_girl">校花</string>
+    <string name="prompt">提示</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="pull_to_refresh">下拉刷新</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/pull_refresh_strings.xml -->
+    <eat-comment/>
+    <string name="pull_to_refresh_footer_hint_ready">松开载入更多</string>
+    <string name="pull_to_refresh_header_hint_loading">@string/pushmsg_center_load_more_ongoing_text</string>
+    <string name="pull_to_refresh_header_hint_normal">@string/pushmsg_center_pull_down_text</string>
+    <string name="pull_to_refresh_header_hint_normal2">上拉可以刷新</string>
+    <string name="pull_to_refresh_header_hint_ready">松开后刷新</string>
+    <string name="pull_to_refresh_header_last_time">@string/pushmsg_center_pull_down_update_time</string>
+    <string name="pull_to_refresh_network_error">网络不给力，请检查网络</string>
+    <string name="pull_to_refresh_no_more_data">@string/pushmsg_center_no_more_msg</string>
+    <string name="pull_to_refresh_refreshing_label">@string/pull_to_refresh_header_hint_loading</string>
+    <string name="pushmsg_center_load_more_ongoing_text">正在加载中</string>
+    <string name="pushmsg_center_no_more_msg">已经到底啦</string>
+    <string name="pushmsg_center_pull_down_text">下拉可以刷新</string>
+    <string name="pushmsg_center_pull_down_update_time">最后更新时间 : </string>
+    <string name="pushmsg_center_pull_release_text">松开获取更多</string>
+    <string name="pushmsg_center_pull_up_text">松开加载更多</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="qa_title">常见问题</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="qq">QQ</string>
+    <string name="qq_client_inavailable">QQ 版本过低或者没有安装，需要升级或安装QQ才能使用！</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="question">常见问题</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="qzone">QQ空间</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="refreshing">刷新中…</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="regist">注册</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="release_to_refresh">松开刷新</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="renren">人人网</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="repid_password">确认密码</string>
+    <string name="saving_battery_desc">低功耗定位模式下，仅使用网络定位即Wifi和基站定位，返回的是当前条件下精度最好的网络定位结果</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="select_a_friend">请选择一个朋友</string>
+    <string name="select_one_plat_at_least">请选择一个目标平台</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="set_up">我的设置</string>
+    <string name="setting_password">设置密码</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="shake2share">摇晃手机！</string>
+    <string name="share">分享</string>
+    <string name="share_canceled">分享已取消</string>
+    <string name="share_completed">分享成功</string>
+    <string name="share_failed">分享失败</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="share_friend">推荐给好友</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="share_to">分享到</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="share_to_baidutieba">分享到百度贴吧</string>
+    <string name="share_to_mingdao">分享到明道</string>
+    <string name="share_to_qq">分享到QQ</string>
+    <string name="share_to_qzone">分享到QQ空间</string>
+    <string name="share_to_qzone_default">来自%s的分享</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/oks_strings.xml -->
+    <eat-comment/>
+    <string name="sharing">分享操作正在后台进行…</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="shool_introduce">学校简介</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="shortmessage">信息</string>
+    <string name="sinaweibo">新浪微博</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="skip">跳过</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="sohumicroblog">搜狐微博</string>
+    <string name="sohusuishenkan">搜狐随身看</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="startlocation">开启定位</string>
+    <string name="stoplocation">停止定位</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="tencentweibo">腾讯微博</string>
+    <string name="tumblr">Tumblr</string>
+    <string name="twitter">Twitter</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="use_detail">使用条款与隐私政策</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="use_login_button">请改用“登录”按钮</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="verify">验证码</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="vkontakte">VK</string>
+    <string name="website">http://www.mob.com</string>
+    <string name="wechat">微信好友</string>
+    <string name="wechat_client_inavailable">目前您的微信版本过低或未安装微信，需要安装微信才能使用</string>
+    <string name="wechatfavorite">微信收藏</string>
+    <string name="wechatmoments">微信朋友圈</string>
+    <string name="weibo_oauth_regiseter">应用授权</string>
+    <string name="weibo_upload_content">分享图片</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="whatsapp_client_inavailable">目前您的WhatsApp版本过低或未安装，需要安装WhatsApp才能使用</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/pull_refresh_strings.xml -->
+    <eat-comment/>
+    <string name="xsearch_loading">正在加载中…</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
+    <string name="yixin">易信</string>
+    <string name="yixin_client_inavailable">目前您的易信版本过低或未安装，需要安装易信才能使用</string>
+    <string name="yixinmoments">易信朋友圈</string>
+    <string name="youdao">有道云笔记</string>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>
+    </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles_bottomBar.xml -->
+    <eat-comment/>
+    <style name="bottombar_radioButton" parent="layout_horizontal">
+        <item name="android:button">@null</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:textColor">#989898</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="bottombar_radioButton_top" parent="layout_horizontal">
+        <item name="android:button">@null</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:textColor">#989898</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="bottombar_radioGroup" parent="layout_vertical">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_height">10dp</item>
+    </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="btn_green_style" parent="android:Widget.Button">
+        <item name="android:background">@drawable/green_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">43dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="buttom_top" parent="android:Widget.Button">
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">31dp</item>
+        <item name="android:textColor">@drawable/radio_buttom_text_color</item>
+        <item name="android:button">@null</item>
+    </style>
+    <style name="famous_says_info_style" parent="@style/width_wrap_height_wrap">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">#6C6B66</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="gradeline" parent="@style/width_wrap_height_wrap">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="gray_e_line">
+         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/gray_e</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+    <style name="home_buttons">
+        <item name="android:layout_width">95dp</item>
+        <item name="android:layout_height">110dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="home_content_text_style" parent="android:Widget.TextView">
+        <item name="android:lineSpacingExtra">1dp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">#898985</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="home_title_text_style" parent="@style/width_fill_height_wrap">
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">#0e0e0d</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="ic_hint">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+    <style name="image_button_forword">
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:layout_width">8dp</item>
+        <item name="android:layout_height">12dp</item>
+        <item name="android:background">@drawable/personal_change</item>
+    </style>
+    <style name="input_item">
+        <item name="android:background">#1D8F83</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">55dp</item>
+    </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles_layout.xml -->
+    <eat-comment/>
+    <style name="layout_full">  
+    <item name="android:layout_width">fill_parent</item>  
+    <item name="android:layout_height">fill_parent</item>  
+  </style>
+    <style name="layout_horizontal" parent="layout_full">  
+    <item name="android:layout_width">0px</item>  
+  </style>
+    <style name="layout_vertical" parent="layout_full">  
+    <item name="android:layout_height">0px</item>  
+  </style>
+    <style name="layout_wrap">  
+    <item name="android:layout_width">wrap_content</item>  
+    <item name="android:layout_height">wrap_content</item>  
+  </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles_leftBar.xml -->
+    <eat-comment/>
+    <style name="leftbar_radioButton" parent="layout_vertical">  
+    <item name="android:button">@null</item>  
+    <item name="android:background">@drawable/radiobutton_bottom_bg</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:gravity">center</item>      
+  </style>
+    <style name="leftbar_radioGroup" parent="layout_horizontal">  
+    <item name="android:orientation">vertical</item>  
+    <item name="android:layout_gravity">left</item>  
+  </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="linearlayout_line_item">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="list_view_nofading" parent="@style/width_fill_height_fill">
+        <item name="android:cacheColorHint">#0000</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:fadingEdgeLength">0dp</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+    <style name="login_regist_input" parent="@style/width_fill_height_wrap">
+        <item name="android:background">@null</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="more_btn_style" parent="android:Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+    <style name="personal_btn_item">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="personal_text_view" parent="android:Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="pretty_school_mate_text">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="radio_button_style_green">
+        <item name="android:background">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="regist_editor_style" parent="@style/width_fill_height_wrap">
+        <item name="android:background">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textColorHint">#97989E</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="regist_input_style" parent="@style/width_fill_height_wrap">
+        <item name="android:background">@null</item>
+    </style>
+    <style name="save_wdjy_btn_item">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:descendantFocusability">beforeDescendants</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="save_wdjy_buttom_btn" parent="android:Widget.ImageButton">
+        <item name="android:clickable">false</item>
+         <item name="android:layout_height">22dp</item>
+        <item name="android:layout_width">28dp</item>
+    </style>
+    <style name="save_wdjy_buttom_btn_text" parent="@style/width_wrap_height_wrap">
+        <item name="android:textColor">#FF524F4F</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="style_cell_navigation" parent="@style/width_fill_height_fill">
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="style_image_navigation">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+    <style name="style_text_navigation" parent="@style/width_wrap_height_wrap">
+        <item name="android:textColor">#989898</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="style_top_base">
+        <item name="android:background">#66cccc</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="style_top_text" parent="@style/width_wrap_height_wrap">
+        <item name="android:background">@null</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="text_frame_radius_style" parent="@style/width_wrap_height_wrap">
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="text_view_right_gray" parent="@style/width_wrap_height_wrap">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:textColor">@color/gray_6</item>
+    </style>
+    <style name="textview_left_black" parent="@style/personal_text_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles_bottomBar.xml -->
+    <eat-comment/>
+    <style name="top_radioGroup" parent="layout_vertical">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+    <!-- From: file:/Y:/Android/luquba678/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="under_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/gray_d</item>
+    </style>
+    <style name="width_fill_height_fill">
+          <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="width_fill_height_wrap">
+          <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="width_wrap_height_fill">
+          <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="width_wrap_height_wrap">
+          <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>

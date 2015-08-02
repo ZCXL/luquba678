@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/frame_radius8_alfa0_black" android:state_pressed="true"/>
+    <item android:drawable="@drawable/frame_radius8_alfa0_black" android:state_checked="true"/>
+    <item android:drawable="@drawable/frame_radius8_alfa8_black"></item>
+
+</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/button_bgframe_radius8_black.xml -->

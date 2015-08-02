@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/regist_top"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/top_back_title_more" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/regist_top"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="0dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/login_phone"
+                        style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/regist_phone_number"
+                            style="@style/regist_editor_style"
+                            android:layout_weight="1"
+                            android:hint="手机号"
+                            android:inputType="phone"
+                            android:maxLength="11" >
+
+                            <requestFocus />
+                        </EditText>
+
+                        <Button
+                            android:id="@+id/get_verify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/frame_radius5_alfa0_main_color"
+                            android:padding="4dp"
+                            android:text="@string/get_verify"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+
+                    <LinearLayout
+                        android:id="@+id/regist_verify"
+                        style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/verify"
+                            style="@style/regist_editor_style"
+                            android:hint="@string/verify" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+
+                    <LinearLayout style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/password"
+                            style="@style/regist_editor_style"
+                            android:hint="@string/setting_password"
+                            android:inputType="textPassword"
+                            android:password="true" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+
+                    <LinearLayout style="@style/regist_input_style" >
+
+                        <EditText
+                            android:id="@+id/repassword"
+                            style="@style/regist_editor_style"
+                            android:ems="10"
+                            android:hint="@string/repid_password"
+                            android:inputType="textPassword"
+                            android:password="true" >
+                        </EditText>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/under_line"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/main_color" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/do_regist"
+                    style="@style/btn_green_style"
+                    android:text="@string/regist" />
+
+                <TextView
+                    style="@style/width_wrap_height_wrap"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/agree_str"
+                    android:textColor="@color/btn_gray_normal"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/agree "
+                    style="@style/width_wrap_height_wrap"
+                    android:layout_gravity="center"
+                    android:text="@string/agreement_xieyi"
+                    android:textColor="@color/main_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
