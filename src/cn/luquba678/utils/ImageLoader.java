@@ -38,8 +38,7 @@ public class ImageLoader {
 	/**
 	 * 加载图片
 	 */
-	public void DisplayImage(String url, ImageView imageView,
-			boolean isLoadOnlyFromCache) {
+	public void DisplayImage(String url, ImageView imageView, boolean isLoadOnlyFromCache) {
 		imageViews.put(imageView, url);
 		// 先从内存缓存中查找
 		Bitmap bitmap = memoryCache.get(url);
@@ -60,8 +59,7 @@ public class ImageLoader {
 		// 先从内存缓存中查找
 		Bitmap bitmap = memoryCache.get(url);
 		if (bitmap != null)
-			imageView.setImageBitmap(ImageUtil
-					.zoomBitmap(bitmap, width, height));
+			imageView.setImageBitmap(ImageUtil.zoomBitmap(bitmap, width, height));
 		else if (!isLoadOnlyFromCache) {
 			// 若没有的话则开启新线程加载图片
 			queuePhoto(url, imageView, width, height);

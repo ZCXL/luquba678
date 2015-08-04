@@ -3,4 +3,4 @@
     <item android:drawable="@drawable/bg_btn_hello_loquba_pressed" android:state_pressed="true"/>
     <item android:drawable="@drawable/bg_btn_hello_loquba_default"></item>
 </selector>
-<!-- From: file:/Y:/Android/luquba678/res/drawable/selector_button_start.xml -->
+<!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/selector_button_start.xml -->

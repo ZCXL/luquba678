@@ -6,4 +6,4 @@
 <item android:state_focused="false" android:state_pressed="true" android:drawable="@color/green_3a" />    
 <item android:drawable="@color/green_3a" android:state_checked="true"></item>
 </selector>
-<!-- From: file:/Y:/Android/luquba678/res/drawable/green_btn.xml -->
+<!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/green_btn.xml -->

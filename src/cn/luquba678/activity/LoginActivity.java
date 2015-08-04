@@ -4,7 +4,10 @@ import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -61,12 +64,13 @@ import cn.sharesdk.wechat.friends.Wechat;
 public class LoginActivity extends CommonActivity implements OnClickListener,
 		TextWatcher, OnFocusChangeListener {
 
-	private ListView listview_stories;
 	private EditText username;
 	private ProgressDialog dialog;
 	private EditText password;
 	private ScrollView mScrollView;
 	private Button do_login;
+
+    private Info info;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,10 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 		editor.commit();
 	}
 
+	/**
+	 * get user info who logined last time
+	 * and set value of edit text
+	 */
 	private void remberMe() {
 		editor = User.getUserEditor(self);
 		sharedPreferences = getSharedPreferences("luquba_login",
@@ -109,22 +117,30 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 		password.setText(pwd);
 	}
 
+	/**
+	 * loging by using telephone number
+	 * @param tel
+	 * @param pass
+	 */
 	public void loginService(final String tel, final String pass) {
+		//set new value of user
 		editor.putString(User.TEL, tel);
 		editor.putString(User.PASSWORD, pass);
 		editor.commit();// 提交修改
-		// final String MD5Pwd = pass;
+
 		MultipartEntity entity = new MultipartEntity();
 
 		dialog.setMessage("正在登录...");
 		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		dialog.show();
 		try {
+			//set key-value about user
 			entity.addPart("tel", new StringBody(tel));
 			entity.addPart("password", new StringBody(pass));
 
-			LoadDataFromServer task = new LoadDataFromServer(Const.LOGIN_URL,
-					entity);
+			LoadDataFromServer task = new LoadDataFromServer(Const.LOGIN_URL,entity);
+
+			//data roll back
 			task.getData(new DataCallBack() {
 
 				@Override
@@ -139,6 +155,9 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 							if (code == 0) {
 								String jsonObj = jsonObject.get("user").toString();
 								JSONObject jsonUser = JSONObject.parseObject(jsonObj);
+
+
+								//save new value from server
 								SPUtils.put(LoginActivity.this, "address",jsonUser.get("address").toString());
 								SPUtils.put(LoginActivity.this, "birth",jsonUser.get("birth").toString());
 								SPUtils.put(LoginActivity.this, "grade",jsonUser.get("grade").toString());
@@ -148,49 +167,55 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 								SPUtils.put(LoginActivity.this, "sex",jsonUser.get("sex").toString());
 								SPUtils.put(LoginActivity.this, "type",jsonUser.get("type").toString());
 								SPUtils.put(LoginActivity.this, "year",jsonUser.get("year").toString());
-								dialog.dismiss();
-								String login_token = jsonObject
-										.getString("login_token");
-								saveUserInfo(data.toString());
-								Gson gson = new Gson();
-								User u = gson.fromJson(jsonObject.get("user")
-										.toString(), User.class);
 
+
+								dialog.dismiss();
+								String login_token = jsonObject.getString("login_token");
+								saveUserInfo(data.toString());
+
+								//get user info
+								Gson gson = new Gson();
+								User u = gson.fromJson(jsonObject.get("user").toString(), User.class);
+
+								//set login token and uid
 								editor.putString("login_token", login_token);
 								editor.putString("uid", u.getUid() + "");
 								editor.commit();
-								Intent intent = new Intent(self,
-										MainFragmentActivity.class);
+
+
+								//finish login
+								Intent intent = new Intent(self, MainFragmentActivity.class);
 								self.startActivity(intent);
 								self.finish();
-								// toast(login_token+jsonObject.get("user").toString()+u.getTel());
+
+
 							} else if (code == 1) {
+
 								dialog.dismiss();
-								Toast.makeText(LoginActivity.this, "密码错误...",
-										Toast.LENGTH_SHORT).show();
+								toast("密码错误...");
+
 							} else if (code == 3) {
+
 								dialog.dismiss();
-								Toast.makeText(LoginActivity.this,
-										"服务器端注册失败...", Toast.LENGTH_SHORT)
-										.show();
+								toast("服务器端注册失败...");
+
 							} else {
+
 								dialog.dismiss();
-								Toast.makeText(LoginActivity.this,
-										"服务器繁忙请重试...", Toast.LENGTH_SHORT)
-										.show();
+								toast("服务器繁忙请重试...");
+
 							}
 
 						} catch (JSONException e) {
+
 							dialog.dismiss();
-							Toast.makeText(LoginActivity.this, "数据解析错误...",
-									Toast.LENGTH_SHORT).show();
+							toast("数据解析错误...");
 							e.printStackTrace();
 						}
 
 					} else {
 						dialog.dismiss();
-						Toast.makeText(LoginActivity.this, "服务器出错...",
-								Toast.LENGTH_SHORT).show();
+						toast("服务器出错...");
 					}
 				}
 			});
@@ -223,17 +248,19 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 		case R.id.login_wechat:
 			Platform weChat = ShareSDK.getPlatform(this, Wechat.NAME);
 			weChat.setPlatformActionListener(mActionListener);
-			weChat.authorize();
+            weChat.SSOSetting(true);
+			weChat.showUser(null);
 			break;
 		case R.id.login_weibo:
 			Platform weibo = ShareSDK.getPlatform(this, SinaWeibo.NAME);
 			weibo.setPlatformActionListener(mActionListener);
-			weibo.authorize();
+			weibo.SSOSetting(true);
+			weibo.showUser(null);
 			break;
 		case R.id.login_qq:
 			Platform qq = ShareSDK.getPlatform(this, QQ.NAME);
 			qq.setPlatformActionListener(mActionListener);
-			qq.authorize();
+			qq.showUser(null);
 			break;
 		default:
 			break;
@@ -244,22 +271,47 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
 		@Override
 		public void onError(Platform arg0, int arg1, Throwable arg2) {
+            toast("Login failed");
 		}
 
 		@Override
 		public void onComplete(Platform arg0, int arg1,
 				HashMap<String, Object> res) {
+
+
+            String platformName=arg0.getName();
+            info=new Info();
+            if(platformName.equals(SinaWeibo.NAME)){
+
+                //get weibo info
+                info.nickname=res.get("name").toString();
+                info.headpic=res.get("avatar_hd").toString();
+                info.uid=res.get("id").toString();
+            }else if(platformName.equals(Wechat.NAME)){
+                Log.d("wyb","lalalalalal");
+            }else if(platformName.equals(QQ.NAME)){
+
+                //get qq info
+                info.nickname=res.get("nickname").toString();
+                info.headpic=res.get("figureurl_qq_2").toString();
+                String temp=new String(info.headpic);
+                temp=temp.substring(temp.indexOf("1104470925/")+11);
+                temp=temp.substring(0,temp.indexOf("/"));
+                info.uid=temp;
+            }
+
+            //next step:login our server
 			Message msg = new Message();
-			msg.obj = arg0;
+			msg.obj = info;
 			msg.what = 1;
 			mhandler.sendMessage(msg);
 		}
 
 		@Override
 		public void onCancel(Platform arg0, int arg1) {
+            toast("Have canceled login");
 		}
 	};
-	private ImageView login_wechat, login_weibo, login_qq;
 	Handler mhandler = new Handler() {
 
 		@Override
@@ -267,7 +319,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 1:
-				Platform arg0 = (Platform) msg.obj;
+				otherLogin((Info)msg.obj);
 				break;
 
 			default:
@@ -309,4 +361,114 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 		editor.putString("uid", "");
 		editor.commit();
 	}
+
+    /**
+     * upload user info from other platform
+     * @param info
+     */
+    private void otherLogin(Info info){
+
+        MultipartEntity entity = new MultipartEntity();
+
+        dialog.setMessage("正在登录...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
+        try {
+            //set key-value about user
+            entity.addPart(User.UID, new StringBody(info.uid, Charset.forName("utf-8")));
+            entity.addPart(User.NICKNAME, new StringBody(info.nickname, Charset.forName("utf-8")));
+            entity.addPart(User.HEADPIC,new StringBody(info.headpic, Charset.forName("utf-8")));
+
+            LoadDataFromServer task = new LoadDataFromServer(Const.OTHER_LOGIN_URL,entity);
+
+            //data roll back
+            task.getData(new DataCallBack() {
+
+                @Override
+                public void onDataCallBack(int what, Object data) {
+
+                    if (what == 200 && data != null) {
+                        try {
+                            JSONObject jsonObject = JSONObject.parseObject(data
+                                    .toString());
+                            Log.i("wyb", "jsonObject is " + jsonObject.toString());
+                            int code = jsonObject.getInteger("errcode");
+                            if (code == 0) {
+                                String jsonObj = jsonObject.get("user").toString();
+                                JSONObject jsonUser = JSONObject.parseObject(jsonObj);
+
+
+                                //save new value from server
+                                SPUtils.put(LoginActivity.this, "address",jsonUser.get("address").toString());
+                                SPUtils.put(LoginActivity.this, "birth",jsonUser.get("birth").toString());
+                                SPUtils.put(LoginActivity.this, "grade",jsonUser.get("grade").toString());
+                                SPUtils.put(LoginActivity.this, "headpic",jsonUser.get("headpic").toString());
+                                SPUtils.put(LoginActivity.this, "intro",jsonUser.get("intro").toString());
+                                SPUtils.put(LoginActivity.this, "nickname",jsonUser.get("nickname").toString());
+                                SPUtils.put(LoginActivity.this, "sex",jsonUser.get("sex").toString());
+                                SPUtils.put(LoginActivity.this, "type",jsonUser.get("type").toString());
+                                SPUtils.put(LoginActivity.this, "year",jsonUser.get("year").toString());
+
+
+                                dialog.dismiss();
+                                String login_token = jsonObject.getString("login_token");
+                                saveUserInfo(data.toString());
+
+                                //get user info
+                                Gson gson = new Gson();
+                                User u = gson.fromJson(jsonObject.get("user").toString(), User.class);
+
+                                //set login token and uid
+                                editor.putString("login_token", login_token);
+                                editor.putString("uid", u.getUid() + "");
+                                editor.commit();
+
+
+                                //finish login
+                                Intent intent = new Intent(self, MainFragmentActivity.class);
+                                self.startActivity(intent);
+                                self.finish();
+
+
+                            } else if (code == 1) {
+
+                                dialog.dismiss();
+                                toast("密码错误...");
+
+                            } else if (code == 3) {
+
+                                dialog.dismiss();
+                                toast("服务器端注册失败...");
+
+                            } else {
+
+                                dialog.dismiss();
+                                toast("服务器繁忙请重试...");
+
+                            }
+
+                        } catch (JSONException e) {
+
+                            dialog.dismiss();
+                            toast("数据解析错误...");
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        dialog.dismiss();
+                        toast("服务器出错...");
+                    }
+                }
+            });
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+    }
+    //other platform information
+    class Info{
+        String uid;
+        String headpic;
+        String nickname;
+    }
 }

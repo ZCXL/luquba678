@@ -10,6 +10,9 @@ public class Const {
 	// 登录
 	public final static String LOGIN_URL = BASE_URL + "/api/common/login";
 
+	//login using other platform
+	public final static String OTHER_LOGIN_URL=BASE_URL+"/api/common/otherLogin";
+
 	// 忘记密码
 	public final static String FORGETPASS_URL = BASE_URL
 			+ "/api/common/findPassword";

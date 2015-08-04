@@ -2,4 +2,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true" android:drawable="@drawable/cb_checked"/>
     <item android:state_checked="false" android:drawable="@drawable/cb_uncheck"/>
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/cb_drw.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/cb_drw.xml -->

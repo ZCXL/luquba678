@@ -3,4 +3,4 @@
     <solid android:color="@color/main_color" >
     </solid>
     <corners android:radius="5dp"  />
-</shape><!-- From: file:/Y:/Android/luquba678/res/drawable/frame_radius5_alfa0_main_color.xml -->
+</shape><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/frame_radius5_alfa0_main_color.xml -->

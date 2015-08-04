@@ -3,4 +3,4 @@
     <solid android:color="@color/pale_green" >
     </solid>
     <corners android:radius="5dp"  />
-</shape><!-- From: file:/Y:/Android/luquba678/res/drawable/bg_btn_hello_loquba_default.xml -->
+</shape><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/bg_btn_hello_loquba_default.xml -->

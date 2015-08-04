@@ -2,4 +2,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="false" android:color="@color/main_color"/>
     <item android:state_checked="true" android:color="@color/white"/>
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/radio_buttom_text_color.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/radio_buttom_text_color.xml -->

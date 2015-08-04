@@ -15,6 +15,8 @@ public class User {
 	public final static String TEL = "tel";
 	public final static String LOGIN_TOKEN = "login_token";
 	public final static String UID = "uid";
+	public final static String NICKNAME="nickname";
+	public final static String HEADPIC="headpic";
 	private static SharedPreferences sharedPreferences;
 	/*
 	 * {"user":{"uid":"5","username":"u15392955520","email":"",
@@ -41,6 +43,15 @@ public class User {
 	private String year;
 
 	private String type;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String getUid() {
 		return uid;
@@ -114,7 +125,7 @@ public class User {
 		this.type = type;
 	}
 
-	public User(String uid, String sex, String birth, String headpic, String nickname, String intro, String grade, String year, String type) {
+	public User(String uid, String sex, String birth, String headpic, String nickname, String intro, String grade, String year, String type,String address) {
 		super();
 		this.uid = uid;
 		this.sex = sex;
@@ -125,6 +136,7 @@ public class User {
 		this.grade = grade;
 		this.year = year;
 		this.type = type;
+		this.address=address;
 	}
 
 	public User() {

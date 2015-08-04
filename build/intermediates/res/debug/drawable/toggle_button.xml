@@ -3,4 +3,4 @@
     <item android:state_checked="true" android:drawable="@drawable/toggle_button_on"/>
     <item  android:drawable="@drawable/toggle_button_off"/>
 </selector>
-<!-- From: file:/Y:/Android/luquba678/res/drawable/toggle_button.xml -->
+<!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/toggle_button.xml -->

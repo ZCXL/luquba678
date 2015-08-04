@@ -142,7 +142,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		int width = metric.widthPixels;
 		headImage = (ImageView) findViewById(R.id.head_img);
 //		imgLoader.DisplayImage(Const.BASE_URL+"/"+SPUtils.get(this, "headpic", "sss").toString(), headImage, false);
-		new DownloadImageTask().execute(Const.BASE_URL+"/"+SPUtils.get(this, "headpic", "sss").toString());  
+		new DownloadImageTask().execute(SPUtils.get(this, "headpic", "sss").toString());
 		rl_head_img = (RelativeLayout) findViewById(R.id.rl_head_img);
 		rl_head_img.setOnClickListener(this);
 		rl_name = (RelativeLayout) findViewById(R.id.rl_name);

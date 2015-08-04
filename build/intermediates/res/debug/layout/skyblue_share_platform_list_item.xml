@@ -40,4 +40,4 @@
             android:layout_marginRight="5dp"
             android:src="@drawable/skyblue_platform_checked"/>
     </RelativeLayout>
-</RelativeLayout><!-- From: file:/Y:/Android/luquba678/res/layout/skyblue_share_platform_list_item.xml -->
+</RelativeLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/skyblue_share_platform_list_item.xml -->

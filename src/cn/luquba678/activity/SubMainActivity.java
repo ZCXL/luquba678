@@ -1,41 +1,27 @@
 package cn.luquba678.activity;
 
-import internal.org.apache.http.entity.mime.MultipartEntity;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonIOException;
 
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.StoryAdapter;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.FamousSays;
 import cn.luquba678.entity.News;
-import cn.luquba678.service.LoadDataFromServer;
-import cn.luquba678.service.LoadDataFromServer.DataCallBack;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.utils.ImageLoader;
 import cn.luquba678.view.ImgScrollViewPager;
-import cn.luquba678.view.NoScrollListView;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 import cn.luquba678.view.PullToRefreshListView;
-import cn.luquba678.view.PullToRefreshNoScrollListView;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,16 +54,16 @@ public class SubMainActivity extends CommonActivity implements
 		// findViewById(R.id.top_back).setOnClickListener(this);
 		setOnClickLinstener(R.id.top_back);
 		top_text = getView(R.id.top_text);
-		String top_textstr = getIntent().getStringExtra("title");
-		top_text.setText(top_textstr);
+		String top_text_str = getIntent().getStringExtra("title");
+		top_text.setText(top_text_str);
 		mmPager = (ImgScrollViewPager) findViewById(R.id.pager_ad);
 
 		View fa = getView(R.id.famous_says_text_area);
 
-		if ("励志故事".equals(top_textstr)) {
+		if ("励志故事".equals(top_text_str)) {
 			url = Const.STORY_QUERY;
 			type = LZGS;
-			// task = new LoadDataFromServer(Const.CHAMPION_EXPERIENCE, true);
+
 			getView(R.id.ad_relativeLayout).setVisibility(View.GONE);
 			fa.setVisibility(View.VISIBLE);
 			famous_says_author = getView(R.id.famous_says_author);
@@ -88,9 +74,9 @@ public class SubMainActivity extends CommonActivity implements
 
 				Integer errcode = obj.getInteger("errcode");
 				if (errcode == 0) {
-					JSONObject arry = obj.getJSONObject("data");
-					FamousSays famousSays = FamousSays.getListFromJson(arry
-							.toString());
+					JSONObject array = obj.getJSONObject("data");
+					FamousSays famousSays = FamousSays.getListFromJson(array.toString());
+
 					famous_says.setText(famousSays.getContent());
 					famous_says_author.setText("——" + famousSays.getAuthor());
 				}
@@ -128,7 +114,7 @@ public class SubMainActivity extends CommonActivity implements
 				R.drawable.rectangle_focused, R.drawable.rectangle_normal);
 	}
 
-	private ArrayList<News> newsList;
+	private ArrayList<News> newsList=new ArrayList<News>();
 	private int page = 1;
 	private boolean hasMoreData = false;
 
@@ -170,26 +156,15 @@ public class SubMainActivity extends CommonActivity implements
 					if (errcode == 0) {
 						JSONArray arry = obj.getJSONArray("data");
 						if(arry!=null){
-							
-						
-						ArrayList<News> arrys = News.getListFromJson(arry
-								.toString());
-
-						if (arrys != null && arrys.size() > 0) {
-							hasMoreData = true;
-							switch (action) {
-							case 0:
-								newsList = arrys;
-								break;
-							case 1:
-								newsList.addAll(arrys);
-								break;
-							}
-
+							ArrayList<News> arrys = News.getListFromJson(arry.toString());
+							newsList.addAll(arrys);
+							handler.sendEmptyMessage(0);
+						}else{
+							handler.sendEmptyMessage(2);
 						}
-						msg.obj = newsList;
+					}else{
+						handler.sendEmptyMessage(1);
 					}
-					handler.sendMessage(msg);}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -200,28 +175,29 @@ public class SubMainActivity extends CommonActivity implements
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			boolean hasMoreData = false;
-			if (msg.obj != null) {
-				hasMoreData = true;
-				if (adapter == null) {
-					adapter = new StoryAdapter(self, (ArrayList<News>) msg.obj,
-							R.layout.activity_story_cell);
-					listview.setAdapter(adapter);
-					listview.setOnItemClickListener(SubMainActivity.this);
+			switch (msg.what){
+				case 0:
+					if (adapter == null) {
+						adapter = new StoryAdapter(self,newsList,R.layout.activity_story_cell);
+						listview.setAdapter(adapter);
+						listview.setOnItemClickListener(SubMainActivity.this);
+					} else {
+						adapter.notifyDataSetChanged();
+					}
 
-				} else {
-					adapter.changeDateInThread((ArrayList<News>) msg.obj);
-				}
-			} else if (msg.what == 1) {
-				Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
-
-			} else {
-				Toast.makeText(self, "获取列表错误！", Toast.LENGTH_SHORT).show();
-
+					ptrlv.onPullDownRefreshComplete();
+					ptrlv.onPullUpRefreshComplete();
+					ptrlv.setHasMoreData(hasMoreData);
+					break;
+				case 1:
+					Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
+					break;
+				case 2:
+					Toast.makeText(self, "获取列表错误！", Toast.LENGTH_SHORT).show();
+					break;
+                default:
+                    break;
 			}
-			ptrlv.onPullDownRefreshComplete();
-			ptrlv.onPullUpRefreshComplete();
-			ptrlv.setHasMoreData(hasMoreData);
 		}
 	};
 	private int type;

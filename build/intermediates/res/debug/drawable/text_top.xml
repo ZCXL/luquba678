@@ -5,4 +5,4 @@
     <item android:state_focused="true" android:color="#f2f2f2"/>
     <item android:color="@color/white"/> 
 
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/text_top.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/text_top.xml -->

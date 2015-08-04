@@ -12,4 +12,4 @@
             <corners android:bottomRightRadius="@dimen/top_radius" android:topRightRadius="@dimen/top_radius" />
         </shape></item>
 
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/radio_buttom_bg_right.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/radio_buttom_bg_right.xml -->

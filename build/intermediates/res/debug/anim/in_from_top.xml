@@ -4,4 +4,4 @@
         android:duration="500"
         android:fromYDelta="-100%p"
         android:toYDelta="0%p" />
-</set><!-- From: file:/Y:/Android/luquba678/res/anim/in_from_top.xml -->
+</set><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/anim/in_from_top.xml -->

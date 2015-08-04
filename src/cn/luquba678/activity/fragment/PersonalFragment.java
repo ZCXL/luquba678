@@ -10,7 +10,6 @@ import cn.luquba678.activity.PersonMessageActivity;
 import cn.luquba678.activity.person.PersonCollectActivity;
 import cn.luquba678.activity.person.PersonQuitDialog;
 import cn.luquba678.activity.person.PersonSettingDialog;
-import cn.luquba678.entity.Const;
 import cn.luquba678.utils.BitmapUtil;
 import cn.luquba678.utils.SPUtils;
 import android.app.Activity;
@@ -23,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,7 +69,7 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 
 	void initView() {
 		head_img = (ImageView) view.findViewById(R.id.head_img);
-		new DownloadImageTask().execute(Const.BASE_URL+"/"+SPUtils.get(getActivity(), "headpic", "sss").toString());  
+		new DownloadImageTask().execute(SPUtils.get(getActivity(), "headpic", "sss").toString());
 		name = (TextView) view.findViewById(R.id.name);
 		name.setText(SPUtils.get(getActivity(), "nickname", "ss").toString());
 		detail = (TextView) view.findViewById(R.id.detail);
@@ -130,8 +127,7 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 			name.setText(SPUtils.get(getActivity(), "nickname", "ss").toString());
 			detail.setText(SPUtils.get(getActivity(), "intro", "***").toString());
 			Log.i("wyb", "headpic is " + SPUtils.get(getActivity(), "headpic", "sss").toString()+"");
-			Log.i("wyb", "url is "+Const.BASE_URL+"/"+SPUtils.get(getActivity(), "headpic", "sss").toString()+"");
-			new DownloadImageTask().execute(Const.BASE_URL+"/"+SPUtils.get(getActivity(), "headpic", "sss").toString());  
+			new DownloadImageTask().execute(SPUtils.get(getActivity(), "headpic", "sss").toString());
 		}
 	}
 

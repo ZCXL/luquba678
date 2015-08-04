@@ -125,7 +125,7 @@ public class QueryResultActivity extends CommonActivity implements
 							.toString());
 					if (hasMoreData = (arrys != null && arrys.size() > 0)) {
 						switch (action) {
-						case 0:
+						case CHANGE:
 							schools = arrys;
 							break;
 						default:

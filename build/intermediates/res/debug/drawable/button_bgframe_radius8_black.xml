@@ -5,4 +5,4 @@
     <item android:drawable="@drawable/frame_radius8_alfa0_black" android:state_checked="true"/>
     <item android:drawable="@drawable/frame_radius8_alfa8_black"></item>
 
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/button_bgframe_radius8_black.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/button_bgframe_radius8_black.xml -->

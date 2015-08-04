@@ -2,4 +2,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" android:drawable="@drawable/btn_back_pre"/>
     <item android:drawable="@drawable/btn_back_nor"/>
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/btn_back.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/btn_back.xml -->

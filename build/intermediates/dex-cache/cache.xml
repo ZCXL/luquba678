@@ -2,130 +2,130 @@
 <items version="2" >
 
     <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-QZone-2.5.9.jar"
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/Volley.jar"
         jumboMode="false"
-        revision="21.0.2"
-        sha1="d4aebfa8c34e3681ff6edf4d9a11164270f9fd0c">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-QZone-2.5.9-2166202e7b0eb289e90602b27f74f3aff0e10720.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-SinaWeibo-2.5.9.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="77a667d1b80d95c286d1a92bee2690c7e8f1f001">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-SinaWeibo-2.5.9-e72826397378946cda8e908dd225f4dc4dc2f0f2.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\Volley.jar"
-        jumboMode="false"
-        revision="21.0.2"
+        revision="22.0.1"
         sha1="77faa9ffd189160d1e22c58fdf5eed0a9a08b816">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\Volley-27d2598d946e956a1938b1553bb2f18c64a003ed.jar" />
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/Volley-f74f2486b186823bec22ea37be1c7231fee36e6b.jar" />
     </item>
     <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-QQ-2.5.9.jar"
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-Wechat-Core-2.5.9.jar"
         jumboMode="false"
-        revision="21.0.2"
-        sha1="e2b40429dc201649d57dc0e615af0740a4005fb4">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-QQ-2.5.9-6268f14237f25a3f9b6572897a02e127d376a946.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\fastjson-1.1.34.android.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="bef1d1224be099c387794bce1bdf81b38f37c6ce">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\fastjson-1.1.34.android-8f490aef878f03a4845767f7a7188f60dd28313c.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\gson-2.2.4.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="973e832af433b44c3ed11c426f2f390b29f3f3f8">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\gson-2.2.4-e5a7b1f73d88c266ab08ce7f0e666579076c352a.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\BaiduLBS_Android.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="9a37468955173d95b5b23d7ee29ef5713e94dd50">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\BaiduLBS_Android-4eb261e14b001ddeca25b1bc24808a0bbd410736.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\android_api_1.1_forsdk.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="610ab8a4952cfec5cc008a697790e21dec7b8d3a">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\android_api_1.1_forsdk-223ce5a0dfdf33c36cff30a30251ab76a53fb6c6.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\android-support-v4.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="a13f8fe2c278737e2f0b6fcf00f6b2ae4034aacf">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\android-support-v4-920065b5b5d3452d1885c8422e8e2760f0cb2234.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\mframework.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="25509058b34a5ee08dbf66e57078e3083735d200">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\mframework-07408078fb5aeae43c479593bbb0ac9897c40a5c.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\galaxy_mini.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="58de9ecfba229dbb2c3eb3f45dbe284ba58100ea">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\galaxy_mini-8c923ea40ebbaf04be90597b02e87ee048db085f.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\universal-image-loader-1.9.3-SNAPSHOT.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="29cf65d299e133ec68caba92b29f69289713975b">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.3-SNAPSHOT-8ea16c8b48868d38b5b9da977f5801571e796646.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-TencentWeibo-2.5.9.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="c6086844741110e46920d44f707fc6c8864ad7a7">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-TencentWeibo-2.5.9-e40fd89d0e10d6624b2ce31adccd58ddd662e608.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-Core-2.5.9.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="1fde3c1b2ff5e009f98fb65437a299a659ed25d4">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-Core-2.5.9-a9c34d537b8e89fa0f3873d83cee44ed89ef5ecf.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-Wechat-Moments-2.5.9.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="8f0d907301d20b3ad7e61e88ead5b34f8dd68ea8">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-Wechat-Moments-2.5.9-a1d16076556b13fc219a664f7fab2834a5897e39.jar" />
-    </item>
-    <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-Wechat-Core-2.5.9.jar"
-        jumboMode="false"
-        revision="21.0.2"
+        revision="22.0.1"
         sha1="fb0cd1cf28af913aea75ee8a26640e059501388b">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-Wechat-Core-2.5.9-50ed2391de33784fb8964e1dd3e2e86d0c2906ed.jar" />
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-Wechat-Core-2.5.9-b954f6e802dc371fc5b968497e85cfa9d7bd6e59.jar" />
     </item>
     <item
-        jar="Y:\Android\luquba678\libs\ShareSDK-Wechat-2.5.9.jar"
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-Core-2.5.9.jar"
         jumboMode="false"
-        revision="21.0.2"
-        sha1="db556d17b758b41b1a0fd084e60e1ac6657a7486">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\ShareSDK-Wechat-2.5.9-639ceef9d8194bf46daae29d014727ed2b602b19.jar" />
+        revision="22.0.1"
+        sha1="1fde3c1b2ff5e009f98fb65437a299a659ed25d4">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-Core-2.5.9-7db01f6b109b6c651afd3ab693351f106b99b88f.jar" />
     </item>
     <item
-        jar="Y:\Android\luquba678\libs\easemobchat_2.1.5.jar"
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/universal-image-loader-1.9.3-SNAPSHOT.jar"
         jumboMode="false"
-        revision="21.0.2"
+        revision="22.0.1"
+        sha1="29cf65d299e133ec68caba92b29f69289713975b">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.3-SNAPSHOT-10f80c294f249dcc323848d77bbf81b0d4c03328.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/mframework.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="25509058b34a5ee08dbf66e57078e3083735d200">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/mframework-acb1fd875f339de60bff2714f99d39798f8d32cf.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-TencentWeibo-2.5.9.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c6086844741110e46920d44f707fc6c8864ad7a7">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-TencentWeibo-2.5.9-c68a19a13eee5f7f6034687cf7e8b4d13b87815d.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/android-support-v4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a13f8fe2c278737e2f0b6fcf00f6b2ae4034aacf">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/android-support-v4-62447342b6a027d6f8afda1750fe00bdfb655910.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-QZone-2.5.9.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d4aebfa8c34e3681ff6edf4d9a11164270f9fd0c">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-QZone-2.5.9-85b018b3627cdf76d09f337ac211912a0caeff8c.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/android_api_1.1_forsdk.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="610ab8a4952cfec5cc008a697790e21dec7b8d3a">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/android_api_1.1_forsdk-502560034dda290393736a311cb520e1c2476207.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/easemobchat_2.1.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
         sha1="db85b4623b9d5c43156d802e3bc60f570dcb6ff7">
-        <dex dex="Y:\Android\luquba678\build\intermediates\pre-dexed\debug\easemobchat_2.1.5-f120aaa8aa6c12f4ef36afa7bac05b3c9ff52536.jar" />
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/easemobchat_2.1.5-cd9bcdfbd795a31892f14e157832923ef7b564fd.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-QQ-2.5.9.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e2b40429dc201649d57dc0e615af0740a4005fb4">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-QQ-2.5.9-1412a873eb4dd1109183cab41a5fe4d1b8d3f44b.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-SinaWeibo-2.5.9.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="77a667d1b80d95c286d1a92bee2690c7e8f1f001">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-SinaWeibo-2.5.9-f0a43800adcb82b929373f3a3f737692f65ff3aa.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-Wechat-Moments-2.5.9.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8f0d907301d20b3ad7e61e88ead5b34f8dd68ea8">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-Wechat-Moments-2.5.9-60f10c325109ead01a0795e18dc34796a20a4b0c.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/gson-2.2.4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="973e832af433b44c3ed11c426f2f390b29f3f3f8">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/gson-2.2.4-8ceb0f85e2bb174e049fc8f001f21d4d6ab85f4a.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/BaiduLBS_Android.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9a37468955173d95b5b23d7ee29ef5713e94dd50">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/BaiduLBS_Android-e250d60f3353f989c27ebbb704331d4c268b6cb1.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/galaxy_mini.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="58de9ecfba229dbb2c3eb3f45dbe284ba58100ea">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/galaxy_mini-cdb64ceb8d2ef2f8283b4878bbc6a27ea6ef4e0e.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/ShareSDK-Wechat-2.5.9.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="db556d17b758b41b1a0fd084e60e1ac6657a7486">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/ShareSDK-Wechat-2.5.9-e7c748aef2bf1fbf98c5ea1d23edc3b7074618a9.jar" />
+    </item>
+    <item
+        jar="/home/zhuchao/AndroidStudioProjects/luquba678/libs/fastjson-1.1.34.android.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="bef1d1224be099c387794bce1bdf81b38f37c6ce">
+        <dex dex="/home/zhuchao/AndroidStudioProjects/luquba678/build/intermediates/pre-dexed/debug/fastjson-1.1.34.android-6c8f0cfa86167eed8f20bd20696ee3cb2ebd2eac.jar" />
     </item>
 
 </items>

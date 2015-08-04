@@ -6,4 +6,4 @@
     <item android:drawable="@color/white" android:state_pressed="true"></item>
     <item android:drawable="@drawable/ic_show_pass"></item>
 
-</selector><!-- From: file:/Y:/Android/luquba678/res/drawable/check_box_show_pass.xml -->
+</selector><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/drawable/check_box_show_pass.xml -->
