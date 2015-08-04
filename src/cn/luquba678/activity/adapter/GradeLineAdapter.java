@@ -25,19 +25,30 @@ public class GradeLineAdapter extends CommonAdapter<GradeLine>{
 			pici.setText(t.getPici());
 			pici.setTextColor(context.getResources().getColor(R.color.gray_9));
 		}
-		holder.mConvertView.setBackgroundColor(context.getResources()
-				.getColor(R.color.gray_f));
+		holder.mConvertView.setBackgroundColor(context.getResources().getColor(R.color.gray_f));
 		year.setText(t.getYear().toString());
-		avgscore.setText(t.getAveScore().toString());
-		admitNum.setText(t.getAdmitNum().toString());
-		maxscore.setText(t.getMaxScore().toString());
+		avgscore.setText(gradeFormat(t.getAveScore().toString()));
+		admitNum.setText(gradeFormat(t.getAdmitNum().toString()));
+		maxscore.setText(gradeFormat(t.getMaxScore().toString()));
 		kelei.setText(t.getKeleiName());
-		setTextColor(context.getResources().getColor(R.color.gray_9),
-				year, avgscore, admitNum, maxscore, kelei);
+		setTextColor(context.getResources().getColor(R.color.gray_9), year, avgscore, admitNum, maxscore, kelei);
 
 	}public void setTextColor(int color, TextView... views) {
 		for (int i = 0; i < views.length; i++) {
 			views[i].setTextColor(color);
 		}
+	}
+
+	/**
+	 *
+	 * @param grade
+	 * @return
+	 */
+	public static String gradeFormat(String grade){
+		if(grade.length()==1)
+			return grade+"    ";
+		if(grade.length()==2)
+			return grade+"  ";
+		return grade;
 	}
 }

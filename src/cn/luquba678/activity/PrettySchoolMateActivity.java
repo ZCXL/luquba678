@@ -30,6 +30,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -141,6 +142,7 @@ public class PrettySchoolMateActivity extends CommonActivity implements
 				try {
 					Message msg = new Message();
 					String url = String.format(Const.PRETTY_QUERY, page, sex);
+					Log.d("zhuchao",url);
 					JSONObject obj = HttpUtil.getRequestJson(url, null);
 					Integer errcode = obj.getInteger("errcode");
 					msg.what = errcode;

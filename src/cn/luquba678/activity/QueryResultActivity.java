@@ -76,7 +76,7 @@ public class QueryResultActivity extends CommonActivity implements
 		dialog.show();
 		ptrlv = getView(R.id.universityList);
 		// 设置下拉刷新可用
-		ptrlv.setPullRefreshEnabled(false);
+		ptrlv.setPullRefreshEnabled(true);
 		// 设置上拉加载可用
 		ptrlv.setPullLoadEnabled(true);
 		// 滑到底部是否自动加载数据，这句话一定要加要不然"已经到底啦"显示不出来
@@ -99,14 +99,14 @@ public class QueryResultActivity extends CommonActivity implements
 					new StringBody(kelei, Charset.forName("UTF-8")));
 			entity.addPart("grade",
 					new StringBody(grade, Charset.forName("UTF-8")));
-			getSchool(1, 0);
+			getSchool(page, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private ArrayList<School> schools;
+	private ArrayList<School> schools=new ArrayList<School>();
 
 	private int page = 1;
 
@@ -121,20 +121,21 @@ public class QueryResultActivity extends CommonActivity implements
 				Integer errCode = obj.getInteger("errcode");
 				if (errCode == 0) {
 					JSONArray arry = obj.getJSONArray("data");
-					ArrayList<School> arrys = School.getListFromJson(arry
-							.toString());
+					ArrayList<School> arrys = School.getListFromJson(arry.toString());
 					if (hasMoreData = (arrys != null && arrys.size() > 0)) {
 						switch (action) {
 						case CHANGE:
-							schools = arrys;
-							break;
-						default:
+							schools.clear();
 							schools.addAll(arrys);
+							QueryResultActivity.this.page++;
+							break;
+						case ADD:
+							schools.addAll(arrys);
+							QueryResultActivity.this.page++;
 							break;
 						}
 						if (adapter == null) {
-							adapter = new SchoolListAdapter(this, schools,
-									R.layout.query_result_item);
+							adapter = new SchoolListAdapter(this, schools, R.layout.query_result_item);
 							schoolListView.setAdapter(adapter);
 						} else {
 							adapter.changeDateInThread(schools);
@@ -158,8 +159,7 @@ public class QueryResultActivity extends CommonActivity implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 	}
 
@@ -183,81 +183,10 @@ public class QueryResultActivity extends CommonActivity implements
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		getSchool(++page,ADD);
+		getSchool(page,ADD);
 
 	}
 
 	private final static int ADD = 0, CHANGE = 1;
-
-	private ArrayList<School> schoolList;
-
-	public void getSchoolList(final int page, final int type) {
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					Message msg = new Message();
-					JSONObject obj = HttpUtil.getRequestJson(Const.QUERY_SCHOOL
-							+ page, entity);
-					Integer errcode = obj.getInteger("errcode");
-					msg.what = errcode;
-					JSONArray arry = obj.getJSONArray("schools");
-					ArrayList<School> schoolListArry = School
-							.getListFromJson(arry.toString());
-					switch (type) {
-					case CHANGE:
-						schoolList = schoolListArry;
-						break;
-					default:
-						if (schoolList != null) {
-							schoolList.addAll(schoolListArry);
-						} else {
-							schoolList = schoolListArry;
-						}
-						break;
-					}
-					msg.obj = schoolList;
-					handler.sendMessage(msg);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		}
-
-		);
-
-	}
-
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			boolean hasMoreData = false;
-			if (msg.obj != null) {
-				hasMoreData = true;
-				if (adapter == null) {
-					adapter = new SchoolListAdapter(self,
-							(ArrayList<School>) msg.obj,
-							R.layout.query_result_item);
-					schoolListView.setAdapter(adapter);
-					schoolListView
-							.setOnItemClickListener(QueryResultActivity.this);
-
-				} else {
-					adapter.changeDateInThread((ArrayList<School>) msg.obj);
-				}
-			} else if (msg.what == 1) {
-				Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
-
-			} else {
-				Toast.makeText(self, "获取列表错误！", Toast.LENGTH_SHORT).show();
-
-			}
-			ptrlv.onPullDownRefreshComplete();
-			ptrlv.onPullUpRefreshComplete();
-			ptrlv.setHasMoreData(hasMoreData);
-		}
-	};
 
 }

@@ -44,6 +44,34 @@ public final class R {
         public static final int update_loading_progressbar_anim=0x7f040020;
     }
     public static final class attr {
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_inside_color=0x7f010001;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_outside_color=0x7f010002;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_thickness=0x7f010000;
     }
     public static final class color {
         public static final int black=0x7f060000;
@@ -470,164 +498,162 @@ public final class R {
         public static final int xsearch_msg_pull_arrow_down=0x7f020165;
     }
     public static final class id {
-        public static final int QQ_number=0x7f0900cf;
-        public static final int about_tv=0x7f090109;
-        public static final int about_us=0x7f090108;
-        public static final int actionbarLayout=0x7f09011d;
-        public static final int ad_image=0x7f0900c9;
+        public static final int QQ_number=0x7f0900cd;
+        public static final int about_tv=0x7f090107;
+        public static final int about_us=0x7f090106;
+        public static final int actionbarLayout=0x7f09011b;
+        public static final int ad_image=0x7f0900c7;
         public static final int ad_item_v=0x7f09008b;
         public static final int ad_relativeLayout=0x7f090075;
-        public static final int admitNum=0x7f0900b2;
+        public static final int admitNum=0x7f0900b0;
         public static final int agree =0x7f09006f;
-        public static final int asset_grid=0x7f09013b;
-        public static final int atDescTextView=0x7f090129;
-        public static final int atLayout=0x7f090124;
-        public static final int atTextView=0x7f090128;
-        public static final int avgscore=0x7f0900b1;
-        public static final int backImageView=0x7f09012c;
+        public static final int asset_grid=0x7f090139;
+        public static final int atDescTextView=0x7f090127;
+        public static final int atLayout=0x7f090122;
+        public static final int atTextView=0x7f090126;
+        public static final int avgscore=0x7f0900af;
+        public static final int backImageView=0x7f09012a;
         public static final int back_button=0x7f090001;
         public static final int blog_cell=0x7f0900a2;
         public static final int bt=0x7f090036;
         public static final int btn_cancel=0x7f09008d;
-        public static final int btn_cancle=0x7f0900d2;
+        public static final int btn_cancle=0x7f0900d0;
         public static final int btn_ok=0x7f09008e;
-        public static final int btn_tab_bottom_album=0x7f090143;
-        public static final int btn_tab_bottom_font=0x7f090146;
+        public static final int btn_tab_bottom_album=0x7f090141;
+        public static final int btn_tab_bottom_font=0x7f090144;
         public static final int btn_tab_bottom_main=0x7f090097;
         public static final int btn_tab_bottom_person=0x7f0900a0;
         public static final int btn_tab_bottom_query=0x7f09009a;
-        public static final int btn_tab_bottom_switch=0x7f090140;
-        public static final int btn_tab_bottom_wdjy=0x7f090138;
+        public static final int btn_tab_bottom_switch=0x7f09013e;
+        public static final int btn_tab_bottom_wdjy=0x7f090136;
         public static final int btn_tab_bottom_wish=0x7f09009d;
-        public static final int btn_tab_bottom_write=0x7f09013a;
+        public static final int btn_tab_bottom_write=0x7f090138;
         public static final int btn_wdjy=0x7f090046;
         public static final int buttom_btns=0x7f090004;
-        public static final int check_update=0x7f090105;
-        public static final int checkedImageView=0x7f090131;
+        public static final int check_update=0x7f090103;
+        public static final int checkedImageView=0x7f09012f;
         public static final int choose_title=0x7f09008f;
         public static final int city_list=0x7f090066;
-        public static final int city_name=0x7f090117;
-        public static final int clear_cache=0x7f090106;
-        public static final int click_zhankai=0x7f0900ca;
-        public static final int closeImageView=0x7f090121;
-        public static final int collect_check=0x7f0900be;
-        public static final int collect_date=0x7f0900c2;
-        public static final int collect_delete=0x7f0900d9;
-        public static final int collect_edit=0x7f0900d8;
-        public static final int collect_img=0x7f0900bf;
-        public static final int collect_lable=0x7f0900c1;
-        public static final int collect_listView=0x7f0900da;
-        public static final int collect_title=0x7f0900c0;
+        public static final int city_name=0x7f090115;
+        public static final int clear_cache=0x7f090104;
+        public static final int click_zhankai=0x7f0900c8;
+        public static final int closeImageView=0x7f09011f;
+        public static final int collect_check=0x7f0900bc;
+        public static final int collect_date=0x7f0900c0;
+        public static final int collect_delete=0x7f0900d7;
+        public static final int collect_edit=0x7f0900d6;
+        public static final int collect_img=0x7f0900bd;
+        public static final int collect_lable=0x7f0900bf;
+        public static final int collect_listView=0x7f0900d8;
+        public static final int collect_title=0x7f0900be;
         public static final int collection=0x7f09000b;
         public static final int come_from=0x7f090029;
-        public static final int come_from_str=0x7f0900ad;
+        public static final int come_from_str=0x7f0900ab;
         public static final int comment=0x7f090006;
-        public static final int comment_comment=0x7f0900a7;
-        public static final int comment_con=0x7f0900a9;
+        public static final int comment_con=0x7f0900a7;
         public static final int comment_container=0x7f090030;
         public static final int comment_content=0x7f0900a4;
         public static final int comment_create_time=0x7f0900a5;
         public static final int comment_input=0x7f09000e;
-        public static final int comment_praise=0x7f0900a6;
         public static final int comment_scroll_view=0x7f090003;
         public static final int comment_text=0x7f09000f;
         public static final int comment_time=0x7f090007;
         public static final int commentlistview=0x7f090031;
-        public static final int common_mistake=0x7f0900dc;
-        public static final int content=0x7f090149;
-        public static final int count=0x7f0900b7;
+        public static final int common_mistake=0x7f0900da;
+        public static final int content=0x7f090147;
+        public static final int count=0x7f0900b5;
         public static final int creat_date=0x7f09002a;
-        public static final int creat_date_str=0x7f0900ae;
+        public static final int creat_date_str=0x7f0900ac;
         public static final int createtime=0x7f09002e;
-        public static final int date=0x7f0900e4;
+        public static final int date=0x7f0900e2;
         public static final int detail=0x7f090057;
         public static final int detail_line=0x7f090055;
-        public static final int divider=0x7f090122;
+        public static final int divider=0x7f090120;
         public static final int do_login_btn=0x7f09003d;
         public static final int do_regist=0x7f09006e;
         public static final int do_resetpass=0x7f090071;
         public static final int do_search=0x7f090051;
-        public static final int ed_commit_btn=0x7f09010c;
-        public static final int ed_feedback=0x7f09010b;
-        public static final int ed_score=0x7f0900f5;
+        public static final int ed_commit_btn=0x7f09010a;
+        public static final int ed_feedback=0x7f090109;
+        public static final int ed_score=0x7f0900f3;
         public static final int editer_top=0x7f090048;
         public static final int editer_top2=0x7f090053;
-        public static final int et_detail=0x7f0900ee;
-        public static final int et_my_wish=0x7f090148;
-        public static final int et_name=0x7f0900f1;
+        public static final int et_detail=0x7f0900ec;
+        public static final int et_my_wish=0x7f090146;
+        public static final int et_name=0x7f0900ef;
         public static final int famous_says_author=0x7f090074;
-        public static final int famous_says_relativelayout=0x7f0900ac;
+        public static final int famous_says_relativelayout=0x7f0900aa;
         public static final int famous_says_text=0x7f090073;
         public static final int famous_says_text_area=0x7f090072;
-        public static final int fangdajing=0x7f090133;
+        public static final int fangdajing=0x7f090131;
         public static final int funny_image=0x7f090026;
         public static final int funny_image_btn=0x7f090022;
         public static final int funny_school=0x7f090024;
         public static final int funny_school_btn=0x7f090020;
         public static final int funnylistview=0x7f090027;
-        public static final int gallery_wdjy_imgs=0x7f090135;
-        public static final int get_more=0x7f0900aa;
+        public static final int gallery_wdjy_imgs=0x7f090133;
+        public static final int get_more=0x7f0900a8;
         public static final int get_verify=0x7f09006a;
         public static final int go_regist=0x7f09003e;
         public static final int go_reset_password=0x7f09003f;
         public static final int good=0x7f090008;
         public static final int gradelinelistview=0x7f090084;
-        public static final int gridView=0x7f09012e;
-        public static final int grid_item=0x7f090136;
-        public static final int grid_university_count=0x7f0900c7;
+        public static final int gridView=0x7f09012c;
+        public static final int grid_item=0x7f090134;
+        public static final int grid_university_count=0x7f0900c5;
         public static final int gridview=0x7f090035;
-        public static final int hScrollView=0x7f090126;
+        public static final int hScrollView=0x7f090124;
         public static final int headImage=0x7f090061;
         public static final int head_img=0x7f090054;
-        public static final int header=0x7f0900df;
+        public static final int header=0x7f0900dd;
         public static final int hint=0x7f09008c;
-        public static final int home_btn_bg=0x7f0900b5;
-        public static final int home_btn_title=0x7f0900b6;
-        public static final int home_champion_experience=0x7f0900b9;
-        public static final int home_funny=0x7f0900bb;
-        public static final int home_pretty_school_mate=0x7f0900ba;
-        public static final int home_school_rank=0x7f0900bc;
-        public static final int home_story=0x7f0900b8;
+        public static final int home_btn_bg=0x7f0900b3;
+        public static final int home_btn_title=0x7f0900b4;
+        public static final int home_champion_experience=0x7f0900b7;
+        public static final int home_funny=0x7f0900b9;
+        public static final int home_pretty_school_mate=0x7f0900b8;
+        public static final int home_school_rank=0x7f0900ba;
+        public static final int home_story=0x7f0900b6;
         public static final int ic_collect=0x7f09000c;
         public static final int ic_praise=0x7f090009;
         public static final int id_area=0x7f090092;
-        public static final int id_bg_gallery=0x7f09013e;
+        public static final int id_bg_gallery=0x7f09013c;
         public static final int id_city=0x7f090091;
         public static final int id_content=0x7f090011;
-        public static final int id_framelayout_show_image=0x7f09013c;
-        public static final int id_imgview_pic=0x7f09013d;
+        public static final int id_framelayout_show_image=0x7f09013a;
+        public static final int id_imgview_pic=0x7f09013b;
         public static final int id_province=0x7f090090;
-        public static final int id_tab_bottom_album_line=0x7f090142;
-        public static final int id_tab_bottom_font_line=0x7f090145;
+        public static final int id_tab_bottom_album_line=0x7f090140;
+        public static final int id_tab_bottom_font_line=0x7f090143;
         public static final int id_tab_bottom_main=0x7f090096;
         public static final int id_tab_bottom_person=0x7f09009f;
         public static final int id_tab_bottom_query=0x7f090099;
-        public static final int id_tab_bottom_switch_line=0x7f09013f;
-        public static final int id_tab_bottom_wdjy=0x7f090137;
+        public static final int id_tab_bottom_switch_line=0x7f09013d;
+        public static final int id_tab_bottom_wdjy=0x7f090135;
         public static final int id_tab_bottom_wish=0x7f09009c;
-        public static final int id_tab_bottom_write=0x7f090139;
+        public static final int id_tab_bottom_write=0x7f090137;
         public static final int image=0x7f09002c;
-        public static final int imageRemoveBtn=0x7f09012b;
-        public static final int imageView=0x7f09012a;
-        public static final int image_view=0x7f0900bd;
-        public static final int imagesLinearLayout=0x7f090127;
+        public static final int imageRemoveBtn=0x7f090129;
+        public static final int imageView=0x7f090128;
+        public static final int image_view=0x7f0900bb;
+        public static final int imagesLinearLayout=0x7f090125;
         public static final int img_blog=0x7f09001b;
         public static final int img_home=0x7f090015;
         public static final int img_personal=0x7f09001e;
         public static final int img_search=0x7f090018;
         public static final int indicator=0x7f090077;
-        public static final int input_error_hint=0x7f0900f7;
+        public static final int input_error_hint=0x7f0900f5;
         public static final int introduce=0x7f090080;
         public static final int is_211=0x7f09007c;
         public static final int is_985=0x7f09007b;
-        public static final int is_choosed=0x7f090118;
+        public static final int is_choosed=0x7f090116;
         public static final int is_choosed_local=0x7f090065;
         public static final int is_yanjiusheng=0x7f09007d;
-        public static final int isselected=0x7f0900c3;
-        public static final int item_image_grid_text=0x7f0900c4;
+        public static final int isselected=0x7f0900c1;
+        public static final int item_image_grid_text=0x7f0900c2;
         public static final int jokes=0x7f090025;
         public static final int jokes_btn=0x7f090021;
-        public static final int kelei=0x7f0900b0;
+        public static final int kelei=0x7f0900ae;
         public static final int leibie=0x7f09002d;
         public static final int lg_content=0x7f090038;
         public static final int line=0x7f090002;
@@ -642,60 +668,60 @@ public final class R {
         public static final int login_wechat=0x7f090042;
         public static final int login_weibo=0x7f090043;
         public static final int loging_scroll=0x7f090037;
-        public static final int logoImageView=0x7f09012f;
+        public static final int logoImageView=0x7f09012d;
         public static final int ly_main_tab_bottom=0x7f090095;
-        public static final int mainRelLayout=0x7f09011e;
+        public static final int mainRelLayout=0x7f09011c;
         public static final int main_bottom=0x7f090013;
-        public static final int major=0x7f09011b;
+        public static final int major=0x7f090119;
         public static final int major_content=0x7f090082;
         public static final int major_content_tv=0x7f090083;
         public static final int major_list=0x7f090052;
-        public static final int major_name=0x7f0900cb;
-        public static final int maxscore=0x7f0900b3;
-        public static final int microblog_number=0x7f0900d0;
+        public static final int major_name=0x7f0900c9;
+        public static final int maxscore=0x7f0900b1;
+        public static final int microblog_number=0x7f0900ce;
         public static final int name=0x7f090056;
-        public static final int nameTextView=0x7f090130;
+        public static final int nameTextView=0x7f09012e;
         public static final int navigation_blog=0x7f09001a;
         public static final int navigation_home=0x7f090014;
         public static final int navigation_personal=0x7f09001d;
         public static final int navigation_search=0x7f090017;
         public static final int nick_name=0x7f0900a3;
-        public static final int okImageView=0x7f09012d;
+        public static final int okImageView=0x7f09012b;
         public static final int origin=0x7f09002f;
         public static final int pager_ad=0x7f090076;
         public static final int password=0x7f09003c;
-        public static final int person_about=0x7f090103;
+        public static final int person_about=0x7f090101;
         public static final int person_account_line=0x7f090058;
-        public static final int person_accout_title=0x7f0900cc;
+        public static final int person_accout_title=0x7f0900ca;
         public static final int person_collection=0x7f090059;
-        public static final int person_detail_title=0x7f0900dd;
-        public static final int person_feedback=0x7f090101;
-        public static final int person_question=0x7f090102;
+        public static final int person_detail_title=0x7f0900db;
+        public static final int person_feedback=0x7f0900ff;
+        public static final int person_question=0x7f090100;
         public static final int person_quit=0x7f09005b;
-        public static final int person_quit_title=0x7f0900f3;
+        public static final int person_quit_title=0x7f0900f1;
         public static final int person_setting=0x7f09005a;
-        public static final int person_setting_feedback_title=0x7f09010a;
-        public static final int person_setting_title=0x7f0900db;
+        public static final int person_setting_feedback_title=0x7f090108;
+        public static final int person_setting_title=0x7f0900d9;
         public static final int phone=0x7f090086;
-        public static final int phone_number=0x7f0900cd;
-        public static final int pici=0x7f0900b4;
+        public static final int phone_number=0x7f0900cb;
+        public static final int pici=0x7f0900b2;
         public static final int praise_time=0x7f09000a;
         public static final int pretty_boy=0x7f09005f;
         public static final int pretty_boy_btn=0x7f09005d;
         public static final int pretty_girl=0x7f09005e;
         public static final int pretty_girl_btn=0x7f09005c;
         public static final int pretty_school_mates=0x7f090060;
-        public static final int province=0x7f0900e6;
-        public static final int pull_to_load_footer_content=0x7f09010d;
-        public static final int pull_to_load_footer_hint_textview=0x7f09010f;
-        public static final int pull_to_load_footer_progressbar=0x7f09010e;
-        public static final int pull_to_refresh_header_arrow=0x7f090115;
-        public static final int pull_to_refresh_header_content=0x7f090110;
-        public static final int pull_to_refresh_header_hint_textview=0x7f090112;
-        public static final int pull_to_refresh_header_progressbar=0x7f090116;
-        public static final int pull_to_refresh_header_text=0x7f090111;
-        public static final int pull_to_refresh_header_time=0x7f090114;
-        public static final int pull_to_refresh_last_update_time_text=0x7f090113;
+        public static final int province=0x7f0900e4;
+        public static final int pull_to_load_footer_content=0x7f09010b;
+        public static final int pull_to_load_footer_hint_textview=0x7f09010d;
+        public static final int pull_to_load_footer_progressbar=0x7f09010c;
+        public static final int pull_to_refresh_header_arrow=0x7f090113;
+        public static final int pull_to_refresh_header_content=0x7f09010e;
+        public static final int pull_to_refresh_header_hint_textview=0x7f090110;
+        public static final int pull_to_refresh_header_progressbar=0x7f090114;
+        public static final int pull_to_refresh_header_text=0x7f09010f;
+        public static final int pull_to_refresh_header_time=0x7f090112;
+        public static final int pull_to_refresh_last_update_time_text=0x7f090111;
         public static final int query_home_place=0x7f09004d;
         public static final int query_home_place_home=0x7f09004e;
         public static final int query_kelei=0x7f09004a;
@@ -706,56 +732,56 @@ public final class R {
         public static final int regist_top=0x7f090068;
         public static final int regist_verify=0x7f09006b;
         public static final int repassword=0x7f09006d;
-        public static final int rl_after_next_year=0x7f0900f9;
-        public static final int rl_after_year=0x7f0900f8;
-        public static final int rl_boy=0x7f0900ff;
-        public static final int rl_camer=0x7f0900fb;
-        public static final int rl_cancle=0x7f0900fa;
-        public static final int rl_date=0x7f0900e3;
-        public static final int rl_detail=0x7f0900e7;
-        public static final int rl_girl=0x7f090100;
-        public static final int rl_head_img=0x7f0900de;
-        public static final int rl_input_error_hint=0x7f0900f6;
-        public static final int rl_liberal_arts=0x7f0900fd;
-        public static final int rl_name=0x7f0900e0;
-        public static final int rl_photo_album=0x7f0900fc;
-        public static final int rl_province=0x7f0900e5;
-        public static final int rl_science_subject=0x7f0900fe;
-        public static final int rl_score=0x7f0900e8;
-        public static final int rl_sex=0x7f0900e1;
+        public static final int rl_after_next_year=0x7f0900f7;
+        public static final int rl_after_year=0x7f0900f6;
+        public static final int rl_boy=0x7f0900fd;
+        public static final int rl_camer=0x7f0900f9;
+        public static final int rl_cancle=0x7f0900f8;
+        public static final int rl_date=0x7f0900e1;
+        public static final int rl_detail=0x7f0900e5;
+        public static final int rl_girl=0x7f0900fe;
+        public static final int rl_head_img=0x7f0900dc;
+        public static final int rl_input_error_hint=0x7f0900f4;
+        public static final int rl_liberal_arts=0x7f0900fb;
+        public static final int rl_name=0x7f0900de;
+        public static final int rl_photo_album=0x7f0900fa;
+        public static final int rl_province=0x7f0900e3;
+        public static final int rl_science_subject=0x7f0900fc;
+        public static final int rl_score=0x7f0900e6;
+        public static final int rl_sex=0x7f0900df;
         public static final int rl_top=0x7f090032;
-        public static final int rl_type=0x7f0900ea;
-        public static final int rl_year=0x7f0900ec;
+        public static final int rl_type=0x7f0900e8;
+        public static final int rl_year=0x7f0900ea;
         public static final int root_view=0x7f090000;
-        public static final int save=0x7f0900ed;
-        public static final int school_area=0x7f09011c;
+        public static final int save=0x7f0900eb;
+        public static final int school_area=0x7f09011a;
         public static final int school_detail_logo=0x7f090079;
-        public static final int school_info=0x7f09011a;
-        public static final int school_logo=0x7f090119;
+        public static final int school_info=0x7f090118;
+        public static final int school_logo=0x7f090117;
         public static final int school_name=0x7f09007a;
         public static final int school_province_text=0x7f09007f;
         public static final int school_type_text=0x7f09007e;
-        public static final int score=0x7f0900e9;
+        public static final int score=0x7f0900e7;
         public static final int search_like=0x7f09004b;
         public static final int search_wenke=0x7f09004c;
         public static final int send_comment=0x7f090010;
-        public static final int sex=0x7f0900e2;
+        public static final int sex=0x7f0900e0;
         public static final int share=0x7f09000d;
-        public static final int share_friend=0x7f090104;
+        public static final int share_friend=0x7f090102;
         public static final int showChooseCancle=0x7f090094;
         public static final int showChooseOK=0x7f090093;
         public static final int show_grade_line=0x7f090081;
         public static final int skip=0x7f09008a;
         public static final int start_Button=0x7f090089;
-        public static final int stopBtn=0x7f090132;
+        public static final int stopBtn=0x7f090130;
         public static final int story_content=0x7f09002b;
-        public static final int story_content_web=0x7f0900a8;
-        public static final int story_previewimage=0x7f0900ab;
+        public static final int story_content_web=0x7f0900a6;
+        public static final int story_previewimage=0x7f0900a9;
         public static final int story_title=0x7f090028;
-        public static final int tableRow1=0x7f090134;
+        public static final int tableRow1=0x7f090132;
         public static final int tel_text=0x7f090085;
-        public static final int textCounterTextView=0x7f090125;
-        public static final int textEditText=0x7f090123;
+        public static final int textCounterTextView=0x7f090123;
+        public static final int textEditText=0x7f090121;
         public static final int textView1=0x7f090047;
         public static final int text_blog=0x7f09001c;
         public static final int text_home=0x7f090016;
@@ -764,42 +790,42 @@ public final class R {
         public static final int text_quick_login_layout=0x7f090040;
         public static final int text_search=0x7f090019;
         public static final int the_phone_number=0x7f090070;
-        public static final int titleEditText=0x7f090120;
-        public static final int titleLayout=0x7f09011f;
-        public static final int title_top_cancle=0x7f0900d5;
-        public static final int title_top_image=0x7f0900d4;
-        public static final int top_back=0x7f0900d3;
+        public static final int titleEditText=0x7f09011e;
+        public static final int titleLayout=0x7f09011d;
+        public static final int title_top_cancle=0x7f0900d3;
+        public static final int title_top_image=0x7f0900d2;
+        public static final int top_back=0x7f0900d1;
         public static final int top_group=0x7f090023;
-        public static final int top_submit=0x7f0900d6;
-        public static final int top_text=0x7f0900d7;
-        public static final int tv_count=0x7f0900f2;
-        public static final int tv_exit_login=0x7f0900f0;
-        public static final int tv_hint=0x7f0900d1;
-        public static final int tv_score=0x7f0900f4;
+        public static final int top_submit=0x7f0900d4;
+        public static final int top_text=0x7f0900d5;
+        public static final int tv_count=0x7f0900f0;
+        public static final int tv_exit_login=0x7f0900ee;
+        public static final int tv_hint=0x7f0900cf;
+        public static final int tv_score=0x7f0900f2;
         public static final int tv_showtime=0x7f090045;
-        public static final int tv_tab_bottom_album_text=0x7f090144;
-        public static final int tv_tab_bottom_font_text=0x7f090147;
+        public static final int tv_tab_bottom_album_text=0x7f090142;
+        public static final int tv_tab_bottom_font_text=0x7f090145;
         public static final int tv_tab_bottom_main=0x7f090098;
         public static final int tv_tab_bottom_person=0x7f0900a1;
         public static final int tv_tab_bottom_query=0x7f09009b;
-        public static final int tv_tab_bottom_switch_text=0x7f090141;
+        public static final int tv_tab_bottom_switch_text=0x7f09013f;
         public static final int tv_tab_bottom_wish=0x7f09009e;
         public static final int tv_title=0x7f090034;
         public static final int tv_top=0x7f090033;
-        public static final int type=0x7f0900eb;
-        public static final int under_line=0x7f0900ef;
+        public static final int type=0x7f0900e9;
+        public static final int under_line=0x7f0900ed;
         public static final int universityList=0x7f090067;
-        public static final int university_area=0x7f0900c8;
-        public static final int university_logo=0x7f0900c5;
-        public static final int university_name=0x7f0900c6;
-        public static final int use_detail=0x7f090107;
+        public static final int university_area=0x7f0900c6;
+        public static final int university_logo=0x7f0900c3;
+        public static final int university_name=0x7f0900c4;
+        public static final int use_detail=0x7f090105;
         public static final int username=0x7f09003a;
         public static final int verify=0x7f09006c;
         public static final int viewPager=0x7f090012;
         public static final int viewpage=0x7f090088;
         public static final int web_text=0x7f090087;
-        public static final int wechat_number=0x7f0900ce;
-        public static final int year=0x7f0900af;
+        public static final int wechat_number=0x7f0900cc;
+        public static final int year=0x7f0900ad;
     }
     public static final class layout {
         public static final int activity_comment_detail_news_page=0x7f030000;
@@ -1123,4 +1149,69 @@ public final class R {
         public static final int width_wrap_height_fill=0x7f050030;
         public static final int width_wrap_height_wrap=0x7f050031;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a roundedImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #roundedImageView_border_inside_color cn.luquba678:border_inside_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #roundedImageView_border_outside_color cn.luquba678:border_outside_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #roundedImageView_border_thickness cn.luquba678:border_thickness}</code></td><td></td></tr>
+           </table>
+           @see #roundedImageView_border_inside_color
+           @see #roundedImageView_border_outside_color
+           @see #roundedImageView_border_thickness
+         */
+        public static final int[] roundedImageView = {
+            0x7f010000, 0x7f010001, 0x7f010002
+        };
+        /**
+          <p>This symbol is the offset where the {@link cn.luquba678.R.attr#border_inside_color}
+          attribute's value can be found in the {@link #roundedImageView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cn.luquba678:border_inside_color
+        */
+        public static final int roundedImageView_border_inside_color = 1;
+        /**
+          <p>This symbol is the offset where the {@link cn.luquba678.R.attr#border_outside_color}
+          attribute's value can be found in the {@link #roundedImageView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cn.luquba678:border_outside_color
+        */
+        public static final int roundedImageView_border_outside_color = 2;
+        /**
+          <p>This symbol is the offset where the {@link cn.luquba678.R.attr#border_thickness}
+          attribute's value can be found in the {@link #roundedImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cn.luquba678:border_thickness
+        */
+        public static final int roundedImageView_border_thickness = 0;
+    };
 }

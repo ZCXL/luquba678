@@ -44,7 +44,7 @@ public class News {
 		if (StringUtils.isEmpty(headpic))
 			return null;
 		else
-			return Const.BASE_URL + "/" + headpic;
+			return headpic;
 	}
 
 	public void setHeadpic(String headpic) {

@@ -66,21 +66,6 @@
                     android:text="1天前"
                     android:textSize="8sp" />
 
-                <ImageView
-                    android:id="@+id/comment_praise"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_praise" />
-
-                <ImageView
-                    android:id="@+id/comment_comment"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_comment" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

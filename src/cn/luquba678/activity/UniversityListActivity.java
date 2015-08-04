@@ -35,6 +35,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -69,14 +70,11 @@ public class UniversityListActivity extends CommonActivity implements
 							TextView count = holder
 									.getView(R.id.grid_university_count);
 							count.setText("排名:" + t.getRank());
-							TextView university_name = holder
-									.getView(R.id.university_name);
+							TextView university_name = holder.getView(R.id.university_name);
 							university_name.setText(t.getSchool_name() + "");
-							TextView university_area = holder
-									.getView(R.id.university_area);
+							TextView university_area = holder.getView(R.id.university_area);
 							university_area.setText("地区:" + t.getAreaName());
-							ImageView logo = holder
-									.getView(R.id.university_logo);
+							ImageView logo = holder.getView(R.id.university_logo);
 							ima.DisplayImage(t.getLogo(), logo, false);
 							View mark_211 = holder.getView(R.id.is_211);
 							View mark_985 = holder.getView(R.id.is_985);
@@ -147,9 +145,7 @@ public class UniversityListActivity extends CommonActivity implements
 		// universityList = (ListView) findViewById(R.id.universityList);
 
 		getSchoolList(1, CHANGE);
-		// schoolList = TestDB.getMatriculateMsg();
-		// universityList.setAdapter(adapter);
-		// universityList.setOnItemClickListener(this);
+
 	}
 
 	private final static int ADD = 0, CHANGE = 1;
@@ -166,8 +162,7 @@ public class UniversityListActivity extends CommonActivity implements
 					Integer errcode = obj.getInteger("errcode");
 					msg.what = errcode;
 					JSONArray arry = obj.getJSONArray("data");
-					ArrayList<School> schoolListArry = School
-							.getListFromJson(arry.toString());
+					ArrayList<School> schoolListArry = School.getListFromJson(arry.toString());
 					switch (type) {
 					case CHANGE:
 						schoolList = schoolListArry;
@@ -201,18 +196,12 @@ public class UniversityListActivity extends CommonActivity implements
 
 		try {
 
-			sharedPreferences = getSharedPreferences("luquba_login",
-					Context.MODE_PRIVATE);
+			sharedPreferences = getSharedPreferences("luquba_login",Context.MODE_PRIVATE);
 			editor = sharedPreferences.edit();// 获取编辑器
-			entity.addPart("school_id", new StringBody(school.getSchool_id()
-					.toString()));
-			entity.addPart(
-					"stu_area_id",
-					new StringBody(sharedPreferences.getString(
-							School.HOME_AREA_ID, "")));
+			entity.addPart("school_id", new StringBody(school.getSchool_id().toString()));
+			entity.addPart("stu_area_id", new StringBody(sharedPreferences.getString(School.HOME_AREA_ID, "110000")));
 
-			LoadDataFromServer task = new LoadDataFromServer(
-					Const.QUERY_SCHOOL_DETAIL, entity);
+			LoadDataFromServer task = new LoadDataFromServer(Const.QUERY_SCHOOL_DETAIL, entity);
 			task.getData(new DataCallBack() {
 
 				private ArrayList<School> schoolListArry;
@@ -224,8 +213,7 @@ public class UniversityListActivity extends CommonActivity implements
 						JSONObject obj = JSONObject.parseObject(data.toString());
 						Integer errcode = obj.getInteger("errcode");
 						if (errcode == 0) {
-							Intent intent = new Intent(self,
-									UniversityDetailActivity.class);
+							Intent intent = new Intent(self, UniversityDetailActivity.class);
 							JSONObject school = obj.getJSONObject("school");
 							JSONArray gradeline = obj.getJSONArray("gradeline");
 							intent.putExtra("schoolJson", school.toJSONString());

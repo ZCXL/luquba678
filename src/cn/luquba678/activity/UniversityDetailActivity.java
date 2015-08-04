@@ -103,8 +103,7 @@ public class UniversityDetailActivity extends CommonActivity implements
 		
 		ListView gradelinelistview = getView(R.id.gradelinelistview);
 		ArrayList<GradeLine> gradeline = GradeLine.getListFromJson(gradelineJson);
-		 GradeLineAdapter = new cn.luquba678.activity.adapter.GradeLineAdapter(
-				this, gradeline, R.layout.grade_line_item_schooldetail) ;
+		 GradeLineAdapter = new GradeLineAdapter(this, gradeline, R.layout.grade_line_item_schooldetail) ;
 		gradelinelistview.setAdapter(GradeLineAdapter);
 		
 	}

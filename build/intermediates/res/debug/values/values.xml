@@ -35,6 +35,7 @@
     <color name="touming">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="white_half">#88ffffff</color>
+    <declare-styleable name="roundedImageView"><attr format="dimension" name="border_thickness"/><attr format="color" name="border_inside_color"/><attr format="color" name="border_outside_color"/></declare-styleable>
     <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
