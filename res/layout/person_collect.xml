@@ -88,13 +88,13 @@
 
     <View style="@style/under_line" />
 
-    <cn.luquba678.view.PullToRefreshListView
+    <com.zhuchao.view_rewrite.PullToRefreshListView
         android:id="@+id/collect_listView"
         style="@style/list_view_nofading"
         android:layout_margin="0dp"
         android:divider="#DADADA"
         android:dividerHeight="0.5dp"
         android:padding="0dp" >
-    </cn.luquba678.view.PullToRefreshListView>
+    </com.zhuchao.view_rewrite.PullToRefreshListView>
 
 </LinearLayout>

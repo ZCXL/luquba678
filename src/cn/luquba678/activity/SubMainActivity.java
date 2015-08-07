@@ -32,8 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
-public class SubMainActivity extends CommonActivity implements
-		OnItemClickListener, OnRefreshListener<ListView> {
+public class SubMainActivity extends CommonActivity implements OnItemClickListener, OnRefreshListener<ListView> {
 
 	private ListView listview;
 	private TextView top_text, famous_says, famous_says_author;

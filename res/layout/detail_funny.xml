@@ -73,10 +73,10 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_margin="10dp"
         android:layout_marginBottom="10dp"
-        android:scaleType="matrix" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/comment_container"

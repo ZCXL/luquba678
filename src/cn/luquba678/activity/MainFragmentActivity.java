@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,28 +37,37 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhuchao.connection.DownloadServiceConnection;
+import com.zhuchao.receiver.DownloadReceiver;
+import com.zhuchao.service.DownloadService;
+
 public class MainFragmentActivity extends FragmentActivity implements
 		OnPageChangeListener {
-	public static boolean flagFind = true;
 	public MainViewPager viewPager;
 	public Fragment fragments[] = null;
 	private static ImageView[] tabs = null;
 	private static LinearLayout[] lintabs = null;
 	private static TextView[] tvtabs = null;
 
-	// private static ArrayList<LinearLayout> lintabs = new
-	// ArrayList<LinearLayout>();
-	// private static ArrayList<ImageView> tabs = new ArrayList<ImageView>();
 	private static int currIndex = 0;// 当前页卡编号
 	private FragmentManager fragmentManager;
 	private int navigationLength = Resources.classes.length;
-	private Intent intentService;
+
+    //Update version
+    public static DownloadService downloadService;
+    //Download receiver
+    private DownloadReceiver downloadReceiver;
+    //Download connection
+    private DownloadServiceConnection downloadServiceConnection;
+
+    private long exitTime;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment_main);
 		initViews();// 初始化控件
+        initService();//init download service
 		try {
 			fragments = new Fragment[navigationLength];
 			for (int i = 0; i < navigationLength; i++) {
@@ -166,11 +177,51 @@ public class MainFragmentActivity extends FragmentActivity implements
 		 */
 		super.onPause();
 	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK ){
+            if((System.currentTimeMillis()-exitTime) >1000){
+                Toast.makeText(getApplicationContext(), "Click again to leave", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(downloadServiceConnection!=null){
+            Intent it = new Intent(MainFragmentActivity.this, DownloadService.class);
+            bindService(it,downloadServiceConnection, BIND_AUTO_CREATE);
+        }
+        onPageSelected(viewPager.getCurrentItem());
+    }
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		// int page = viewPager.getCurrentItem();
-		onPageSelected(viewPager.getCurrentItem());
+	public void onDestroy(){
+		if(downloadServiceConnection!=null)
+			unbindService(downloadServiceConnection);
+		if(downloadReceiver!=null){
+			unregisterReceiver(downloadReceiver);
+		}
+		super.onDestroy();
 	}
+    private void initService(){
+        downloadServiceConnection=new DownloadServiceConnection();
+        Intent intent=new Intent(MainFragmentActivity.this,DownloadService.class);
+        bindService(intent, downloadServiceConnection, BIND_AUTO_CREATE);
+        startService(intent);
+
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(DownloadReceiver.ACTION_UPDATE);
+        filter.addAction(DownloadReceiver.ACTION_FINISHED);
+        filter.addAction(DownloadReceiver.ACTION_FAILED);
+        downloadReceiver=new DownloadReceiver(MainFragmentActivity.this);
+        registerReceiver(downloadReceiver, filter);
+    }
 }

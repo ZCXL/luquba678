@@ -1,5 +1,6 @@
 package cn.luquba678.activity;
 
+import cn.luquba678.utils.Until;
 import cn.luquba678.view.PullToRefreshListView;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -58,6 +59,8 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
     private ImageView collection;
     private ImageView praise;
     ListView commentList;
+
+	private String url,title,imageUrl;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,12 +100,14 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 1);
         type = intent.getIntExtra("type", 0);
+		title=intent.getStringExtra("title");
+		imageUrl=intent.getStringExtra("imageUrl");
+
         story_content_web = (WebView) container.findViewById(R.id.story_content_web);
-        String url = String.format(Const.STORY_DETAIL, id, type);
+        url = String.format(Const.STORY_DETAIL, id, type);
         story_content_web.getSettings().setJavaScriptEnabled(true);
         story_content_web.setWebViewClient(new StoryWebView());
         // 加载需要显示的网页
-        Log.d("zhuchao",url);
         story_content_web.loadUrl(url);
         container.setFocusable(false);
         container.setClickable(false);
@@ -223,7 +228,8 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 			break;
 
 		case R.id.share:
-			showShare();
+			Until.showShare(CommonNewsActivity.this,handler,title,url,imageUrl);
+            //showShare();
 			break;
 		case R.id.collection:
 			String add_collection_url = String.format(Const.ADD_COLLECTION_URL,
@@ -279,6 +285,9 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 		}
 	}
 
+	/**
+	 * send comment to server
+	 */
 	private void sendComment() {
 		String comment = comment_text.getText().toString();
 		if(StringUtils.isEmpty(comment))
@@ -347,6 +356,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	public static void intentToDetailNews(News news, Context context, int type) {
 		Intent intent = new Intent(context, CommonNewsActivity.class);
 		intent.putExtra("title", news.getTitle());
+		intent.putExtra("imageUrl",news.getPic());
 		intent.putExtra("content", news.getUrl());
 		intent.putExtra("oncreatetime", news.getCreatetime());
 		intent.putExtra("origin", news.getOrigin());
@@ -365,6 +375,14 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 
         getCommentList(++page);
 		
+	}
+
+	class StoryWebView extends WebViewClient{
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			view.loadUrl(url);
+			return true;
+		}
 	}
 
     /**
@@ -397,12 +415,4 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 // 启动分享GUI
         oks.show(this);
     }
-
-	class StoryWebView extends WebViewClient{
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			view.loadUrl(url);
-			return true;
-		}
-	}
 }

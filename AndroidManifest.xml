@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.luquba678"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0.0" >
 
     <uses-sdk android:minSdkVersion="10" />
 
@@ -45,8 +45,7 @@
             android:enabled="true"
             android:process=":remote" >
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2" >
-                </action>
+                <action android:name="com.baidu.location.service_v2.2" ></action>
             </intent-filter>
         </service>
 
@@ -63,10 +62,6 @@
         </activity>
         <activity android:name="cn.luquba678.activity.welcome.WelcomeActivity" >
         </activity>
-        <activity android:name="cn.luquba678.activity.welcome.HomeActivity" >
-        </activity>
-        <activity android:name="cn.luquba678.activity.fragment.SearchFragment" >
-        </activity>
         <activity android:name="cn.luquba678.activity.CityChooserActivity" >
         </activity>
         <activity android:name="cn.luquba678.activity.QueryResultActivity" >
@@ -78,8 +73,6 @@
         <activity android:name="cn.luquba678.activity.UniversityDetailActivity" >
         </activity>
         <activity android:name="cn.luquba678.activity.MajorsDetailActivity" >
-        </activity>
-        <activity android:name="cn.luquba678.activity.WdjyWriteActivity" >
         </activity>
         <activity android:name="cn.luquba678.activity.WdjySaveActivity" >
         </activity>
@@ -121,7 +114,7 @@
         </activity>
         <!-- 微信分享回调 -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -141,6 +134,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+
+
+        <service android:name="com.zhuchao.service.DownloadService" />
     </application>
 
 </manifest>

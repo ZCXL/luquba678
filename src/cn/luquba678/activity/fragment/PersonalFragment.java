@@ -1,11 +1,8 @@
 package cn.luquba678.activity.fragment;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import cn.luquba678.R;
 import cn.luquba678.activity.LoginActivity;
-import cn.luquba678.activity.PersonAccoutDialog;
+import cn.luquba678.activity.PersonAccountDialog;
 import cn.luquba678.activity.PersonMessageActivity;
 import cn.luquba678.activity.person.PersonCollectActivity;
 import cn.luquba678.activity.person.PersonQuitDialog;
@@ -18,13 +15,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +28,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class PersonalFragment extends Fragment implements OnClickListener {
-	PersonAccoutDialog accout;
+	PersonAccountDialog account;
 	PersonSettingDialog setting;
-	PersonQuitDialog quitDialog;
 	View view;
 	ImageView head_img;
 	TextView name, detail;
@@ -86,13 +79,11 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 
 		case R.id.detail_line:
-			startActivityForResult((new Intent(getActivity(),
-					PersonMessageActivity.class)), 6);
+			startActivityForResult((new Intent(getActivity(), PersonMessageActivity.class)), 6);
 			break;
 		case R.id.person_account_line:
-			accout = new PersonAccoutDialog(getActivity());
-			accout.show();
-
+			account = new PersonAccountDialog(getActivity());
+			account.show();
 			break;
 		case R.id.person_collection:
 			startActivity(new Intent(getActivity(), PersonCollectActivity.class));
@@ -126,7 +117,6 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 		if (requestCode == 6) {
 			name.setText(SPUtils.get(getActivity(), "nickname", "ss").toString());
 			detail.setText(SPUtils.get(getActivity(), "intro", "***").toString());
-			Log.i("wyb", "headpic is " + SPUtils.get(getActivity(), "headpic", "sss").toString()+"");
 			new DownloadImageTask().execute(SPUtils.get(getActivity(), "headpic", "sss").toString());
 		}
 	}
@@ -136,15 +126,6 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 
 	}
 
-	public Bitmap getLoacalBitmap(String url) {
-		try {
-			FileInputStream fis = new FileInputStream(url);
-			return BitmapFactory.decodeStream(fis);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	AlertDialog exitDialog;
 

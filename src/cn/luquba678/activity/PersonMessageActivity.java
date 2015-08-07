@@ -10,19 +10,24 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuchao.http.Network;
+import com.zhuchao.http.NetworkFunction;
+import com.zhuchao.utils.ImageLoaderTask;
+import com.zhuchao.utils.ImageProcess;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,7 +38,6 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -43,13 +47,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import cn.luquba678.R;
 import cn.luquba678.activity.person.PersonDetailEditDialog;
 import cn.luquba678.activity.person.PersonNameEditDialog;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
-import cn.luquba678.photo.Bimp;
-import cn.luquba678.ui.Base64;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.utils.BitmapUtil;
 import cn.luquba678.utils.ImageLoader;
@@ -64,12 +68,12 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 	private PersonDetailEditDialog pDetailEditDialog;
 	private PersonNameEditDialog pNameEditDialog;
 	private ImageLoader imgLoader;
-	private static final int SELECT_PICTURE = 1;
-	private static final int SELECT_CAMER = 2;
+	private static final int SELECT_PICTURE = 10;
+	private static final int SELECT_CAMER = 20;
+	private static final int CROP_IMAGE=30;
 	private String proviceName = null;
 	private String mYear, mMonth, mDay;
-	private final int img_head = 1, nick_name = 2, user_sex = 3, birth = 4,
-			address = 5, intro = 6, user_year = 7,examinatio_type = 8, grade = 9;
+	private final int img_head = 1, nick_name = 2, user_sex = 3, birth = 4, address = 5, intro = 6, user_year = 7,examinatio_type = 8, grade = 9;
 
 	private Handler handler = new Handler(){
 
@@ -80,49 +84,55 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 			String changeBody = (String) msg.obj;
 
 			switch (msg.what) {
-			case img_head:
-				headImage.setImageBitmap(bitmap);
-				SPUtils.put(PersonMessageActivity.this, "headpic",changeBody);
-				break;
-			case nick_name:
-				name.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "nickname",changeBody);
-				break;
-			case user_sex:
-				if(changeBody.equals("1")){
-					changeBody = "男";
-				}else {
-					changeBody = "女";
-				}
-				sex.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "sex",changeBody);
-				break;
-			case birth:
-				date.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "birth",changeBody);
-				break;
-			case address:
-				province.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "address",changeBody);
-				break;
-			case intro:
-				detail.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "intro",changeBody);
-				break;
-			case examinatio_type:
-				type.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "type",changeBody);
-				break;
-			case user_year:
-				year.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "year",changeBody);
-				break;
-			case grade:
-				score.setText(changeBody);
-				SPUtils.put(PersonMessageActivity.this, "grade",changeBody);
-				break;
-			default:
-				break;
+				case img_head:
+					break;
+				case 20:
+					uploadChange(img_head, changeBody);
+					SPUtils.put(PersonMessageActivity.this, "headpic",changeBody);
+					/**
+					 * update head
+					 */
+					new ImageLoaderTask(headImage,PersonMessageActivity.this, ImageProcess.FileType_Image.HeadImage).execute(changeBody);
+					break;
+				case nick_name:
+					name.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "nickname",changeBody);
+					break;
+				case user_sex:
+					if(changeBody.equals("1")){
+						changeBody = "男";
+					}else {
+						changeBody = "女";
+					}
+					sex.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "sex",changeBody);
+					break;
+				case birth:
+					date.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "birth",changeBody);
+					break;
+				case address:
+					province.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "address",changeBody);
+					break;
+				case intro:
+					detail.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "intro",changeBody);
+					break;
+				case examinatio_type:
+					type.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "type",changeBody);
+					break;
+				case user_year:
+					year.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "year",changeBody);
+					break;
+				case grade:
+					score.setText(changeBody);
+					SPUtils.put(PersonMessageActivity.this, "grade",changeBody);
+					break;
+				default:
+					break;
 			}
 		}
 		
@@ -141,7 +151,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		getWindow().getWindowManager().getDefaultDisplay().getMetrics(metric);
 		int width = metric.widthPixels;
 		headImage = (ImageView) findViewById(R.id.head_img);
-//		imgLoader.DisplayImage(Const.BASE_URL+"/"+SPUtils.get(this, "headpic", "sss").toString(), headImage, false);
+
 		new DownloadImageTask().execute(SPUtils.get(this, "headpic", "sss").toString());
 		rl_head_img = (RelativeLayout) findViewById(R.id.rl_head_img);
 		rl_head_img.setOnClickListener(this);
@@ -261,23 +271,29 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	Bitmap bitmap;
-
-	@SuppressWarnings("static-access")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+		/**
+		 * get result from picture album
+		 */
 		if (requestCode == SELECT_PICTURE) {
-			if (Bimp.drr.get(0) != null) {
-				bitmap = getLoacalBitmap(Bimp.drr.get(0));
-				ByteArrayOutputStream bao = new ByteArrayOutputStream();
-				bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-				byte[] ba = bao.toByteArray();
-				String baEncode = Base64.encodeBytes(ba);
-				uploadChange(img_head, baEncode);
-			}
+            if(data!=null){
+                Uri uri=data.getData();
+                startPhotoZoom(uri);
+            }else{
+                Toast.makeText(this, "No picture selected", Toast.LENGTH_LONG).show();
+            }
 		}
-		if (resultCode == 5) {
+		/**
+		 * upload data
+		 */
+        else if(requestCode==CROP_IMAGE){
+            getHead(data);
+        }
+		/**
+		 * get location info
+		 */
+		else if (resultCode == 5) {
 			proviceName = data.getStringExtra("proviceName");
 			String cityName = data.getStringExtra("cityName");
 			String areaName = "";
@@ -285,49 +301,29 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 				areaName = data.getStringExtra("areaName");
 			}
 			uploadChange(address, proviceName + " " + cityName + " " + areaName);
-
 		}
-		if (resultCode == 6) {
+		/**
+		 * get birth
+		 */
+		else if (resultCode == 6) {
 			mYear = data.getStringExtra("year");
 			mMonth = data.getStringExtra("month");
 			mDay = data.getStringExtra("day");
 			String mDate = mYear + "-" + mMonth + "-" + mDay;
 			uploadChange(birth, mDate);
 		}
-		if (requestCode == SELECT_CAMER) {
-			String sdStatus = Environment.getExternalStorageState();
-			if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
-				return;
-			}
-			String name = new DateFormat().format("yyyyMMdd_hhmmss",
-					Calendar.getInstance(Locale.CHINA))
-					+ ".jpg";
-			Bundle bundle = data.getExtras();
-			bitmap = (Bitmap) bundle.get("data");
-			FileOutputStream b = null;
-			File file = new File("/sdcard/luquba_Image/");
-			file.mkdirs();
-			String fileName = "/sdcard/luquba_Image/" + name;
-			try {
-				b = new FileOutputStream(fileName);
-				ByteArrayOutputStream bao = new ByteArrayOutputStream();
-				bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-				byte[] ba = bao.toByteArray();
-				String baEncode = Base64.encodeBytes(ba);
-				uploadChange(img_head, baEncode);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					b.flush();
-					b.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+		/**
+		 * select photo from camera
+		 */
+		else if (requestCode == SELECT_CAMER) {
+            startPhotoZoom(Uri.fromFile(tempFile));
 		}
+		//super.onActivityResult(requestCode, resultCode, data);
 	}
 
+    /**
+     * select photo dialog
+     */
 	public void showSelectPhotoDialog() {
 		final AlertDialog photoDialog;
 		photoDialog = new AlertDialog.Builder(this).create();
@@ -342,8 +338,8 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(new Intent(
-						MediaStore.ACTION_IMAGE_CAPTURE), SELECT_CAMER);
+				//startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), SELECT_CAMER);
+                getImageFromCamera();
 				photoDialog.dismiss();
 			}
 		});
@@ -351,9 +347,9 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(new Intent(PersonMessageActivity.this,
-						SelectPhotosActivity.class), SELECT_PICTURE);
-				photoDialog.dismiss();
+				//startActivityForResult(new Intent(PersonMessageActivity.this,SelectPhotosActivity.class), SELECT_PICTURE);
+				getImageFromGallery();
+                photoDialog.dismiss();
 			}
 		});
 		rl_cancle.setOnClickListener(new OnClickListener() {
@@ -365,6 +361,9 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		});
 	}
 
+    /**
+     * select sex
+     */
 	private void showSelectSexDialog() {
 		final AlertDialog sexDialog;
 		sexDialog = new AlertDialog.Builder(this).create();
@@ -399,12 +398,14 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		});
 	}
 
+    /**
+     * select subject
+     */
 	private void showSelectSubjectDialog() {
 		final AlertDialog subjectDialog;
 		subjectDialog = new AlertDialog.Builder(this).create();
 		subjectDialog.show();
-		subjectDialog.getWindow().setContentView(
-				R.layout.person_select_sciences);
+		subjectDialog.getWindow().setContentView(R.layout.person_select_sciences);
 		RelativeLayout rl_liberal_arts, rl_science_subject, rl_cancle;
 		rl_liberal_arts = (RelativeLayout) subjectDialog
 				.findViewById(R.id.rl_liberal_arts);
@@ -436,6 +437,9 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		});
 	}
 
+    /**
+     * select score
+     */
 	private void showSelectScore() {
 		final AlertDialog scoreDialog;
 		scoreDialog = new AlertDialog.Builder(this).create();
@@ -457,8 +461,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				String editScore = ed_score.getText().toString();
-				if (checkInputScoreIsValid(editScore, proviceName,
-						input_error_hint)) {
+				if (checkInputScoreIsValid(editScore, proviceName, input_error_hint)) {
 					uploadChange(grade, editScore);
 					scoreDialog.dismiss();
 				}
@@ -474,12 +477,14 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		});
 	}
 
+    /**
+     * select year
+     */
 	private void showSelectYearDialog() {
 		final AlertDialog scoreDialog;
 		scoreDialog = new AlertDialog.Builder(this).create();
 		scoreDialog.show();
-		scoreDialog.getWindow().setContentView(
-				R.layout.person_select_examinaton_year_dialog);
+		scoreDialog.getWindow().setContentView(R.layout.person_select_examinaton_year_dialog);
 		RelativeLayout rl_year, rl_after_year, rl_after_next_year, rl_cancle;
 		rl_year = (RelativeLayout) scoreDialog.findViewById(R.id.rl_year);
 		rl_after_year = (RelativeLayout) scoreDialog
@@ -523,16 +528,13 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		});
 	}
 
-	public Bitmap getLoacalBitmap(String url) {
-		try {
-			FileInputStream fis = new FileInputStream(url);
-			return BitmapFactory.decodeStream(fis);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+    /**
+     * check value whether is valid
+     * @param score
+     * @param whichProvince
+     * @param hint
+     * @return
+     */
 	private boolean checkInputScoreIsValid(String score, String whichProvince,
 			TextView hint) {
 		if (score.trim().isEmpty()) {
@@ -577,7 +579,13 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		return pattern.matcher(str).matches();
 	}
 
+    /**
+     * upload change of user's info
+     * @param whichChange
+     * @param changeBody
+     */
 	public void uploadChange(final int whichChange, final String changeBody) {
+		Log.d("zhuchao",String.valueOf(whichChange));
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
@@ -585,46 +593,43 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 					String body = changeBody;
 					String which = null;
 					switch (whichChange) {
-					case img_head:
-						which = "headpic_base64";
-						break;
-					case nick_name:
-						which = "nickname";
-						break;
-					case user_sex:
-						which = "sex";
-						break;
-					case birth:
-						which = "birth";
-						break;
-					case address:
-						which = "address";
-						break;
-					case intro:
-						which = "intro";
-						break;
-					case examinatio_type:
-						which = "type";
-						break;
-					case user_year:
-						which = "year";
-						break;
-					case grade:
-						which = "grade";
-						break;
-					default:
-						break;
+						case img_head:
+							which="headpic";
+							break;
+						case nick_name:
+							which = "nickname";
+							break;
+						case user_sex:
+							which = "sex";
+							break;
+						case birth:
+							which = "birth";
+							break;
+						case address:
+							which = "address";
+							break;
+						case intro:
+							which = "intro";
+							break;
+						case examinatio_type:
+							which = "type";
+							break;
+						case user_year:
+							which = "year";
+							break;
+						case grade:
+							which = "grade";
+							break;
+						default:
+							break;
+
 					}
 					MultipartEntity entity = new MultipartEntity();
 					entity.addPart(which, new StringBody(body,Charset.forName("utf-8")));
-					String changeUserInfoUrl = String.format(
-							Const.CHANGE_USER_INFO,
-							User.getUID(PersonMessageActivity.this),
-							User.getLoginToken(PersonMessageActivity.this));
-					JSONObject obj = HttpUtil.getRequestJson(changeUserInfoUrl,
-							entity);
+					String changeUserInfoUrl = String.format(Const.CHANGE_USER_INFO, User.getUID(PersonMessageActivity.this), User.getLoginToken(PersonMessageActivity.this));
+					JSONObject obj = HttpUtil.getRequestJson(changeUserInfoUrl, entity);
 					Integer errcode = obj.getInteger("errcode");
-					Message msg = handler.obtainMessage();
+                    Message msg = handler.obtainMessage();
 					msg.what = whichChange;
 					msg.obj = changeBody;
 					if (errcode == 0) {
@@ -648,6 +653,105 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 	        protected void onPostExecute(Drawable result) {  
 	        	headImage.setImageDrawable(result);  
 	        }  
-	} 
-	
+	}
+
+
+    /**
+     * get image from gallery
+     */
+    private void getImageFromGallery(){
+        Intent intent=new Intent(Intent.ACTION_PICK);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+		intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
+        startActivityForResult(intent, SELECT_PICTURE);
+    }
+
+    File tempFile = new File(Environment.getExternalStorageDirectory(),getPhotoFileName());
+    /**
+     * get image from camera
+     */
+    private void getImageFromCamera(){
+        // 调用系统的拍照功能
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // 指定调用相机拍照后照片的储存路径
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
+        startActivityForResult(intent,SELECT_CAMER);
+    }
+    // 使用系统当前日期加以调整作为照片的名称
+
+    /**
+     * set name of temporary file
+     * @return
+     */
+    private String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
+        return dateFormat.format(date) + ".jpg";
+    }
+
+    /**
+     * zoom image from gallery and camera
+     * @param uri
+     */
+    private void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 100);
+        intent.putExtra("outputY", 100);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("return-data", true);
+		//intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
+        startActivityForResult(intent, CROP_IMAGE);
+    }
+
+    /**
+     * upload file to server
+     * @param date
+     */
+    private void getHead(Intent date){
+        if(date!=null){
+            Bundle extras = date.getExtras();
+            if (extras != null) {
+                Bitmap photo = extras.getParcelable("data");
+                if(photo!=null){
+                    Date d=new Date(System.currentTimeMillis());
+                    @SuppressWarnings("deprecation")
+                    final String path=d.getYear()+d.getMonth()+d.getDay()+d.getHours()+d.getMinutes()+d.getSeconds()+".jpg";
+                    ImageProcess.InputImage(photo, ImageProcess.FileType_Image.HeadImage, path);
+                    if(Network.checkNetWorkState(this)){
+                        headImage.setImageBitmap(photo);
+                        new Thread(new Runnable() {
+                            @SuppressLint("SdCardPath")
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                String result= NetworkFunction.UploadHeadImage(PersonMessageActivity.this, path, "/sdcard/luquba/HeadImages/" + path);
+                                Log.d("zhuchao",result);
+                                if(result.contains("http:")&&result.contains(".jpg")){
+									JSONObject obj=JSONObject.parseObject(result);
+                                    Message message=new Message();
+                                    message.obj=obj.getString("data");
+                                    message.what=20;
+                                    handler.sendMessage(message);
+                                }
+
+                            }
+                        }).start();
+                    }else{
+                        Toast.makeText(this, "Network wrong", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(this, "Photo is null", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(this, "Extra is null", Toast.LENGTH_LONG).show();
+            }
+        } else{
+            Toast.makeText(this, "Data is null", Toast.LENGTH_LONG).show();
+        }
+    }
 }

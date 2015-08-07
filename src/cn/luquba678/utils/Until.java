@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.PlatformListFakeActivity.OnShareButtonClickListener;
 import cn.sharesdk.wechat.friends.Wechat;
@@ -73,8 +74,7 @@ public class Until {
 
 					@Override
 					public void run() {
-						Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
@@ -89,6 +89,58 @@ public class Until {
 
 		// 启动分享GUI
 		oks.show(context);
+	}
+	public static void showShare(final Context context, final Handler mHandler, final String title, final String link, final String imageUrl){
+        ShareSDK.initSDK(context);
+		final OnekeyShare oks = new OnekeyShare();
+		oks.setTitle("录取吧");
+		oks.setComment(title);
+        oks.setTitleUrl(link);
+        oks.setText(title);
+        if(imageUrl!=null)
+            oks.setImageUrl(imageUrl);
 
+		oks.setOnShareButtonClickListener(new OnShareButtonClickListener() {
+
+			@Override
+			public void onClick(View v, List<Object> checkPlatforms) {
+                Platform platform=(Platform) checkPlatforms.get(0);
+				String name = platform.getName();
+				if (name.equals(Wechat.NAME)) {
+
+				} else if (name.equals(WechatMoments.NAME)) {
+
+				} else{
+
+				}
+			}
+		});
+		oks.setCallback(new PlatformActionListener() {
+
+			@Override
+			public void onError(Platform arg0, int arg1, Throwable arg2) {
+				Log.i("wyb_test", "onError");
+			}
+
+			@Override
+			public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
+				mHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+
+			@Override
+			public void onCancel(Platform arg0, int arg1) {
+
+			}
+		});
+		// 关闭sso授权
+		oks.disableSSOWhenAuthorize();
+		// 启动分享GUI
+		oks.show(context);
 	}
 }

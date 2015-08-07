@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/phone_number"
             style="@style/text_view_right_gray"
-            android:text="15527704110" />
+            android:text="Not bound" />
     </LinearLayout>
 
     <View style="@style/under_line" />
@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/wechat_number"
             style="@style/text_view_right_gray"
-            android:text="15527704110" />
+            android:text="Not bound" />
     </LinearLayout>
 
     <View style="@style/under_line" />
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/QQ_number"
             style="@style/text_view_right_gray"
-            android:text="15527704110" />
+            android:text="Not bound" />
     </LinearLayout>
 
     <View style="@style/under_line" />
@@ -62,7 +62,7 @@
         <TextView
             android:id="@+id/microblog_number"
             style="@style/text_view_right_gray"
-            android:text="15527704110" />
+            android:text="Not bound" />
     </LinearLayout>
 
     <View style="@style/under_line" />

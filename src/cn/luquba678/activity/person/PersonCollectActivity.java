@@ -1,5 +1,6 @@
 package cn.luquba678.activity.person;
 
+import cn.luquba678.view.PullToRefreshBase;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
@@ -11,11 +12,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,20 +24,15 @@ import cn.luquba678.R;
 import cn.luquba678.activity.adapter.CollectListAdapter;
 import cn.luquba678.entity.CollectItem;
 import cn.luquba678.entity.Const;
-import cn.luquba678.entity.News;
 import cn.luquba678.entity.User;
 import cn.luquba678.ui.HttpUtil;
-import cn.luquba678.view.PullToRefreshBase;
-import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
-import cn.luquba678.view.PullToRefreshListView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.zhuchao.view_rewrite.PullToRefreshListView;
 
-public class PersonCollectActivity extends Activity implements OnClickListener,
-		OnItemClickListener, OnItemLongClickListener,
-		OnRefreshListener<ListView> {
+public class PersonCollectActivity extends Activity implements OnClickListener, OnItemClickListener,CollectListAdapter.OnDeleteListener, PullToRefreshBase.OnRefreshListener<ListView> {
 	private TextView top_text, collect_edit, collect_delete, title_top_cancle;
 	private ImageView title_top_image;
 	private ListView collect_listView;
@@ -45,23 +41,39 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 	private PullToRefreshListView ptrlv;
 	private boolean isEditMode;
 	private int page = 1;
-	private Handler handler = new Handler() {
 
+    private ArrayList<String>result;
+	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-				collectItem_list = (List<CollectItem>) msg.obj;
-				if(adapter==null){
-					adapter = new CollectListAdapter(PersonCollectActivity.this, collectItem_list,R.layout.item_collect);
-					collect_listView.setAdapter(adapter);
-				}else {
-					adapter.changeDate(collectItem_list);
-				}
-				if(msg.what == 2){
-					adapter.deleteItem();
-					changeTopState(false);
-					adapter.showCheckBox(false);
-				}
+            switch (msg.what){
+                case 1:
+					/**
+					 * update list
+					 */
+                    adapter.changeDate(collectItem_list);
+                    break;
+                case 2:
+                    /**
+                     * remove items that have been delete.
+                     */
+                    for(int i=0,j=result.size();i<j;i++){
+                        for(int k=0;k<collectItem_list.size();k++)
+                            if(result.get(i).equals(collectItem_list.get(k).getCollect_id())) {
+                                collectItem_list.remove(k);
+                                break;
+                            }
+                    }
+					/**
+					 * hide check box
+					 */
+                    changeTopState(false);
+                    /**
+                     * update list
+                     */
+                    adapter.showCheckBox(false);
+                    break;
+            }
 		}
 
 	};
@@ -70,19 +82,26 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.person_collect);
-		collectItem_list = new ArrayList<CollectItem>();
+		/**
+		 * init view
+		 */
 		initView();
+		/**
+		 * get collection
+		 */
 		getCollectionData(page);
 	}
 
 	private void initView() {
+		/**
+		 * find view
+		 */
 		ptrlv = (PullToRefreshListView) findViewById(R.id.collect_listView);
 		ptrlv.setPullLoadEnabled(true);
 		ptrlv.setPullRefreshEnabled(false);
 		ptrlv.setOnRefreshListener(this);
 		collect_listView = ptrlv.getRefreshableView();
 		collect_listView.setOnItemClickListener(this);
-		collect_listView.setOnItemLongClickListener(this);
 		top_text = (TextView) findViewById(R.id.top_text);
 		top_text.setText("我的收藏");
 		title_top_cancle = (TextView) findViewById(R.id.title_top_cancle);
@@ -94,6 +113,17 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 		collect_delete = (TextView) findViewById(R.id.collect_delete);
 		collect_delete.setOnClickListener(this);
 
+        /**
+         * init list view
+         */
+        collectItem_list = new ArrayList<CollectItem>();
+        result=new ArrayList<String>();
+        adapter = new CollectListAdapter(PersonCollectActivity.this, collectItem_list,R.layout.item_collect);
+		/**
+		 * set delete interface
+		 */
+        adapter.setOnDeleteListener(this);
+        collect_listView.setAdapter(adapter);
 	}
 
 	@Override
@@ -107,7 +137,10 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 			adapter.showCheckBox(true);
 			break;
 		case R.id.collect_delete:
-			deleteCollectionData();
+            /**
+             * delete,and system will roll back
+             */
+			adapter.deleteItem();
 			break;
 		case R.id.title_top_cancle:
 			changeTopState(false);
@@ -119,23 +152,18 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 	}
 
 	@Override
-	public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-			int position, long arg3) {
-		changeTopState(true);
-		adapter.refershCheckBoxState(position);
-		return true;
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-			long arg3) {
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		if (isEditMode) {
-			adapter.refershCheckBoxState(position);
+			adapter.refreshCheckBoxState(position);
 		} else {
 			// startActivity(Por);
 		}
 	}
 
+	/**
+	 * change top state
+	 * @param isDeleteItemState
+	 */
 	private void changeTopState(boolean isDeleteItemState) {
 		if (isDeleteItemState) {
 			title_top_image.setVisibility(View.GONE);
@@ -160,19 +188,22 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        /**
+         * get more
+         */
+		getCollectionData(page);
 	}
 
+	/**
+	 * get collection set in some page
+	 * @param page
+	 */
 	private void getCollectionData(final int page) {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 
 			@Override
 			public void run() {
-				String queryCollectionUrl = String.format(
-						Const.QUERYCOLLECTION,
-						User.getUID(PersonCollectActivity.this),
-						User.getLoginToken(PersonCollectActivity.this), page
-								+ "");
+				String queryCollectionUrl = String.format(Const.QUERYCOLLECTION, User.getUID(PersonCollectActivity.this), User.getLoginToken(PersonCollectActivity.this), page + "");
 
 				MultipartEntity entity = new MultipartEntity();
 				try {
@@ -182,27 +213,21 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 					JSONObject arrayItem;
 					CollectItem conCollectItem;
 					if (errcode == 0) {
-           			JSONArray jsonArray = (JSONArray) obj.get("data");
-						for (int i = 0; i < jsonArray.size(); i++) {
-							arrayItem = JSONObject.parseObject(jsonArray
-									.getString(i));
-							conCollectItem = new CollectItem();
-							conCollectItem.setCollect_title(arrayItem
-									.getString("title"));
-							conCollectItem.setCollect_imgUrl(arrayItem
-									.getString("pic"));
-							conCollectItem.setCollect_date(arrayItem
-									.getString("createtime"));
-							conCollectItem.setCollect_id(arrayItem
-									.getString("id"));
-							conCollectItem.setCollect_type(arrayItem
-									.getString("type"));
-							collectItem_list.add(conCollectItem);
-						}
-						Message msg = Message.obtain();
-						msg.what = 1;
-						msg.obj=collectItem_list;
-						handler.sendMessage(msg);
+                        JSONArray jsonArray = (JSONArray) obj.get("data");
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            arrayItem = JSONObject.parseObject(jsonArray.getString(i));
+                            conCollectItem = new CollectItem();
+                            conCollectItem.setCollect_title(arrayItem.getString("title"));
+                            conCollectItem.setCollect_imgUrl(arrayItem.getString("pic"));
+                            conCollectItem.setCollect_date(arrayItem.getString("createtime"));
+                            conCollectItem.setCollect_id(arrayItem.getString("id"));
+                            conCollectItem.setCollect_type(arrayItem.getString("type"));
+                            collectItem_list.add(conCollectItem);
+                        }
+						PersonCollectActivity.this.page++;
+                        handler.sendEmptyMessage(1);
+					}else{
+						handler.sendEmptyMessage(3);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -213,24 +238,46 @@ public class PersonCollectActivity extends Activity implements OnClickListener,
 		});
 	}
 
-	private void deleteCollectionData() {
-		String deleteCollectionUrl = String.format(Const.DELETECOLLECTION,
-				User.getUID(PersonCollectActivity.this),
-				User.getLoginToken(PersonCollectActivity.this));
-		MultipartEntity entity = new MultipartEntity();
-		JSONObject obj;
-		Gson gson = new Gson();
-		String json = gson.toJson(collectItem_list);
-		try {
-			entity.addPart("list", new StringBody(json));
-			obj = HttpUtil.getRequestJson(deleteCollectionUrl, entity);
-			Message msg = handler.obtainMessage();
-			msg.what = 2;
-			msg.obj = collectItem_list;
-			handler.sendMessage(msg);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void onDelete(final ArrayList<CollectItem> list) {
+        /**
+         * format address url
+         */
+        String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(PersonCollectActivity.this), User.getLoginToken(PersonCollectActivity.this));
 
+        /**
+         *set parameters
+         */
+        MultipartEntity entity = new MultipartEntity();
+        Gson gson = new Gson();
+        /**
+         * get all id
+         */
+        ArrayList<String>ids=new ArrayList<String>();
+
+        for(int i=0;i<list.size();i++) {
+            ids.add(list.get(i).getCollect_id());
+        }
+        String json = gson.toJson(ids);
+        try {
+            entity.addPart("list", new StringBody(json));
+
+            Log.d("zhuchao",json);
+            JSONObject obj= HttpUtil.getRequestJson(deleteCollectionUrl, entity);
+            /**
+             * process data to update
+             */
+            JSONArray array=obj.getJSONArray("data");
+            result.clear();
+            for(int i=0,j=array.size();i<j;i++)
+                result.add(array.getString(i));
+
+            /**
+             * start upload list view
+             */
+            handler.sendEmptyMessage(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -12,9 +12,6 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,35 +21,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.Selection;
-import android.text.Spannable;
+
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
 import cn.luquba678.R;
 import cn.luquba678.activity.listener.TextLenthWatcher;
-import cn.luquba678.activity.welcome.SharedConfig;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
 import cn.luquba678.service.LoadDataFromServer;
 import cn.luquba678.service.LoadDataFromServer.DataCallBack;
-import cn.luquba678.utils.CacheUtil;
-import cn.luquba678.utils.MD5;
 import cn.luquba678.utils.SPUtils;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -167,7 +152,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 								SPUtils.put(LoginActivity.this, "sex",jsonUser.get("sex").toString());
 								SPUtils.put(LoginActivity.this, "type",jsonUser.get("type").toString());
 								SPUtils.put(LoginActivity.this, "year",jsonUser.get("year").toString());
-
+								SPUtils.put(LoginActivity.this,"login_type","phone_number");
 
 								dialog.dismiss();
 								String login_token = jsonObject.getString("login_token");
@@ -247,18 +232,21 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 			break;
 		case R.id.login_wechat:
 			Platform weChat = ShareSDK.getPlatform(this, Wechat.NAME);
+			//weChat.removeAccount();
 			weChat.setPlatformActionListener(mActionListener);
             weChat.SSOSetting(true);
 			weChat.showUser(null);
 			break;
 		case R.id.login_weibo:
 			Platform weibo = ShareSDK.getPlatform(this, SinaWeibo.NAME);
+			weibo.removeAccount();
 			weibo.setPlatformActionListener(mActionListener);
 			weibo.SSOSetting(true);
 			weibo.showUser(null);
 			break;
 		case R.id.login_qq:
 			Platform qq = ShareSDK.getPlatform(this, QQ.NAME);
+			qq.removeAccount();
 			qq.setPlatformActionListener(mActionListener);
 			qq.showUser(null);
 			break;
@@ -271,7 +259,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
 		@Override
 		public void onError(Platform arg0, int arg1, Throwable arg2) {
-            toast("Login failed");
+            mhandler.sendEmptyMessage(1);
 		}
 
 		@Override
@@ -287,6 +275,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
                 info.nickname=res.get("name").toString();
                 info.headpic=res.get("avatar_hd").toString();
                 info.uid=res.get("id").toString();
+				info.type="weibo";
             }else if(platformName.equals(Wechat.NAME)){
                 Log.d("wyb","lalalalalal");
             }else if(platformName.equals(QQ.NAME)){
@@ -298,6 +287,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
                 temp=temp.substring(temp.indexOf("1104470925/")+11);
                 temp=temp.substring(0,temp.indexOf("/"));
                 info.uid=temp;
+				info.type="qq";
             }
 
             //next step:login our server
@@ -309,7 +299,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
 		@Override
 		public void onCancel(Platform arg0, int arg1) {
-            toast("Have canceled login");
+            mhandler.sendEmptyMessage(2);
 		}
 	};
 	Handler mhandler = new Handler() {
@@ -318,9 +308,15 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			switch (msg.what) {
-			case 1:
-				otherLogin((Info)msg.obj);
-				break;
+				case 1:
+					otherLogin((Info)msg.obj);
+					break;
+				case 2:
+					toast("Login failed");
+					break;
+				case 3:
+					toast("Have canceled login");
+					break;
 
 			default:
 				break;
@@ -366,7 +362,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
      * upload user info from other platform
      * @param info
      */
-    private void otherLogin(Info info){
+    private void otherLogin(final Info info){
 
         MultipartEntity entity = new MultipartEntity();
 
@@ -408,7 +404,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
                                 SPUtils.put(LoginActivity.this, "sex",jsonUser.get("sex").toString());
                                 SPUtils.put(LoginActivity.this, "type",jsonUser.get("type").toString());
                                 SPUtils.put(LoginActivity.this, "year",jsonUser.get("year").toString());
-
+								SPUtils.put(LoginActivity.this,"login_type",info.type);
 
                                 dialog.dismiss();
                                 String login_token = jsonObject.getString("login_token");
@@ -470,5 +466,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
         String uid;
         String headpic;
         String nickname;
+		String type;
     }
 }

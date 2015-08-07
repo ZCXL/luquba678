@@ -8,7 +8,6 @@ import java.util.Map;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
-import kankan.wheel.widget.adapters.WheelViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,11 +17,10 @@ import cn.luquba678.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.Adapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -40,10 +38,11 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 	private TextView showChooseOK, showChooseCancle,choose_title;
 	private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
 	private Map<String, String[]> mAreaDatasMap = new HashMap<String, String[]>();
-	public String mCurrentProviceName;
+	public String mCurrentProvinceName;
 	public String mCurrentCityName;
 	public String mCurrentAreaName = "";
 
+	private RelativeLayout confirm,cancel;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,10 +54,17 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 		mArea = (WheelView) findViewById(R.id.id_area);
 		showChooseOK = (TextView) findViewById(R.id.showChooseOK);
 		showChooseOK.setOnClickListener(this);
-		showChooseCancle = (TextView) findViewById(R.id.showChooseCancle);
+		showChooseCancle = (TextView) findViewById(R.id.showChooseCancel);
 		showChooseCancle.setOnClickListener(this);
 		choose_title = (TextView) findViewById(R.id.choose_title);
 		choose_title.setText("请选择家乡所在地");
+
+		confirm=(RelativeLayout)findViewById(R.id.confirm_button);
+		confirm.setOnClickListener(this);
+		cancel=(RelativeLayout)findViewById(R.id.cancel_button);
+		cancel.setOnClickListener(this);
+
+
 		initDatas();
 
 		mProvince.setViewAdapter(new ArrayWheelAdapter<String>(this,
@@ -77,7 +83,7 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 
 	private void updateAreas() {
 		int pCurrent = mCity.getCurrentItem();
-		mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[pCurrent];
+		mCurrentCityName = mCitisDatasMap.get(mCurrentProvinceName)[pCurrent];
 		String[] areas = mAreaDatasMap.get(mCurrentCityName);
 
 		if (areas == null) {
@@ -90,8 +96,8 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 
 	private void updateCities() {
 		int pCurrent = mProvince.getCurrentItem();
-		mCurrentProviceName = mProvinceDatas[pCurrent];
-		String[] cities = mCitisDatasMap.get(mCurrentProviceName);
+		mCurrentProvinceName = mProvinceDatas[pCurrent];
+		String[] cities = mCitisDatasMap.get(mCurrentProvinceName);
 		if (cities == null) {
 			cities = new String[] { "" };
 		}
@@ -185,23 +191,38 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.showChooseOK:
-			int position = mArea.getCurrentItem();
-			Intent intent = new Intent();
-			intent.putExtra("proviceName", mCurrentProviceName);
-			intent.putExtra("cityName", mCurrentCityName);
-			if (mAreaDatasMap.get(mCurrentCityName) != null) {
-				intent.putExtra("areaName",
-						mAreaDatasMap.get(mCurrentCityName)[position]);
-			}
-			setResult(5, intent);
-			finish();
-			break;
-		case R.id.showChooseCancle:
-			finish();
-			break;
-		default:
-			break;
+			case R.id.showChooseOK:
+				int position = mArea.getCurrentItem();
+				Intent intent = new Intent();
+				intent.putExtra("proviceName", mCurrentProvinceName);
+				intent.putExtra("cityName", mCurrentCityName);
+				if (mAreaDatasMap.get(mCurrentCityName) != null) {
+					intent.putExtra("areaName",
+							mAreaDatasMap.get(mCurrentCityName)[position]);
+				}
+				setResult(5, intent);
+				finish();
+				break;
+			case R.id.showChooseCancel:
+				finish();
+				break;
+			case R.id.confirm_button:
+				position = mArea.getCurrentItem();
+				intent = new Intent();
+				intent.putExtra("proviceName", mCurrentProvinceName);
+				intent.putExtra("cityName", mCurrentCityName);
+				if (mAreaDatasMap.get(mCurrentCityName) != null) {
+					intent.putExtra("areaName",
+							mAreaDatasMap.get(mCurrentCityName)[position]);
+				}
+				setResult(5, intent);
+				finish();
+				break;
+			case R.id.cancel_button:
+				finish();
+				break;
+			default:
+				break;
 		}
 	}
 

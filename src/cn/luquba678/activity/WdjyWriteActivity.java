@@ -17,8 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class WdjyWriteActivity extends FullScreenDialog implements OnClickListener,
-		TextWatcher {
+public class WdjyWriteActivity extends FullScreenDialog implements OnClickListener, TextWatcher {
 
 	public WdjyWriteActivity(Context context) {
 		super(context);

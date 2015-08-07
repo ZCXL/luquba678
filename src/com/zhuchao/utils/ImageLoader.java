@@ -30,8 +30,7 @@ public class ImageLoader {
 
     MemoryCache memoryCache = new MemoryCache();
     FileCache fileCache;
-    private Map<ImageView, String> imageViews = Collections
-            .synchronizedMap(new WeakHashMap<ImageView, String>());
+    private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     // 线程池
     ExecutorService executorService;
 
@@ -101,12 +100,11 @@ public class ImageLoader {
             BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             // Find the correct scale value. It should be the power of 2.
-            final int REQUIRED_SIZE = 100;
+            final int REQUIRED_SIZE = 200;
             int width_tmp = o.outWidth, height_tmp = o.outHeight;
             int scale = 1;
             while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE
-                        || height_tmp / 2 < REQUIRED_SIZE)
+                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
                     break;
                 width_tmp /= 2;
                 height_tmp /= 2;
@@ -181,10 +179,11 @@ public class ImageLoader {
         public void run() {
             if (imageViewReused(photoToLoad))
                 return;
-            if (bitmap != null)
+            if (bitmap != null) {
                 photoToLoad.imageView.setImageBitmap(bitmap);
-            else
+            }else {
                 photoToLoad.imageView.setImageResource(stub_id);
+            }
         }
     }
 

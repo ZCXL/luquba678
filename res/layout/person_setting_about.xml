@@ -11,7 +11,7 @@
         android:layout_height="48dp"
         layout="@layout/top_back_title_more" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/check_update"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -19,14 +19,21 @@
 
         <TextView
             style="@style/personal_text_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="15dp"
-            android:layout_weight="1.0"
-            android:gravity="left|center_vertical"
+            android:layout_centerVertical="true"
             android:text="@string/check_update" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/version_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="当前版本：1.0.0"
+            android:textColor="#e9686767"/>
+    </RelativeLayout>
 
     <View style="@style/under_line" />
 

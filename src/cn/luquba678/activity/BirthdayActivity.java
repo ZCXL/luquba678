@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.luquba678.R;
 
@@ -18,13 +19,15 @@ public class BirthdayActivity extends Activity implements
 	private WheelView mYear;
 	private WheelView mMonth;
 	private WheelView mDay;
-	private TextView showChooseOK, showChooseCancle,choose_title;
+	private TextView showChooseOK, showChooseCancel,choose_title;
 	private String[] mYearDatas;
 	private String[] mMonthDatas;
 	private String[] mDayDatas;
 	public String mCurrentYear;
 	public String mCurrentMonth;
 	public String mCurrentDay = "";
+
+	private RelativeLayout confirm,cancel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +39,16 @@ public class BirthdayActivity extends Activity implements
 		mDay = (WheelView) findViewById(R.id.id_area);
 		showChooseOK = (TextView) findViewById(R.id.showChooseOK);
 		showChooseOK.setOnClickListener(this);
-		showChooseCancle = (TextView) findViewById(R.id.showChooseCancle);
-		showChooseCancle.setOnClickListener(this);
+		showChooseCancel = (TextView) findViewById(R.id.showChooseCancel);
+		showChooseCancel.setOnClickListener(this);
 		choose_title = (TextView) findViewById(R.id.choose_title);
 		choose_title.setText("请选择出生日期");
+
+		confirm=(RelativeLayout)findViewById(R.id.confirm_button);
+		confirm.setOnClickListener(this);
+		cancel=(RelativeLayout)findViewById(R.id.cancel_button);
+		cancel.setOnClickListener(this);
+
 		initDatas();
 		updateYear();
 		updateMonth();
@@ -98,19 +107,30 @@ public class BirthdayActivity extends Activity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.showChooseOK:
-			Intent intent = new Intent();
-			intent.putExtra("year", mCurrentYear);
-			intent.putExtra("month", mCurrentMonth);
-			intent.putExtra("day", mCurrentDay);
-			setResult(6, intent);
-			finish();
-			break;
-		case R.id.showChooseCancle:
-			finish();
-			break;
-		default:
-			break;
+			case R.id.showChooseOK:
+				Intent intent = new Intent();
+				intent.putExtra("year", mCurrentYear);
+				intent.putExtra("month", mCurrentMonth);
+				intent.putExtra("day", mCurrentDay);
+				setResult(6, intent);
+				finish();
+				break;
+			case R.id.showChooseCancel:
+				finish();
+				break;
+			case R.id.confirm_button:
+				intent = new Intent();
+				intent.putExtra("year", mCurrentYear);
+				intent.putExtra("month", mCurrentMonth);
+				intent.putExtra("day", mCurrentDay);
+				setResult(6, intent);
+				finish();
+				break;
+			case R.id.cancel_button:
+				finish();
+				break;
+			default:
+				break;
 		}
 
 	}

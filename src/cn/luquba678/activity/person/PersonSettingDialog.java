@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.luquba678.R;
+import cn.luquba678.activity.MainFragmentActivity;
 import cn.luquba678.ui.FullScreenDialog;
 import cn.luquba678.utils.Until;
 
@@ -71,8 +72,8 @@ public class PersonSettingDialog extends FullScreenDialog implements
 			pSettingAboutDialog.show();
 			break;
 		case R.id.share_friend:
-			Until.showShare(context, mHandler);
-			break;
+			Until.showShare(context, mHandler,"录取吧","http://120.26.112.250/apk/luquba.apk","http://120.26.112.250/apk/678icon.jpg");
+            break;
 		case R.id.person_question:
 			personCommonMistakeDialog = new PersonCommonMistakeDialog(context);
 			personCommonMistakeDialog.show();

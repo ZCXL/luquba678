@@ -6,4 +6,8 @@
         <attr name="border_inside_color" format="color"/>
         <attr name="border_outside_color" format="color"/>
     </declare-styleable>
+    <!--swipe list-->
+    <declare-styleable name="swipelistviewstyle">
+        <attr name="right_width" format="dimension"></attr>
+    </declare-styleable>
 </resources>

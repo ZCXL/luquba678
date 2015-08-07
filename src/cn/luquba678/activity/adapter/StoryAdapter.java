@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.luquba678.R;
+import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
 
 public class StoryAdapter extends CommonAdapter<News> {
@@ -36,16 +37,18 @@ public class StoryAdapter extends CommonAdapter<News> {
 		String url = t.getPic();
 
 		if (layoutId == R.layout.activity_funny_cell) {
-			if (StringUtils.isNotEmpty(url)) {
-				image.setVisibility(View.VISIBLE);
-				image.setTag(url);
-				ima.DisplayImage(url,image);
-			}else{
-				image.setVisibility(View.GONE);
-			}
-
+			String content=t.getContent();
 			TextView story_content = holder.getView(R.id.story_content);
-			story_content.setText(Html.fromHtml(t.getContent()));
+			if(!content.contains("Upload")){
+				story_content.setVisibility(View.VISIBLE);
+				image.setVisibility(View.GONE);
+				story_content.setText(Html.fromHtml(t.getContent()));
+			}else{
+				story_content.setVisibility(View.GONE);
+				image.setVisibility(View.VISIBLE);
+				image.setTag(Const.BASE_URL + "/" + content);
+				ima.DisplayImage(Const.BASE_URL+"/"+content,image);
+			}
 		}else{
 			if (StringUtils.isNotEmpty(url)) {
 				image.setVisibility(View.VISIBLE);

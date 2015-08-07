@@ -1,5 +1,7 @@
 package cn.luquba678.activity;
 
+import cn.luquba678.utils.Until;
+import cn.luquba678.view.PullToRefreshListView;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
@@ -10,53 +12,33 @@ import java.util.concurrent.Executors;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.navisdk.util.common.StringUtils;
+import com.zhuchao.adapter.CommentAdapter;
+import com.zhuchao.utils.ImageLoader;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
 import cn.luquba678.R;
-import cn.luquba678.activity.adapter.CommentAdapter;
-import cn.luquba678.activity.adapter.StoryAdapter;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
 import cn.luquba678.entity.User;
 import cn.luquba678.ui.HttpUtil;
-import cn.luquba678.utils.ImageLoader;
-import cn.luquba678.utils.ImageUtil;
-import cn.luquba678.utils.ScreenUtils;
-import cn.luquba678.view.ImgScrollViewPager;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 
-public class FunnyDetailActivity extends CommonActivity implements
-		OnClickListener, OnGlobalLayoutListener, OnRefreshListener<ListView> {
-	cn.luquba678.view.PullToRefreshListView ptrlv;
-	private ListView listview_stories;
-	private ArrayList<View> listViews;
-	private ImageLoader mImageLoader;
-	private ImgScrollViewPager mmPager;
-	private LinearLayout ovalLayout;
+public class FunnyDetailActivity extends CommonActivity implements OnClickListener,OnRefreshListener<ListView> {
+	private PullToRefreshListView ptrlv;
 	private int type;
 	private int id;
 	private EditText comment_text;
@@ -65,6 +47,15 @@ public class FunnyDetailActivity extends CommonActivity implements
 	private View comment_input;
 	private View activityRootView;
 	private View comment_container;
+
+	private String title,content,imageUrl;
+
+    private ArrayList<News> newsList;
+    private CommentAdapter adapter;
+    private ListView commentList;
+
+
+    private int page = 1;
 
 	public String getType(int i) {
 		String type = "";
@@ -96,123 +87,122 @@ public class FunnyDetailActivity extends CommonActivity implements
 		// 滑到底部是否自动加载数据，这句话一定要加要不然"已经到底啦"显示不出来
 		commentList = ptrlv.getRefreshableView();
 		ptrlv.setOnRefreshListener(this);
-		LinearLayout container = (LinearLayout) View.inflate(self,
-				R.layout.detail_funny, null);
-		commentList.addHeaderView(container);
+		LinearLayout container = (LinearLayout) View.inflate(self, R.layout.detail_funny, null);
 		comment_container = container.findViewById(R.id.comment_container);
+
+        /**
+         * comment block
+         */
 		buttom_btns = findViewById(R.id.buttom_btns);
 		comment_input = findViewById(R.id.comment_input);
-		// comment_container = findViewById(R.id.comment_container);
 		collection = getView(R.id.ic_collect);
 		praise = getView(R.id.ic_praise);
-		setOnClickLinstener(R.id.share, R.id.collection, R.id.good,
-				R.id.comment, R.id.send_comment, R.id.back_button);
+		setOnClickLinstener(R.id.share, R.id.collection, R.id.good, R.id.comment, R.id.send_comment, R.id.back_button);
+
+        /**
+         * get data from last activity
+         */
 		Intent intent = getIntent();
-		String content = intent.getStringExtra("content");
-		id = intent.getIntExtra("id", 0);
-		final String oncreatetime = intent.getStringExtra("oncreatetime");
-		final String origin = intent.getStringExtra("origin");
-		type = intent.getIntExtra("type", 4);
-		final String title = intent.getStringExtra("title");
+		content = intent.getStringExtra("content");
+		String oncreatetime = intent.getStringExtra("oncreatetime");
+		String origin = intent.getStringExtra("origin");
+		title = intent.getStringExtra("title");
+        id = intent.getIntExtra("id", 0);
+        type = intent.getIntExtra("type", 4)+3;
+		imageUrl=intent.getStringExtra("image");
+
+        /**
+         * set value
+         */
+        ((TextView) container.findViewById(R.id.story_title)).setText(title);
+        ((TextView) container.findViewById(R.id.story_content)).setText(content);
+        ((TextView) container.findViewById(R.id.leibie)).setText(getType(type));
+        ((TextView) container.findViewById(R.id.origin)).setText(origin);
+        ((TextView) container.findViewById(R.id.createtime)).setText(oncreatetime);
+
+        /**
+         * download image of picture
+         */
 		ImageView iv = (ImageView) container.findViewById(R.id.image);
 		try {
-			final String image = intent.getStringExtra("image");
-			if (StringUtils.isNotEmpty(image)) {
-				Bitmap bm = ImageLoader.getBitmap(image);
-				bm = ImageUtil.zoomBitmapWith(bm,
-						ScreenUtils.getScreenWidth(self));
-				iv.setOnClickListener(this);
-				iv.setImageBitmap(bm);
-			}
+			if (StringUtils.isNotEmpty(content)&&content.contains("Upload")) {
+                container.findViewById(R.id.story_content).setVisibility(View.GONE);
+                new ImageLoader(this).DisplayImage(Const.BASE_URL+"/"+content,iv);
+			}else{
+                iv.setVisibility(View.GONE);
+            }
 		} catch (Exception e) {
+
 		}
-		// getImageLoader().DisplayImage(image, iv, false);
-		((TextView) container.findViewById(R.id.story_title)).setText(title);
-		((TextView) container.findViewById(R.id.story_content))
-				.setText(content);
-		((TextView) container.findViewById(R.id.leibie)).setText(getType(type));
-		((TextView) container.findViewById(R.id.origin)).setText(origin);
-		((TextView) container.findViewById(R.id.createtime))
-				.setText(oncreatetime);
+
+        /**
+         * get info of comment number,collection number and so on.
+         */
 		getMSG();
-		activityRootView = findViewById(R.id.root_view);
-		activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		// commentList = getView(R.id.commentlistview);
-		getcomentlist(1, 0);
-		// ObjectAnimator.ofFloat(listview_stories,
-		// "x",0f,200f).setDuration(1000l).start();
+
+        /**
+         * init list view of comment
+         */
+        newsList=new ArrayList<News>();
+        adapter=new CommentAdapter(newsList,this,container);
+        commentList.setAdapter(adapter);
+		getCommentList(1);
 	}
 
-	private void getcomentlist(int page, final int action) {
-		String comment_list_url = String.format(Const.COMMENT_LIST_URL,
-				User.getUID(self), User.getLoginToken(self), id, type, 1);
-		try {
-			HttpUtil.getRequestJsonRunnable(comment_list_url, null,
-					new Handler() {
+    /**
+     * get comment list
+     * @param page
+     */
+    private void getCommentList(int page) {
+        String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self), id, type, page);
+        try {
+            HttpUtil.getRequestJsonRunnable(comment_list_url, null,
+                    new Handler() {
+                        public void handleMessage(Message msg) {
+                            JSONObject json = JSONObject.parseObject(msg.obj.toString());
+                            int errcode = json.getIntValue("errcode");
+                            if (errcode == 0) {
+                                JSONArray array = json.getJSONArray("data");
+                                ArrayList<News> arrayList = News.getListFromJson(array.toJSONString());
+                                if(arrayList!=null){
+                                    newsList.addAll(arrayList);
+                                    adapter.notifyDataSetChanged();
+                                    comment_container.setVisibility(View.VISIBLE);
+                                }
+                            } else if(errcode==40004){
+                                toast("No more data");
+                                comment_container.setVisibility(View.GONE);
+                            }
+                            ptrlv.onPullDownRefreshComplete();
+                            ptrlv.onPullUpRefreshComplete();
+                            ptrlv.setHasMoreData(true);
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-						public void handleMessage(Message msg) {
-							JSONObject json = JSONObject.parseObject(msg.obj
-									.toString());
-							int errcode = json.getIntValue("errcode");
-							if (errcode == 0) {
-								JSONArray arry = json.getJSONArray("data");
-								ArrayList<News> arryList = News
-										.getListFromJson(arry.toJSONString());
-								switch (action) {
-								case CHANGE:
-									newsList = arryList;
-									break;
+    /**
+     * get message
+     */
+    public void getMSG() {
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self), id, type);
+                    JSONObject obj = HttpUtil.getRequestJson(url, null);
+                    handler.sendMessage(handler.obtainMessage(0, obj));
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
-								default:
-									if (newsList != null)
-										newsList.addAll(arryList);
-									else
-										newsList = arryList;
-									break;
-								}
-								if (adapter == null) {
-									adapter = new CommentAdapter(self,
-											arryList, R.layout.comment_cell);
-									commentList.setAdapter(adapter);
-								} else {
-									adapter.changeDateInThread(arryList);
-								}
-								comment_container.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
-							} else {
-								comment_container.setVisibility(View.GONE);
-							}
-							ptrlv.onPullDownRefreshComplete();
-							ptrlv.onPullUpRefreshComplete();
-							ptrlv.setHasMoreData(true);
-						}
-
-					});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	ArrayList<News> newsList;
-	CommentAdapter adapter;
-	ListView commentList;
-
-	@Override
-	public void onGlobalLayout() {
-
-		// 比较Activity根布局与当前布局的大小
-		int heightDiff = activityRootView.getRootView().getHeight()
-				- activityRootView.getHeight();
-		if (heightDiff > 200) {
-
-			buttom_btns.setVisibility(View.GONE);
-			comment_input.setVisibility(View.VISIBLE);
-		} else {
-			buttom_btns.setVisibility(View.VISIBLE);
-			comment_input.setVisibility(View.GONE);
-			// 大小小于100时，为不显示虚拟键盘或虚拟键盘隐藏
-		}
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -222,7 +212,7 @@ public class FunnyDetailActivity extends CommonActivity implements
 			break;
 
 		case R.id.share:
-			toast("分享");
+			Until.showShare(FunnyDetailActivity.this,handler,title,String.format(Const.STORY_DETAIL, id, type),imageUrl);
 			break;
 		case R.id.collection:
 			String add_collection_url = String.format(Const.ADD_COLLECTION_URL,
@@ -284,74 +274,69 @@ public class FunnyDetailActivity extends CommonActivity implements
 		switch (event.getKeyCode()) {
 		case KeyEvent.KEYCODE_ENTER:
 			sendComment();
-
 			break;
-
 		default:
 			break;
 		}
 		return super.dispatchKeyEvent(event);
 	}
 
-	private void sendComment() {
-		String comment = comment_text.getText().toString();
-		if (StringUtils.isEmpty(comment)) {
-			toast("评论不能为空！");
-			return;
-		}
-		imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-		buttom_btns.setVisibility(View.VISIBLE);
-		comment_input.setVisibility(View.GONE);
-		String comment_url = String.format(Const.COMMENT_URL,
-				User.getUID(self), User.getLoginToken(self), id, type);
-		try {
-			MultipartEntity entity = new MultipartEntity();
-			entity.addPart("content",
-					new StringBody(comment, Charset.forName("utf-8")));
-			HttpUtil.getRequestJsonRunnable(comment_url, entity, new Handler() {
-				@Override
-				public void handleMessage(Message msg) {
-					super.handleMessage(msg);
-					int code = JSONObject.parseObject(msg.obj.toString())
-							.getIntValue("errcode");
-					if (code == 0) {
-						toast("评论成功！");
-						getMSG();
-						getcomentlist(1, 0);
-					} else {
-						toast("评论失败!");
-					}
-				}
-			});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    /**
+     * send comment to server
+     */
+    private void sendComment() {
+        String comment = comment_text.getText().toString();
+        if(StringUtils.isEmpty(comment))
+        {
+            toast("评论不能为空！");
+            return;
+        }
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        buttom_btns.setVisibility(View.VISIBLE);
+        comment_input.setVisibility(View.GONE);
+        String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self), id, type);
+        try {
+            MultipartEntity entity = new MultipartEntity();
+            entity.addPart("content", new StringBody(comment, Charset.forName("utf-8")));
+            HttpUtil.getRequestJsonRunnable(comment_url, entity, new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    try {
 
-	}
+                        String result=msg.obj.toString();
+                        JSONObject object=JSONObject.parseObject(result);
+                        int code = object.getIntValue("errcode");
+                        if(code==0){
+                            toast("评论成功！");
+                            //refresh comment number;
+                            getMSG();
 
-	public void getMSG() {
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					String url = String.format(Const.GET_DETAIL_MSG_URL,
-							User.getUID(self), User.getLoginToken(self), id,
-							type);
-					Log.i("url", url);
-					JSONObject obj = HttpUtil.getRequestJson(url, null);
-					handler.sendMessage(handler.obtainMessage(0, obj));
-					/*
-					 * if (errcode == 0) { }
-					 */
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                            /**
+                             * get new comment
+                             */
+                            News news=new News();
+                            JSONObject jsonObject= object.getJSONObject("data");
+                            news.setContent(jsonObject.getString("content"));
+                            news.setCreatetime(jsonObject.getString("createtime"));
+                            news.setHeadpic(jsonObject.getString("headpic"));
+                            news.setNickname(jsonObject.getString("nickname"));
 
-			}
-		});
-	}
+                            newsList.add(0, news);
+                            adapter.notifyDataSetChanged();
+                        }else{
+                            toast("评论失败!");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }});
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
 	private ImageView praise;
 	private ImageView collection;
@@ -415,11 +400,10 @@ public class FunnyDetailActivity extends CommonActivity implements
 
 	}
 
-	private int page = 1;
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		getcomentlist(++page, ADD);
+        getCommentList(++page);
 
 	}
 }
