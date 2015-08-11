@@ -44,9 +44,9 @@ public class ImageAdapter extends CommonAdapter<GridItem> implements OnClickList
 		String path = t.getPath();
 		File f = FileCache.getFile(path);
 		imageLoader.DisplayImage(path, i, false);
-		TextView top = holder.getView(R.id.top_text);
+		//TextView top = holder.getView(R.id.top_text);
 		holder.getView(R.id.top_back).setOnClickListener(this);
-		top.setText(t.getTime("yyyy年MM月dd日"));
+		//top.setText(t.getTime("yyyy年MM月dd日"));
 		if (f.exists()) {
 			bm = BitmapFactory.decodeFile(f.getAbsolutePath());
 		}

@@ -1,27 +1,25 @@
 package cn.luquba678.activity;
 
-import cn.luquba678.utils.Until;
+import cn.luquba678.entity.Comment;
 import cn.luquba678.view.PullToRefreshListView;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.navisdk.util.common.StringUtils;
 import com.zhuchao.adapter.CommentAdapter;
+import com.zhuchao.share.ShareInit;
+import com.zhuchao.view_rewrite.LoadingDialog;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,25 +45,25 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	private WebView story_content_web;
 	private View comment_input;
 	private View buttom_btns;
-	private int type;
-	private int id;
 	private View activityRootView;
 	private View comment_container;
 	private PullToRefreshListView ptrlv;
 
 
-    ArrayList<News> newsList;
-    CommentAdapter adapter;
+    private ArrayList<Comment> commentArrayList;
+    private CommentAdapter adapter;
     private ImageView collection;
     private ImageView praise;
-    ListView commentList;
+    private ListView commentList;
 
-	private String url,title,imageUrl;
+    private Boolean isCollect;
+	private News news;
+	private LoadingDialog loadingDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comment_detail_news_page);
-		
+		ShareInit.initSDK(this);
 		initView();
 
 		getMSG();
@@ -77,6 +75,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
      */
     private void initView(){
 
+		loadingDialog=new LoadingDialog(CommonNewsActivity.this);
         ptrlv= getView(R.id.comment_scroll_view);
         // 设置下拉刷新可用
         ptrlv.setPullRefreshEnabled(false);
@@ -97,18 +96,13 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
         /**
          * load content of article
          */
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id", 1);
-        type = intent.getIntExtra("type", 0);
-		title=intent.getStringExtra("title");
-		imageUrl=intent.getStringExtra("imageUrl");
+		news=getIntent().getExtras().getParcelable("news");
 
         story_content_web = (WebView) container.findViewById(R.id.story_content_web);
-        url = String.format(Const.STORY_DETAIL, id, type);
         story_content_web.getSettings().setJavaScriptEnabled(true);
         story_content_web.setWebViewClient(new StoryWebView());
         // 加载需要显示的网页
-        story_content_web.loadUrl(url);
+        story_content_web.loadUrl(news.getUrl());
         container.setFocusable(false);
         container.setClickable(false);
 
@@ -120,8 +114,8 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
         /**
          * init list view of comment
          */
-        newsList=new ArrayList<News>();
-        adapter=new CommentAdapter(newsList,this,container);
+        commentArrayList=new ArrayList<Comment>();
+        adapter=new CommentAdapter(commentArrayList,this,container);
         commentList.setAdapter(adapter);
     }
 
@@ -131,8 +125,9 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
      * @param page
      */
 	private void getCommentList(int page) {
-		String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self), id, type, page);
+		String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self),news.getId(), page);
 		try {
+			loadingDialog.startProgressDialog();
 			HttpUtil.getRequestJsonRunnable(comment_list_url, null,
 					new Handler() {
 						public void handleMessage(Message msg) {
@@ -140,9 +135,9 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 							int errcode = json.getIntValue("errcode");
 							if (errcode == 0) {
 								JSONArray array = json.getJSONArray("data");
-								ArrayList<News> arrayList = News.getListFromJson(array.toJSONString());
+								ArrayList<Comment> arrayList = Comment.getListFromJson(array.toJSONString());
                                 if(arrayList!=null){
-                                    newsList.addAll(arrayList);
+                                    commentArrayList.addAll(arrayList);
                                     adapter.notifyDataSetChanged();
                                     comment_container.setVisibility(View.VISIBLE);
                                 }
@@ -153,6 +148,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 							ptrlv.onPullDownRefreshComplete();
 							ptrlv.onPullUpRefreshComplete();
 							ptrlv.setHasMoreData(true);
+							loadingDialog.stopProgressDialog();
 						}
 					});
 		} catch (Exception e) {
@@ -168,7 +164,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 			@Override
 			public void run() {
 				try {
-					String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self), id, type);
+					String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self),news.getId());
 					JSONObject obj = HttpUtil.getRequestJson(url, null);
 					handler.sendMessage(handler.obtainMessage(0, obj));
 				} catch (Exception e) {
@@ -207,8 +203,10 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 						praise.setImageResource(R.drawable.ic_praise);
 					}
 					if (is_collect != 0) {
+                        isCollect=true;
 						collection.setImageResource(R.drawable.ic_collected);
 					} else {
+                        isCollect=false;
 						collection.setImageResource(R.drawable.ic_collection);
 					}
 				}
@@ -226,48 +224,15 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 		case R.id.back_button:
 			this.finish();
 			break;
-
 		case R.id.share:
-			Until.showShare(CommonNewsActivity.this,handler,title,url,imageUrl);
-            //showShare();
+			ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),news.getIntro(),news.getPic());
 			break;
 		case R.id.collection:
-			String add_collection_url = String.format(Const.ADD_COLLECTION_URL,
-					User.getUID(self), User.getLoginToken(self), id, type);
-			try {
-				HttpUtil.getRequestJsonRunnable(add_collection_url, null,
-						new Handler() {
-							public void handleMessage(Message msg) {
-								JSONObject obj = JSONObject.parseObject(msg.obj.toString());
-								int errcode = obj.getIntValue("errcode");
-								if (errcode == 0) {
-									getMSG();
-								}
-							}
-						});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+            collectOrNot();
 			break;
 		case R.id.good:
-			String praise_url = String.format(Const.PRAISE_URL,
-					User.getUID(self), User.getLoginToken(self), id, type);
-			try {
-				HttpUtil.getRequestJsonRunnable(praise_url, null,
-						new Handler() {
-							public void handleMessage(Message msg) {
-								JSONObject obj = JSONObject.parseObject(msg.obj.toString());
-								int errcode = obj.getIntValue("errcode");
-								if (errcode == 0) {
-									getMSG();
-								}
-							}
-						});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			recognise();
 			break;
-
 		case R.id.comment:
 			buttom_btns.setVisibility(View.GONE);
 			comment_input.setVisibility(View.VISIBLE);
@@ -298,7 +263,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 		imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
 		buttom_btns.setVisibility(View.VISIBLE);
 		comment_input.setVisibility(View.GONE);
-		String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self), id, type);
+		String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self),news.getId());
 		try {
 			MultipartEntity entity = new MultipartEntity();
 			entity.addPart("content", new StringBody(comment, Charset.forName("utf-8")));
@@ -316,14 +281,14 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
                             //refresh comment number;
 							getMSG();
 
-                            News news=new News();
+                            Comment comment_result=new Comment();
                             JSONObject jsonObject= object.getJSONObject("data");
-                            news.setContent(jsonObject.getString("content"));
-                            news.setCreatetime(jsonObject.getString("createtime"));
-                            news.setHeadpic(jsonObject.getString("headpic"));
-                            news.setNickname(jsonObject.getString("nickname"));
+                            comment_result.setContent(jsonObject.getString("content"));
+                            comment_result.setComment_time(jsonObject.getString("createtime"));
+                            comment_result.setHeadpic(jsonObject.getString("headpic"));
+                            comment_result.setNickname(jsonObject.getString("nickname"));
 
-                            newsList.add(0, news);
+                            commentArrayList.add(0, comment_result);
                             adapter.notifyDataSetChanged();
 						}else{
 							toast("评论失败!");
@@ -339,6 +304,62 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 
 	}
 
+    /**
+     * good
+     */
+    private void recognise(){
+        String praise_url = String.format(Const.PRAISE_URL,
+                User.getUID(self), User.getLoginToken(self),news.getId());
+        try {
+            HttpUtil.getRequestJsonRunnable(praise_url, null,
+                    new Handler() {
+                        public void handleMessage(Message msg) {
+                            JSONObject obj = JSONObject.parseObject(msg.obj.toString());
+                            int errcode = obj.getIntValue("errcode");
+                            if (errcode == 0) {
+                                getMSG();
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * collect or cancel
+     */
+    private void collectOrNot(){
+        if(!isCollect) {
+            String add_collection_url = String.format(Const.ADD_COLLECTION_URL, User.getUID(self), User.getLoginToken(self), news.getId());
+            try {
+                HttpUtil.getRequestJsonRunnable(add_collection_url, null,
+                        new Handler() {
+                            public void handleMessage(Message msg) {
+                                JSONObject obj = JSONObject.parseObject(msg.obj.toString());
+                                int errcode = obj.getIntValue("errcode");
+                                if (errcode == 0) {
+                                    getMSG();
+                                }
+                            }
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(self), User.getLoginToken(self));
+            MultipartEntity entity = new MultipartEntity();
+            try {
+                entity.addPart("list",new StringBody("[\""+news.getId()+"\"]"));
+                JSONObject obj= HttpUtil.getRequestJson(deleteCollectionUrl, entity);
+                int err_code=obj.getIntValue("errcode");
+                if(err_code==0)
+                    getMSG();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    @Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		switch (event.getKeyCode()) {
 		case KeyEvent.KEYCODE_ENTER:
@@ -355,13 +376,9 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 
 	public static void intentToDetailNews(News news, Context context, int type) {
 		Intent intent = new Intent(context, CommonNewsActivity.class);
-		intent.putExtra("title", news.getTitle());
-		intent.putExtra("imageUrl",news.getPic());
-		intent.putExtra("content", news.getUrl());
-		intent.putExtra("oncreatetime", news.getCreatetime());
-		intent.putExtra("origin", news.getOrigin());
-		intent.putExtra("id", news.getId());
-		intent.putExtra("type", type);
+		Bundle bundle=new Bundle();
+		bundle.putParcelable("news",news);
+        intent.putExtras(bundle);
 		context.startActivity(intent);
 	}
 	@Override
@@ -385,34 +402,4 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 		}
 	}
 
-    /**
-     * share to other app
-     */
-    private void showShare() {
-        ShareSDK.initSDK(this);
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(getString(R.string.share));
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://sharesdk.cn");
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
-
-// 启动分享GUI
-        oks.show(this);
-    }
 }

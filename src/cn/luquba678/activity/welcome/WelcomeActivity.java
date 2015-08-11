@@ -2,36 +2,21 @@ package cn.luquba678.activity.welcome;
 
 import java.util.ArrayList;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baidu.navisdk.util.common.StringUtils;
-
 import cn.luquba678.R;
 import cn.luquba678.activity.CommonActivity;
 import cn.luquba678.activity.LoginActivity;
-import cn.luquba678.activity.MainFragmentActivity;
-import cn.luquba678.entity.Const;
-import cn.luquba678.entity.User;
-import cn.luquba678.ui.HttpUtil;
-import cn.luquba678.view.CircularImage;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 
 //第一次运行的引导页代码
 public class WelcomeActivity extends CommonActivity implements

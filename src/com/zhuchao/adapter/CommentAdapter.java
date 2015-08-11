@@ -15,6 +15,7 @@ import com.zhuchao.utils.ImageLoader;
 import java.util.ArrayList;
 
 import cn.luquba678.R;
+import cn.luquba678.entity.Comment;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
 
@@ -22,29 +23,29 @@ import cn.luquba678.entity.News;
  * Created by zhuchao on 8/4/15.
  */
 public class CommentAdapter extends BaseAdapter {
-    private ArrayList<News> newses;
+    private ArrayList<Comment> comments;
     private Context context;
     private LinearLayout layout;
 
     private ImageLoader loader;
-    public CommentAdapter(ArrayList<News>newses,Context context,LinearLayout layout){
-        this.newses=newses;
+    public CommentAdapter(ArrayList<Comment>comments,Context context,LinearLayout layout){
+        this.comments = comments;
         this.context=context;
         this.layout=layout;
         loader=new ImageLoader(context);
     }
     @Override
     public int getCount() {
-        if(newses==null)
+        if(comments==null)
             return 0;
-        return newses.size()+1;
+        return comments.size()+1;
     }
 
     @Override
     public Object getItem(int position) {
-        if(newses==null)
+        if(comments==null)
             return null;
-        return newses.get(position);
+        return comments.get(position);
     }
 
     @Override
@@ -72,13 +73,13 @@ public class CommentAdapter extends BaseAdapter {
             holder=(ViewHolder)convertView.getTag();
         }
 
-        News news=newses.get(position-1);
-        holder.comment_content.setText(news.getContent());
-        holder.nick_name.setText(news.getNickname());
-        holder.create_time.setText(news.getCreatetime());
-        holder.head_img.setTag(news.getHeadpic());
+        Comment comment=comments.get(position-1);
+        holder.comment_content.setText(comment.getContent());
+        holder.nick_name.setText(comment.getNickname());
+        holder.create_time.setText(comment.getComment_time());
+        holder.head_img.setTag(comment.getHeadpic());
 
-        loader.DisplayImage(news.getHeadpic(), holder.head_img);
+        loader.DisplayImage(comment.getHeadpic(), holder.head_img);
         return convertView;
     }
 

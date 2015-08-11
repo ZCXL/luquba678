@@ -3,7 +3,6 @@ package cn.luquba678.activity;
 import cn.luquba678.R;
 import cn.luquba678.ui.DialogUtil;
 import cn.luquba678.ui.FullScreenDialog;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -82,13 +81,11 @@ public class WdjyWriteActivity extends FullScreenDialog implements OnClickListen
 		case R.id.top_submit:
 			String strContentString = myWishEditText.getText().toString();
 			if (strContentString.isEmpty()) {
-				DialogUtil
-						.showDialog(activity, "亲，说点什么吧！", false);
+				DialogUtil.showDialog(activity, "亲，说点什么吧！", false);
 				return;
 			}
 			
-			Intent intent = new Intent(activity,
-					WdjySaveActivity.class);
+			Intent intent = new Intent(activity, WdjySaveActivity.class);
 			intent.putExtra("MyWish", myWishEditText.getText().toString());
 			activity.startActivityForResult(intent, 2);
 			break;

@@ -117,6 +117,9 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">16sp</item>
+    </style><style name="CustomProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
     </style><style name="home_content_text_style" parent="android:Widget.TextView">
         <item name="android:lineSpacingExtra">1dp</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
@@ -195,6 +198,12 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
+    </style><style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style><style name="personal_btn_item">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">60dp</item>
@@ -288,4 +297,7 @@
         <attr format="color" name="border_outside_color"/>
     </declare-styleable><declare-styleable name="swipelistviewstyle">
         <attr format="dimension" name="right_width"/>
-    </declare-styleable></file><file name="remote_view_layout" path="/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/remote_view_layout.xml" qualifiers="" type="layout"/></source><source path="/home/zhuchao/AndroidStudioProjects/luquba678/build/generated/res/rs/debug"/><source path="/home/zhuchao/AndroidStudioProjects/luquba678/build/generated/res/generated/debug"/></dataSet><dataSet config="debug"><source path="/home/zhuchao/AndroidStudioProjects/luquba678/build-types/debug/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="swipelistviewstyle"><attr format="dimension" name="right_width"/></declare-styleable><declare-styleable name="roundedImageView"><attr format="dimension" name="border_thickness"/><attr format="color" name="border_inside_color"/><attr format="color" name="border_outside_color"/></declare-styleable></configuration></mergedItems></merger>
+    </declare-styleable><declare-styleable name="CircularProgressBar">
+        <attr format="color" name="circle_color"/>
+        <attr format="dimension" name="width"/>
+    </declare-styleable></file><file name="remote_view_layout" path="/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/remote_view_layout.xml" qualifiers="" type="layout"/><file name="network_notification" path="/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/network_notification.xml" qualifiers="" type="layout"/><file name="customerprogressdialog" path="/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/customerprogressdialog.xml" qualifiers="" type="layout"/></source><source path="/home/zhuchao/AndroidStudioProjects/luquba678/build/generated/res/rs/debug"/><source path="/home/zhuchao/AndroidStudioProjects/luquba678/build/generated/res/generated/debug"/></dataSet><dataSet config="debug"><source path="/home/zhuchao/AndroidStudioProjects/luquba678/build-types/debug/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="swipelistviewstyle"><attr format="dimension" name="right_width"/></declare-styleable><declare-styleable name="CircularProgressBar"><attr format="color" name="circle_color"/><attr format="dimension" name="width"/></declare-styleable><declare-styleable name="roundedImageView"><attr format="dimension" name="border_thickness"/><attr format="color" name="border_inside_color"/><attr format="color" name="border_outside_color"/></declare-styleable></configuration></mergedItems></merger>

@@ -11,15 +11,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Selection;
-import android.text.Spannable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import cn.luquba678.R;
-import cn.luquba678.activity.PersonMessageActivity;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
 import cn.luquba678.ui.FullScreenDialog;
@@ -78,8 +73,7 @@ public class PersonSettingFeedBackDialog extends FullScreenDialog implements
 				}});
 			final MultipartEntity entity = new MultipartEntity();
 			String content = ed_feedback.getText().toString();
-			final String feedBackUrl = Const.FEED_BACK+"?uid="+User.getUID(context)
-					+"&login_token="+User.getLoginToken(context);
+			final String feedBackUrl = Const.FEED_BACK+"?uid="+User.getUID(context) +"&login_token="+User.getLoginToken(context);
 			try {
 				entity.addPart("content", new StringBody(content));
 			} catch (UnsupportedEncodingException e) {

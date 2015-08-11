@@ -6,10 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import cn.luquba678.R;
-import cn.luquba678.activity.PersonMessageActivity;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
 import cn.luquba678.ui.FullScreenDialog;

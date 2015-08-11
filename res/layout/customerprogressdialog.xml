@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customer="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.zhuchao.view_rewrite.CircularProgressBar
+        android:id="@+id/customer_progress_dialog_progressBar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        customer:circle_color="#ff38c8ee"
+        customer:width="1.33dp"
+        />
+</LinearLayout>

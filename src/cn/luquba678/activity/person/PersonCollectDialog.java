@@ -22,7 +22,7 @@ public class PersonCollectDialog extends Activity implements OnClickListener {
 	private void initView() {
 		top_text = (TextView) findViewById(R.id.top_text);
 		top_text.setText("我的收藏");
-		top_back = (ImageView) findViewById(R.id.top_back);
+		top_back = (ImageView) findViewById(R.id.title_top_image);
 		top_back.setOnClickListener(this);
 		collect_edit = (TextView) findViewById(R.id.collect_edit);
 		collect_edit.setOnClickListener(this);

@@ -1,7 +1,6 @@
 package cn.luquba678.activity;
 
 import internal.org.apache.http.entity.mime.MultipartEntity;
-import internal.org.apache.http.entity.mime.content.FileBody;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
 import java.io.ByteArrayOutputStream;
@@ -11,9 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONObject;
@@ -22,43 +19,29 @@ import cn.luquba678.R;
 import cn.luquba678.activity.fragment.TabMyStoryFragment;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
-import cn.luquba678.service.LoadDataFromServer;
-import cn.luquba678.service.LoadDataFromServer.DataCallBack;
 import cn.luquba678.ui.Base64;
-import cn.luquba678.ui.DialogUtil;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.ui.RoundImageView;
 import cn.luquba678.utils.BitmapUtil;
 import cn.luquba678.utils.SPUtils;
 import cn.luquba678.view.MoveTextView;
-import android.R.integer;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -69,7 +52,6 @@ import android.widget.RelativeLayout;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class WdjySaveActivity extends CommonActivity implements OnClickListener {
 	private ImageView showImgView = null;
@@ -168,9 +150,6 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener 
 				fl.addView(textView);
 				showImgView.setImageResource(mImageIds[position]);
 				mGallery.setVisibility(View.INVISIBLE);
-
-				// saveBtn.setEnabled(true);
-				// saveBtn.setTextColor(0xFFFDFDFE);
 			}
 		});
 		switchImgView = (LinearLayout) findViewById(R.id.id_tab_bottom_switch_line);
@@ -180,8 +159,6 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener 
 		switchFontTextView.setOnClickListener(this);
 
 		openAlbumTextView = (LinearLayout) findViewById(R.id.id_tab_bottom_album_line);
-		// saveBtn=(Button)findViewById(R.id.)
-		// openAlbumBtn = (ImageButton)findViewById(R.id.btn_tab_bottom_album);
 		openAlbumTextView.setOnClickListener(this);
 	}
 
@@ -225,8 +202,7 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener 
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == SELECT_PICTURE) {
-			String imgLocalPath = (String) SPUtils.get(this, "head_img",
-					"nopath");
+			String imgLocalPath = (String) SPUtils.get(this, "head_img", "nopath");
 			if (!imgLocalPath.equals("nopath")) {
 				Bitmap bm = BitmapUtil.getLoacalBitmap(imgLocalPath);
 				showImgView.setImageBitmap(bm);

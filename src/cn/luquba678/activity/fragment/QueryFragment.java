@@ -142,8 +142,8 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
 			}
 
 		};
-		//mLocationClient.registerLocationListener(mMyLocationListener);
-        mLocationClient.registerLocationListener(new MapListener());
+		mLocationClient.registerLocationListener(mMyLocationListener);
+        //mLocationClient.registerLocationListener(new MapListener());
 		mGeofenceClient = new GeofenceClient(getActivity().getApplicationContext());
 		mVibrator = (Vibrator) getActivity().getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
 		mLocationClient.start();

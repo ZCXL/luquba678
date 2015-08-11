@@ -10,12 +10,20 @@ apply plugin: 'android'
 
 dependencies {
     compile fileTree(include: '*.jar', dir: 'libs')
+    compile files('libs/libammsdk.jar')
 }
 
 android {
+    signingConfigs {
+        luquba678 {
+            keyAlias 'luquba678'
+            keyPassword 'luquba678'
+            storeFile file('/home/zhuchao/Desktop/luquba678.jks')
+            storePassword 'luquba678'
+        }
+    }
     compileSdkVersion 19
     buildToolsVersion '22.0.1'
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -25,6 +33,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
         }
 
         // Move the tests to tests/java, tests/res, etc...

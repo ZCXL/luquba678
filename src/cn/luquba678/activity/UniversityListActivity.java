@@ -1,5 +1,6 @@
 package cn.luquba678.activity;
 
+import cn.luquba678.utils.Until;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
@@ -10,24 +11,19 @@ import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
-
+import com.zhuchao.http.Network;
+import com.zhuchao.view_rewrite.LoadingDialog;
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.CommonAdapter;
-import cn.luquba678.activity.adapter.StoryAdapter;
 import cn.luquba678.activity.adapter.ViewHolder;
 import cn.luquba678.entity.Const;
-import cn.luquba678.entity.News;
 import cn.luquba678.entity.School;
-import cn.luquba678.entity.TestDB;
-import cn.luquba678.entity.User;
 import cn.luquba678.service.LoadDataFromServer;
 import cn.luquba678.service.LoadDataFromServer.DataCallBack;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 import cn.luquba678.view.PullToRefreshListView;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,26 +31,23 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UniversityListActivity extends CommonActivity implements
-		OnClickListener, OnItemClickListener, OnRefreshListener<ListView> {
+public class UniversityListActivity extends CommonActivity implements OnClickListener, OnItemClickListener, OnRefreshListener<ListView> {
 
 	private ListView universityList;
-	private cn.luquba678.utils.ImageLoader ima = new cn.luquba678.utils.ImageLoader(
-			this);
+	private cn.luquba678.utils.ImageLoader ima = new cn.luquba678.utils.ImageLoader(this);
 	private List<School> schoolList;
 	private CommonAdapter<School> adapter;
 	private int page = 1;
+	private LoadingDialog loadingDialog;
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -62,9 +55,7 @@ public class UniversityListActivity extends CommonActivity implements
 			if (msg.obj != null) {
 				hasMoreData = true;
 				if (adapter == null) {
-					adapter = new CommonAdapter<School>(self,
-							(ArrayList<School>) msg.obj,
-							R.layout.list_university_item) {
+					adapter = new CommonAdapter<School>(self, (ArrayList<School>) msg.obj, R.layout.list_university_item) {
 						@Override
 						public void setViews(ViewHolder holder, School t, int p) {
 							TextView count = holder
@@ -106,6 +97,7 @@ public class UniversityListActivity extends CommonActivity implements
 			ptrlv.onPullDownRefreshComplete();
 			ptrlv.onPullUpRefreshComplete();
 			ptrlv.setHasMoreData(hasMoreData);
+            loadingDialog.stopProgressDialog();
 		}
 	};
 
@@ -130,6 +122,7 @@ public class UniversityListActivity extends CommonActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_university_list);
+        loadingDialog=new LoadingDialog(this);
 		findViewById(R.id.top_back).setOnClickListener(this);
 		((TextView) findViewById(R.id.top_text)).setText("学校排名");
 
@@ -151,40 +144,48 @@ public class UniversityListActivity extends CommonActivity implements
 	private final static int ADD = 0, CHANGE = 1;
 
 	public void getSchoolList(final int page, final int type) {
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Message msg = new Message();
-					JSONObject obj = JSONObject.parseObject(HttpUtil
-							.postRequestEntity(Const.SCHOOL_QUERY + page, null));
+		if(Network.checkNetWorkState(UniversityListActivity.this)) {
+            loadingDialog.startProgressDialog();
+			Executors.newSingleThreadExecutor().execute(
+					new Runnable() {
+						@Override
+						public void run() {
+							try {
+								Message msg = new Message();
+								JSONObject obj = JSONObject.parseObject(HttpUtil
+										.postRequestEntity(Const.SCHOOL_QUERY + page, null));
 
-					Integer errcode = obj.getInteger("errcode");
-					msg.what = errcode;
-					JSONArray arry = obj.getJSONArray("data");
-					ArrayList<School> schoolListArry = School.getListFromJson(arry.toString());
-					switch (type) {
-					case CHANGE:
-						schoolList = schoolListArry;
-						break;
-					default:
-						if (schoolList != null) {
-							schoolList.addAll(schoolListArry);
-						} else {
-							schoolList = schoolListArry;
+								Integer errcode = obj.getInteger("errcode");
+								msg.what = errcode;
+								JSONArray arry = obj.getJSONArray("data");
+								ArrayList<School> schoolListArry = School.getListFromJson(arry.toString());
+								switch (type) {
+									case CHANGE:
+										schoolList = schoolListArry;
+										break;
+									default:
+										if (schoolList != null) {
+											schoolList.addAll(schoolListArry);
+										} else {
+											schoolList = schoolListArry;
+										}
+										break;
+								}
+								msg.obj = schoolList;
+								handler.sendMessage(msg);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
 						}
-						break;
 					}
-					msg.obj = schoolList;
-					handler.sendMessage(msg);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
+			);
+		}else{
+			/**
+			 * send network broadcast
+			 */
+			Until.sendNetworkBroadcast(UniversityListActivity.this);
 		}
-
-		);
 
 	}
 
@@ -203,9 +204,6 @@ public class UniversityListActivity extends CommonActivity implements
 
 			LoadDataFromServer task = new LoadDataFromServer(Const.QUERY_SCHOOL_DETAIL, entity);
 			task.getData(new DataCallBack() {
-
-				private ArrayList<School> schoolListArry;
-				private boolean hasMoreData = false;
 
 				@Override
 				public void onDataCallBack(int what, Object data) {

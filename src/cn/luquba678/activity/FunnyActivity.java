@@ -6,20 +6,21 @@ import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zhuchao.utils.LayoutUtils;
+import com.zhuchao.http.Network;
+import com.zhuchao.view_rewrite.LoadingDialog;
 
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.StoryAdapter;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
 import cn.luquba678.ui.HttpUtil;
+import cn.luquba678.utils.Until;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 import cn.luquba678.view.PullToRefreshListView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -46,7 +47,7 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 
 	private PullToRefreshListView ptrlv;
 
-
+	private LoadingDialog loadingDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 	}
 
 	private void initView() {
+		loadingDialog=new LoadingDialog(FunnyActivity.this);
 		stories=new ArrayList<News>();
 		jokes=new ArrayList<News>();
 		pictures=new ArrayList<News>();
@@ -152,48 +154,57 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
             /**
              * finish load
              */
-           // LayoutUtils.setListViewHeightBasedOnChildren(listview);
 			ptrlv.onPullDownRefreshComplete();
 			ptrlv.onPullUpRefreshComplete();
 			ptrlv.setHasMoreData(true);
+            loadingDialog.stopProgressDialog();
 			super.handleMessage(msg);
 		}
 	};
 
-	public void setFunny(final int page, final int type, final int action) {Executors.newSingleThreadExecutor().execute(new Runnable() {
-		@Override
-		public void run() {
-			try {
-				/**
-				 * get data from server
-				 */
-				String url = String.format(Const.FUNNY_QUERY, page, type);
-				JSONObject obj = HttpUtil.getRequestJson(url, null);
-				Integer errcode = obj.getInteger("errcode");
-
-				/**
-				 * add data
-				 */
-				if (errcode == 0) {
-					JSONArray array = obj.getJSONArray("data");
-					ArrayList<News> arrays = News.getListFromJson(array.toString());
-					if (arrays != null && arrays.size() > 0) {
+	public void setFunny(final int page, final int type, final int action) {
+		if(Network.checkNetWorkState(FunnyActivity.this)) {
+            loadingDialog.startProgressDialog();
+			Executors.newSingleThreadExecutor().execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
 						/**
-						 * sava data
+						 * get data from server
 						 */
-						processData(arrays, action, type);
-						handler.sendEmptyMessage(0);
-					} else {
-						handler.sendEmptyMessage(1);
+						String url = String.format(Const.FUNNY_QUERY, page, type);
+						JSONObject obj = HttpUtil.getRequestJson(url, null);
+						Integer errcode = obj.getInteger("errcode");
+
+						/**
+						 * add data
+						 */
+						if (errcode == 0) {
+							JSONArray array = obj.getJSONArray("data");
+							ArrayList<News> arrays = News.getListFromJson(array.toString());
+							if (arrays != null && arrays.size() > 0) {
+								/**
+								 * sava data
+								 */
+								processData(arrays, action, type);
+								handler.sendEmptyMessage(0);
+							} else {
+								handler.sendEmptyMessage(1);
+							}
+						} else {
+							handler.sendEmptyMessage(2);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} else {
-					handler.sendEmptyMessage(2);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			});
+		}else{
+			/**
+			 * send network broadcast
+			 */
+			Until.sendNetworkBroadcast(FunnyActivity.this);
 		}
-	});
 	}
 
 	@Override
@@ -207,7 +218,6 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
             news=jokes.get(arg2);
         }
 		FunnyDetailActivity.intentToDetailNews(news, self, currentType);
-        //CommonNewsActivity.intentToDetailNews(news, self,currentType);
 	}
 
 	public void addFunny() {

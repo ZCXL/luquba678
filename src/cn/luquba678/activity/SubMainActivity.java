@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhuchao.http.Network;
+import com.zhuchao.view_rewrite.LoadingDialog;
 
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.StoryAdapter;
@@ -13,6 +15,7 @@ import cn.luquba678.entity.FamousSays;
 import cn.luquba678.entity.News;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.utils.ImageLoader;
+import cn.luquba678.utils.Until;
 import cn.luquba678.view.ImgScrollViewPager;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
@@ -46,11 +49,19 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
 	private static final int LZGS = 1;
 	private static final int ZYXD = 2;
 
+	private LoadingDialog loadingDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_story_main_page);
-		// findViewById(R.id.top_back).setOnClickListener(this);
+
+		initView();
+
+	}
+
+	private void initView(){
+		loadingDialog=new LoadingDialog(SubMainActivity.this);
+
 		setOnClickLinstener(R.id.top_back);
 		top_text = getView(R.id.top_text);
 		String top_text_str = getIntent().getStringExtra("title");
@@ -87,7 +98,6 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
 			getView(R.id.ad_relativeLayout).setVisibility(View.VISIBLE);
 			fa.setVisibility(View.GONE);
 			url = Const.CHAMPION_EXPERIENCE;
-			// task = new LoadDataFromServer(Const.STORY_QUERY, true);
 			initAds();
 		}
 
@@ -100,28 +110,30 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
 		listview = ptrlv.getRefreshableView();
 		setStory(page, 0);
 		ptrlv.setOnRefreshListener(this);
-
 	}
-
+    /**
+     * init advertisement
+     */
 	private void initAds() {
 		ovalLayout = (LinearLayout) findViewById(R.id.indicator);
 
 		InitViewPager();// 初始化图片
 		// 开始滚动
-		mmPager.start(this, listViews, 4000, ovalLayout,
-				R.layout.ad_bottom_item, R.id.ad_item_v,
-				R.drawable.rectangle_focused, R.drawable.rectangle_normal);
+		mmPager.start(this, listViews, 4000, ovalLayout, R.layout.ad_bottom_item, R.id.ad_item_v, R.drawable.rectangle_focused, R.drawable.rectangle_normal);
 	}
 
 	private ArrayList<News> newsList=new ArrayList<News>();
 	private int page = 1;
 	private boolean hasMoreData = false;
 
+    /**
+     * init view pager
+     */
 	private void InitViewPager() {
 		listViews = new ArrayList<View>();
 		mImageLoader = new ImageLoader(this);
-		String[] imageRes = new String[] {
-				"http://a3.qpic.cn/psb?/V11it1sf1LpN71/tw1s.zTmxhv7NPhhyNWap44*Ej1v.iLvBEWZclJ7wY4!/b/dAgAAAAAAAAA&bo=0AKKAQAAAAADB3s!&rf=viewer_4",
+		String[] imageRes = new String[]
+				{"http://a3.qpic.cn/psb?/V11it1sf1LpN71/tw1s.zTmxhv7NPhhyNWap44*Ej1v.iLvBEWZclJ7wY4!/b/dAgAAAAAAAAA&bo=0AKKAQAAAAADB3s!&rf=viewer_4",
 				"http://a3.qpic.cn/psb?/V11it1sf1LpN71/FwNA4tZcuAg9mV3qoClRcj0X7Nv9swntRByyscuChM4!/b/dBQAAAAAAAAA&bo=qAJ0AQAAAAADAPo!&rf=viewer_4",
 				"http://a3.qpic.cn/psb?/V11it1sf1LpN71/tw1s.zTmxhv7NPhhyNWap44*Ej1v.iLvBEWZclJ7wY4!/b/dAgAAAAAAAAA&bo=0AKKAQAAAAADB3s!&rf=viewer_4",
 				"http://a3.qpic.cn/psb?/V11it1sf1LpN71/FwNA4tZcuAg9mV3qoClRcj0X7Nv9swntRByyscuChM4!/b/dBQAAAAAAAAA&bo=qAJ0AQAAAAADAPo!&rf=viewer_4" };
@@ -130,45 +142,58 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
 			RelativeLayout relativeLayout = (RelativeLayout) View.inflate(this,
 					R.layout.loop_ad_item, null);
 
-			ImageView imageView = (ImageView) relativeLayout
-					.findViewById(R.id.ad_image);
-			// ImageView imageView = new ImageView(this);
+			ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.ad_image);
 			imageView.setOnClickListener(new ClickAd(i));
 			mImageLoader.DisplayImage(imageRes[i], imageView, false);
-			// imageView.setImageUrl(imageRes[i], imageLoader); //
 			imageView.setScaleType(ScaleType.CENTER_CROP);
 			listViews.add(relativeLayout);
 		}
 	}
 
+    /**
+     * set story list
+     * @param page
+     * @param action
+     */
 	public void setStory(final int page, final int action) {
-		this.page = page;
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					String path = url+page;
-					JSONObject obj = HttpUtil.getRequestJson(path, null);
-					Integer errcode = obj.getInteger("errcode");
-					Message msg = new Message();
-					msg.what = errcode;
-					if (errcode == 0) {
-						JSONArray arry = obj.getJSONArray("data");
-						if(arry!=null){
-							ArrayList<News> arrys = News.getListFromJson(arry.toString());
-							newsList.addAll(arrys);
-							handler.sendEmptyMessage(0);
-						}else{
-							handler.sendEmptyMessage(2);
-						}
-					}else{
-						handler.sendEmptyMessage(1);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+        if(Network.checkNetWorkState(SubMainActivity.this)) {
+			loadingDialog.startProgressDialog();
+            this.page = page;
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String path = url + page;
+                        JSONObject obj = HttpUtil.getRequestJson(path, null);
+                        Integer err_code = obj.getInteger("errcode");
+                        if (err_code == 0) {
+                            JSONArray arry = obj.getJSONArray("data");
+                            if (arry != null) {
+                                ArrayList<News> array = News.getListFromJson(arry.toString());
+                                if (action == 0) {
+                                    newsList.clear();
+                                    newsList.addAll(array);
+                                } else {
+                                    newsList.addAll(array);
+                                }
+                                handler.sendEmptyMessage(0);
+                            } else {
+                                handler.sendEmptyMessage(2);
+                            }
+                        } else {
+                            handler.sendEmptyMessage(1);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else {
+            /**
+             * Network notification
+             */
+            Until.sendNetworkBroadcast(SubMainActivity.this);
+        }
 	}
 
 	private Handler handler = new Handler() {
@@ -197,6 +222,7 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
                 default:
                     break;
 			}
+			loadingDialog.stopProgressDialog();
 		}
 	};
 	private int type;

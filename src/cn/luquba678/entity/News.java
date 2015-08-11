@@ -1,70 +1,56 @@
 package cn.luquba678.entity;
 
-import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import android.util.Log;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import cn.luquba678.utils.DateUtils;
 
 import com.baidu.navisdk.util.common.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class News {
+public class News implements Parcelable{
 	// 题目 图 详情链接
 	private String title, pic, url;
 	// 来源
 	private String origin;
-	private String headpic;
-	private String nickname;
-	private int id;
-	private String name;
-	private String school;
+	private String id;
 	private String createtime;
-	private String content;
-	private Integer type;
+	private String intro;
+	private String author;
 
-	public News(int id,Integer type,String pic, String origin,  String createtime,
-			String content) {
+	public News(String id,String pic, String origin,String createtime,String title,String intro,String author,String url) {
 		super();
+		this.id = id;
+		this.title=title;
 		this.pic = pic;
 		this.origin = origin;
-		this.id = id;
+		this.intro=intro;
+		this.author=author;
+		this.url=url;
 		this.createtime = createtime;
-		this.content = content;
-		this.type=type;
 	}
 
 	public News() {
+
 	}
 
-	public String getHeadpic() {
-		if (StringUtils.isEmpty(headpic))
-			return null;
-		else
-			return headpic;
+	public String getIntro() {
+		return intro;
 	}
 
-	public void setHeadpic(String headpic) {
-		this.headpic = headpic;
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getTitle() {
@@ -102,57 +88,69 @@ public class News {
 		this.origin = origin;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getCreatetime() {
-		if (StringUtils.isNotEmpty(createtime))
-			return DateUtils.timeHint(Long.parseLong(createtime) * 1000,
-					"yyyy年MM月dd日");
-		else
-			return "";
-	}
+    public String getCreatetime() {
+        if (StringUtils.isNotEmpty(createtime))
+            return DateUtils.timeHint(Long.parseLong(createtime) * 1000,
+                    "yyyy年MM月dd日");
+        else
+            return "";
+    }
 
-	public void setCreatetime(String createtime) {
-		this.createtime = createtime;
-	}
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
 
-	public static ArrayList<News> getListFromJson(String jsonData) {
-		Type listType = new TypeToken<ArrayList<News>>() {
-		}.getType();
+    public static ArrayList<News> getListFromJson(String jsonData) {
+		Type listType = new TypeToken<ArrayList<News>>() {}.getType();
 		Gson gson = new Gson();
 
 		ArrayList<News> queryList = gson.fromJson(jsonData, listType);
 		return queryList;
 	}
 
-	public Integer getType() {
-		return type;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(pic);
+        dest.writeString(url);
+        dest.writeString(origin);
+        dest.writeString(createtime);
+        dest.writeString(intro);
+        dest.writeString(author);
+    }
+    public static  final Parcelable.Creator<News>CREATOR=new Creator<News>() {
+        @Override
+        public News createFromParcel(Parcel source) {
+            return new News(source);
+        }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSchool() {
-		return school;
-	}
-
-	public void setSchool(String school) {
-		this.school = school;
-	}
-
+        @Override
+        public News[] newArray(int size) {
+            return new News[size];
+        }
+    };
+    protected News(Parcel in) {
+        id=in.readString();
+        title=in.readString();
+        pic=in.readString();
+        url=in.readString();
+        origin=in.readString();
+        createtime=in.readString();
+        intro=in.readString();
+        author=in.readString();
+    }
 }

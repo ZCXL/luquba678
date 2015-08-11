@@ -162,19 +162,11 @@ public class MainFragmentActivity extends FragmentActivity implements
 	}
 	@Override
 	protected void onStop() {
-		/*
-		 * if (intentService != null) { unbindService(conn);
-		 * this.stopService(intentService); }
-		 */
 		super.onStop();
 	}
 
 	@Override
 	protected void onPause() {
-		/*
-		 * if (intentService != null) { this.stopService(intentService);
-		 * unbindService(conn); }
-		 */
 		super.onPause();
 	}
     @Override

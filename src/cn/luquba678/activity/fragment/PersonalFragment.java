@@ -5,7 +5,6 @@ import cn.luquba678.activity.LoginActivity;
 import cn.luquba678.activity.PersonAccountDialog;
 import cn.luquba678.activity.PersonMessageActivity;
 import cn.luquba678.activity.person.PersonCollectActivity;
-import cn.luquba678.activity.person.PersonQuitDialog;
 import cn.luquba678.activity.person.PersonSettingDialog;
 import cn.luquba678.utils.BitmapUtil;
 import cn.luquba678.utils.SPUtils;
@@ -118,6 +117,7 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 			name.setText(SPUtils.get(getActivity(), "nickname", "ss").toString());
 			detail.setText(SPUtils.get(getActivity(), "intro", "***").toString());
 			new DownloadImageTask().execute(SPUtils.get(getActivity(), "headpic", "sss").toString());
+			HomeFragment.setYear((String)SPUtils.get(getActivity(),"year","2016"));
 		}
 	}
 

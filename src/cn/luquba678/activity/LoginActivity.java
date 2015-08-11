@@ -1,20 +1,23 @@
 package cn.luquba678.activity;
 
+import cn.luquba678.utils.Until;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
-import android.app.ProgressDialog;
+import com.zhuchao.receiver.NetworkReceiver;
+import com.zhuchao.view_rewrite.LoadingDialog;
+
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -46,40 +49,58 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 
-public class LoginActivity extends CommonActivity implements OnClickListener,
-		TextWatcher, OnFocusChangeListener {
+public class LoginActivity extends CommonActivity implements OnClickListener, TextWatcher, OnFocusChangeListener {
 
 	private EditText username;
-	private ProgressDialog dialog;
 	private EditText password;
 	private ScrollView mScrollView;
 	private Button do_login;
 
+    private NetworkConnectReceiver networkConnectReceiver;
+    private LoadingDialog loadingDialog;
     private Info info;
 
+
+    private SharedPreferences sharedPreferences;
+    private Editor editor;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		setOnClickLinstener(R.id.go_regist, R.id.go_reset_password,
-				R.id.do_login_btn, R.id.login_wechat, R.id.login_weibo,
-				R.id.login_qq);
+		setOnClickLinstener(R.id.go_regist, R.id.go_reset_password, R.id.do_login_btn, R.id.login_wechat, R.id.login_weibo, R.id.login_qq);
 		ShareSDK.initSDK(this);
-		dialog = new ProgressDialog(LoginActivity.this);
 		do_login = getView(R.id.do_login_btn);
 		username = (EditText) findViewById(R.id.username);
 		password = (EditText) findViewById(R.id.password);
-		// username.addTextChangedListener(this);
-		// password.addTextChangedListener(this);
 		username.setOnFocusChangeListener(this);
 		password.setOnFocusChangeListener(this);
 		mScrollView = (ScrollView) findViewById(R.id.loging_scroll);
 		password.addTextChangedListener(new TextLenthWatcher(do_login, 6));
-		remberMe();
+
+        loadingDialog=new LoadingDialog(LoginActivity.this);
+        /**
+         * while network is connected,update view.
+         */
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(NetworkReceiver.NETWORK_CONNECT);
+        filter.addAction(NetworkReceiver.NETWORK_DISCONNECT);
+        networkConnectReceiver=new NetworkConnectReceiver();
+        this.registerReceiver(networkConnectReceiver, filter);
+
+        /**
+         * load info that is saved in Share Memory
+         */
+		rememberMe();
 	}
 
-	private SharedPreferences sharedPreferences;
-	private Editor editor;
+    @Override
+    public void onDestroy(){
+        if(networkConnectReceiver!=null){
+            unregisterReceiver(networkConnectReceiver);
+        }
+        super.onDestroy();
+    }
+
 
 	private void saveUserInfo(String str) {
 		editor.putString(User.LUQUBA_USER_INFO, str);
@@ -87,13 +108,12 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 	}
 
 	/**
-	 * get user info who logined last time
+	 * get user info who login last time
 	 * and set value of edit text
 	 */
-	private void remberMe() {
+	private void rememberMe() {
 		editor = User.getUserEditor(self);
-		sharedPreferences = getSharedPreferences("luquba_login",
-				Context.MODE_PRIVATE);
+		sharedPreferences = getSharedPreferences("luquba_login", Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();// 获取编辑器
 
 		String userName = sharedPreferences.getString(User.TEL, "");
@@ -103,7 +123,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 	}
 
 	/**
-	 * loging by using telephone number
+	 * login by using telephone number
 	 * @param tel
 	 * @param pass
 	 */
@@ -115,9 +135,8 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
 		MultipartEntity entity = new MultipartEntity();
 
-		dialog.setMessage("正在登录...");
-		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		dialog.show();
+        loadingDialog.startProgressDialog();
+
 		try {
 			//set key-value about user
 			entity.addPart("tel", new StringBody(tel));
@@ -154,7 +173,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 								SPUtils.put(LoginActivity.this, "year",jsonUser.get("year").toString());
 								SPUtils.put(LoginActivity.this,"login_type","phone_number");
 
-								dialog.dismiss();
 								String login_token = jsonObject.getString("login_token");
 								saveUserInfo(data.toString());
 
@@ -174,38 +192,33 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 								self.finish();
 
 
-							} else if (code == 1) {
-
-								dialog.dismiss();
+							} else if (code == 50003) {
 								toast("密码错误...");
 
 							} else if (code == 3) {
-
-								dialog.dismiss();
 								toast("服务器端注册失败...");
 
 							} else {
-
-								dialog.dismiss();
 								toast("服务器繁忙请重试...");
 
 							}
 
 						} catch (JSONException e) {
-
-							dialog.dismiss();
 							toast("数据解析错误...");
 							e.printStackTrace();
-						}
+						}finally {
+                            loadingDialog.stopProgressDialog();
+                        }
 
 					} else {
-						dialog.dismiss();
+                        loadingDialog.stopProgressDialog();
 						toast("服务器出错...");
 					}
 				}
 			});
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
+            loadingDialog.stopProgressDialog();
 			e1.printStackTrace();
 		}
 	}
@@ -223,19 +236,20 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 			loginService(user, pass);
 			break;
 		case R.id.go_regist:
-			Intent registIntent = new Intent(this, RegisterActivity.class);
-			this.startActivity(registIntent);
+			Intent registerIntent = new Intent(this, RegisterActivity.class);
+			this.startActivity(registerIntent);
 			break;
 		case R.id.go_reset_password:
-			Intent resetpassIntent = new Intent(this, ResetPassActivity1.class);
-			this.startActivity(resetpassIntent);
+			Intent resetPassIntent = new Intent(this, ResetPassActivity1.class);
+			this.startActivity(resetPassIntent);
 			break;
 		case R.id.login_wechat:
 			Platform weChat = ShareSDK.getPlatform(this, Wechat.NAME);
-			//weChat.removeAccount();
+			weChat.removeAccount();
 			weChat.setPlatformActionListener(mActionListener);
             weChat.SSOSetting(true);
 			weChat.showUser(null);
+            loadingDialog.startProgressDialog();
 			break;
 		case R.id.login_weibo:
 			Platform weibo = ShareSDK.getPlatform(this, SinaWeibo.NAME);
@@ -243,12 +257,14 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 			weibo.setPlatformActionListener(mActionListener);
 			weibo.SSOSetting(true);
 			weibo.showUser(null);
+            loadingDialog.startProgressDialog();
 			break;
 		case R.id.login_qq:
 			Platform qq = ShareSDK.getPlatform(this, QQ.NAME);
 			qq.removeAccount();
 			qq.setPlatformActionListener(mActionListener);
 			qq.showUser(null);
+            loadingDialog.startProgressDialog();
 			break;
 		default:
 			break;
@@ -259,7 +275,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
 		@Override
 		public void onError(Platform arg0, int arg1, Throwable arg2) {
-            mhandler.sendEmptyMessage(1);
+            mHandler.sendEmptyMessage(1);
 		}
 
 		@Override
@@ -273,17 +289,17 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
                 //get weibo info
                 info.nickname=res.get("name").toString();
-                info.headpic=res.get("avatar_hd").toString();
+                info.head_pic=res.get("avatar_hd").toString();
                 info.uid=res.get("id").toString();
 				info.type="weibo";
             }else if(platformName.equals(Wechat.NAME)){
-                Log.d("wyb","lalalalalal");
+
             }else if(platformName.equals(QQ.NAME)){
 
                 //get qq info
                 info.nickname=res.get("nickname").toString();
-                info.headpic=res.get("figureurl_qq_2").toString();
-                String temp=new String(info.headpic);
+                info.head_pic=res.get("figureurl_qq_2").toString();
+                String temp=new String(info.head_pic);
                 temp=temp.substring(temp.indexOf("1104470925/")+11);
                 temp=temp.substring(0,temp.indexOf("/"));
                 info.uid=temp;
@@ -294,15 +310,15 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 			Message msg = new Message();
 			msg.obj = info;
 			msg.what = 1;
-			mhandler.sendMessage(msg);
+			mHandler.sendMessage(msg);
 		}
 
 		@Override
 		public void onCancel(Platform arg0, int arg1) {
-            mhandler.sendEmptyMessage(2);
+            mHandler.sendEmptyMessage(2);
 		}
 	};
-	Handler mhandler = new Handler() {
+	Handler mHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -312,9 +328,11 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 					otherLogin((Info)msg.obj);
 					break;
 				case 2:
+                    loadingDialog.stopProgressDialog();
 					toast("Login failed");
 					break;
 				case 3:
+                    loadingDialog.stopProgressDialog();
 					toast("Have canceled login");
 					break;
 
@@ -349,14 +367,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 			mScrollView.scrollTo(0, 200);
 	}
 
-	public void loginOut() {
-		sharedPreferences = getSharedPreferences("luquba_login",
-				Context.MODE_PRIVATE);
-		editor = sharedPreferences.edit();// 获取编辑器
-		editor.putString("login_token", "");
-		editor.putString("uid", "");
-		editor.commit();
-	}
 
     /**
      * upload user info from other platform
@@ -365,15 +375,11 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
     private void otherLogin(final Info info){
 
         MultipartEntity entity = new MultipartEntity();
-
-        dialog.setMessage("正在登录...");
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.show();
         try {
             //set key-value about user
             entity.addPart(User.UID, new StringBody(info.uid, Charset.forName("utf-8")));
             entity.addPart(User.NICKNAME, new StringBody(info.nickname, Charset.forName("utf-8")));
-            entity.addPart(User.HEADPIC,new StringBody(info.headpic, Charset.forName("utf-8")));
+            entity.addPart(User.HEADPIC,new StringBody(info.head_pic, Charset.forName("utf-8")));
 
             LoadDataFromServer task = new LoadDataFromServer(Const.OTHER_LOGIN_URL,entity);
 
@@ -392,8 +398,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
                             if (code == 0) {
                                 String jsonObj = jsonObject.get("user").toString();
                                 JSONObject jsonUser = JSONObject.parseObject(jsonObj);
-
-
                                 //save new value from server
                                 SPUtils.put(LoginActivity.this, "address",jsonUser.get("address").toString());
                                 SPUtils.put(LoginActivity.this, "birth",jsonUser.get("birth").toString());
@@ -404,9 +408,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
                                 SPUtils.put(LoginActivity.this, "sex",jsonUser.get("sex").toString());
                                 SPUtils.put(LoginActivity.this, "type",jsonUser.get("type").toString());
                                 SPUtils.put(LoginActivity.this, "year",jsonUser.get("year").toString());
-								SPUtils.put(LoginActivity.this,"login_type",info.type);
-
-                                dialog.dismiss();
+                                SPUtils.put(LoginActivity.this,"login_type",info.type);
                                 String login_token = jsonObject.getString("login_token");
                                 saveUserInfo(data.toString());
 
@@ -427,45 +429,56 @@ public class LoginActivity extends CommonActivity implements OnClickListener,
 
 
                             } else if (code == 1) {
-
-                                dialog.dismiss();
                                 toast("密码错误...");
 
                             } else if (code == 3) {
-
-                                dialog.dismiss();
                                 toast("服务器端注册失败...");
 
                             } else {
-
-                                dialog.dismiss();
                                 toast("服务器繁忙请重试...");
 
                             }
 
                         } catch (JSONException e) {
-
-                            dialog.dismiss();
                             toast("数据解析错误...");
                             e.printStackTrace();
+                        }finally {
+                            loadingDialog.stopProgressDialog();
                         }
 
                     } else {
-                        dialog.dismiss();
+                        loadingDialog.stopProgressDialog();
                         toast("服务器出错...");
                     }
                 }
             });
         } catch (UnsupportedEncodingException e1) {
             // TODO Auto-generated catch block
+            loadingDialog.stopProgressDialog();
             e1.printStackTrace();
         }
     }
-    //other platform information
+
+	/**
+	 * other platform information
+	 */
     class Info{
         String uid;
-        String headpic;
+        String head_pic;
         String nickname;
 		String type;
+    }
+    /**
+     * receive broadcast to update
+     */
+    public class NetworkConnectReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals( NetworkReceiver.NETWORK_CONNECT)){
+
+            }else if(intent.getAction().equals(NetworkReceiver.NETWORK_DISCONNECT)){
+                Until.showConnectNetDialog(LoginActivity.this);
+            }
+        }
     }
 }

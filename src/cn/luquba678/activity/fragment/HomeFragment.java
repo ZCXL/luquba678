@@ -4,19 +4,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.luquba678.R;
-import cn.luquba678.activity.CommonNewsActivity;
 import cn.luquba678.activity.FunnyActivity;
 import cn.luquba678.activity.PrettySchoolMateActivity;
 import cn.luquba678.activity.SubMainActivity;
-import cn.luquba678.activity.MajorsDetailActivity;
 import cn.luquba678.activity.UniversityListActivity;
-import cn.luquba678.entity.ResourseAndText;
 import cn.luquba678.utils.DateUtils;
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
-import android.app.Activity;
+import cn.luquba678.utils.SPUtils;
+
 import android.content.Intent;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,15 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
@@ -41,7 +28,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		OnCheckedChangeListener {
 
 	private TextView count;
-	private String year;
+	public static String year;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,9 +48,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		((TextView) findViewById(R.id.top_text)).setText("录取吧");
 		// 到顶部
 		count = (TextView) findViewById(R.id.count);
-		// year = DateUtils.formatDate("yyyy", System.currentTimeMillis());
-		year = "2016";
-		// updateHandler.post(updateThread);
+		year = (String)SPUtils.get(getActivity(),"year","2016");
+		if(Integer.parseInt(year)<2016)
+			year="2016";
 		findViewById(R.id.home_champion_experience).setOnClickListener(this);
 		findViewById(R.id.home_funny).setOnClickListener(this);
 		findViewById(R.id.home_pretty_school_mate).setOnClickListener(this);
@@ -105,6 +92,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+
 	}
 
 	private boolean countFlag = true;
@@ -120,8 +108,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			msg.obj = DateUtils
-					.countNationalHigherEducationEntranceExamination(year);
+			msg.obj = DateUtils.countNationalHigherEducationEntranceExamination(year);
 			// 把此消息发送到消息队列中
 			if (countFlag) {
 
@@ -153,8 +140,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onResume() {
-		count.setText(DateUtils
-				.countNationalHigherEducationEntranceExamination(year));
+		count.setText(DateUtils.countNationalHigherEducationEntranceExamination(year));
 		ste.execute(updateThread);
 		super.onResume();
 	}
@@ -166,4 +152,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		super.onStart();
 	}
 
+    /**
+     * set new year
+     * @param year
+     */
+    public static void setYear(String year){
+        HomeFragment.year=year;
+    }
 }

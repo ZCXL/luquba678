@@ -1,22 +1,20 @@
 package cn.luquba678.activity.person;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.zhuchao.share.ShareInit;
+
 import cn.luquba678.R;
-import cn.luquba678.activity.MainFragmentActivity;
+import cn.luquba678.entity.Const;
 import cn.luquba678.ui.FullScreenDialog;
 import cn.luquba678.utils.Until;
 
-public class PersonSettingDialog extends FullScreenDialog implements
-		View.OnClickListener {
+public class PersonSettingDialog extends FullScreenDialog implements View.OnClickListener {
 	private Context context;
 	private LinearLayout ll_feedback, ll_person_about, ll_share,person_question;
 	private PersonSettingFeedBackDialog pFeedBackDialog;
@@ -40,6 +38,7 @@ public class PersonSettingDialog extends FullScreenDialog implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.person_setting);
+		ShareInit.initSDK(context);
 		initView();
 		initTitle(findViewById(R.id.person_setting_title), "设置");
 	}
@@ -72,8 +71,8 @@ public class PersonSettingDialog extends FullScreenDialog implements
 			pSettingAboutDialog.show();
 			break;
 		case R.id.share_friend:
-			Until.showShare(context, mHandler,"录取吧","http://120.26.112.250/apk/luquba.apk","http://120.26.112.250/apk/678icon.jpg");
-            break;
+			ShareInit.showShare(false,null,context,"录取吧","http://120.26.112.250/apk/luquba.apk","录取吧Download link!","http://120.26.112.250/apk/678icon.jpg");
+			break;
 		case R.id.person_question:
 			personCommonMistakeDialog = new PersonCommonMistakeDialog(context);
 			personCommonMistakeDialog.show();

@@ -1,6 +1,6 @@
 package cn.luquba678.activity;
 
-import cn.luquba678.utils.Until;
+import cn.luquba678.entity.Comment;
 import cn.luquba678.view.PullToRefreshListView;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
@@ -13,13 +13,16 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.navisdk.util.common.StringUtils;
 import com.zhuchao.adapter.CommentAdapter;
+import com.zhuchao.share.ShareInit;
 import com.zhuchao.utils.ImageLoader;
+import com.zhuchao.view_rewrite.LoadingDialog;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,23 +42,21 @@ import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 
 public class FunnyDetailActivity extends CommonActivity implements OnClickListener,OnRefreshListener<ListView> {
 	private PullToRefreshListView ptrlv;
-	private int type;
-	private int id;
 	private EditText comment_text;
 	private InputMethodManager imm;
-	private View buttom_btns;
+	private View bottom_btns;
 	private View comment_input;
-	private View activityRootView;
 	private View comment_container;
 
-	private String title,content,imageUrl;
-
-    private ArrayList<News> newsList;
+    private ArrayList<Comment> commentArrayList;
     private CommentAdapter adapter;
     private ListView commentList;
+	private int page=1;
 
+	private boolean isCollect;
 
-    private int page = 1;
+	private LoadingDialog loadingDialog;
+	private News news;
 
 	public String getType(int i) {
 		String type = "";
@@ -78,6 +79,8 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comment_detail_news_page);
 
+		ShareInit.initSDK(FunnyDetailActivity.this);
+		loadingDialog=new LoadingDialog(FunnyDetailActivity.this);
 		ptrlv = getView(R.id.comment_scroll_view);
 		// 设置当前上拉加载不可用
 		// 设置下拉刷新可用
@@ -93,7 +96,7 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
         /**
          * comment block
          */
-		buttom_btns = findViewById(R.id.buttom_btns);
+		bottom_btns = findViewById(R.id.buttom_btns);
 		comment_input = findViewById(R.id.comment_input);
 		collection = getView(R.id.ic_collect);
 		praise = getView(R.id.ic_praise);
@@ -102,32 +105,25 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
         /**
          * get data from last activity
          */
-		Intent intent = getIntent();
-		content = intent.getStringExtra("content");
-		String oncreatetime = intent.getStringExtra("oncreatetime");
-		String origin = intent.getStringExtra("origin");
-		title = intent.getStringExtra("title");
-        id = intent.getIntExtra("id", 0);
-        type = intent.getIntExtra("type", 4)+3;
-		imageUrl=intent.getStringExtra("image");
-
+		news=getIntent().getExtras().getParcelable("news");
         /**
          * set value
          */
-        ((TextView) container.findViewById(R.id.story_title)).setText(title);
-        ((TextView) container.findViewById(R.id.story_content)).setText(content);
-        ((TextView) container.findViewById(R.id.leibie)).setText(getType(type));
-        ((TextView) container.findViewById(R.id.origin)).setText(origin);
-        ((TextView) container.findViewById(R.id.createtime)).setText(oncreatetime);
+        ((TextView) container.findViewById(R.id.story_title)).setText(news.getTitle());
+        ((TextView) container.findViewById(R.id.story_content)).setText(Html.fromHtml(Html.fromHtml(news.getIntro()).toString()));
+        //((TextView) container.findViewById(R.id.leibie)).setText(getType(type));
+        ((TextView) container.findViewById(R.id.origin)).setText(news.getOrigin());
+        ((TextView) container.findViewById(R.id.createtime)).setText(news.getCreatetime());
 
         /**
          * download image of picture
          */
 		ImageView iv = (ImageView) container.findViewById(R.id.image);
 		try {
-			if (StringUtils.isNotEmpty(content)&&content.contains("Upload")) {
+			String imageUrl=news.getPic();
+			if (StringUtils.isNotEmpty(imageUrl)&&imageUrl.contains("Upload")) {
                 container.findViewById(R.id.story_content).setVisibility(View.GONE);
-                new ImageLoader(this).DisplayImage(Const.BASE_URL+"/"+content,iv);
+                new ImageLoader(this).DisplayImage(imageUrl,iv);
 			}else{
                 iv.setVisibility(View.GONE);
             }
@@ -143,10 +139,10 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
         /**
          * init list view of comment
          */
-        newsList=new ArrayList<News>();
-        adapter=new CommentAdapter(newsList,this,container);
+        commentArrayList=new ArrayList<Comment>();
+        adapter=new CommentAdapter(commentArrayList,this,container);
         commentList.setAdapter(adapter);
-		getCommentList(1);
+		getCommentList(page);
 	}
 
     /**
@@ -154,18 +150,18 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
      * @param page
      */
     private void getCommentList(int page) {
-        String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self), id, type, page);
+        String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self),news.getId(), page);
         try {
-            HttpUtil.getRequestJsonRunnable(comment_list_url, null,
-                    new Handler() {
+			loadingDialog.startProgressDialog();
+            HttpUtil.getRequestJsonRunnable(comment_list_url, null, new Handler() {
                         public void handleMessage(Message msg) {
                             JSONObject json = JSONObject.parseObject(msg.obj.toString());
                             int errcode = json.getIntValue("errcode");
                             if (errcode == 0) {
                                 JSONArray array = json.getJSONArray("data");
-                                ArrayList<News> arrayList = News.getListFromJson(array.toJSONString());
+                                ArrayList<Comment> arrayList = Comment.getListFromJson(array.toJSONString());
                                 if(arrayList!=null){
-                                    newsList.addAll(arrayList);
+                                    commentArrayList.addAll(arrayList);
                                     adapter.notifyDataSetChanged();
                                     comment_container.setVisibility(View.VISIBLE);
                                 }
@@ -176,6 +172,7 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
                             ptrlv.onPullDownRefreshComplete();
                             ptrlv.onPullUpRefreshComplete();
                             ptrlv.setHasMoreData(true);
+							loadingDialog.stopProgressDialog();
                         }
                     });
         } catch (Exception e) {
@@ -191,7 +188,7 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
             @Override
             public void run() {
                 try {
-                    String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self), id, type);
+                    String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self),news.getId());
                     JSONObject obj = HttpUtil.getRequestJson(url, null);
                     handler.sendMessage(handler.obtainMessage(0, obj));
                 } catch (Exception e) {
@@ -210,52 +207,18 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 		case R.id.back_button:
 			this.finish();
 			break;
-
 		case R.id.share:
-			Until.showShare(FunnyDetailActivity.this,handler,title,String.format(Const.STORY_DETAIL, id, type),imageUrl);
+			ShareInit.showShare(false,null,FunnyDetailActivity.this,news.getTitle(),news.getUrl(),Html.fromHtml(Html.fromHtml(news.getIntro()).toString()).toString(),news.getPic());
 			break;
 		case R.id.collection:
-			String add_collection_url = String.format(Const.ADD_COLLECTION_URL,
-					User.getUID(self), User.getLoginToken(self), id, type);
-			try {
-				HttpUtil.getRequestJsonRunnable(add_collection_url, null,
-						new Handler() {
-							public void handleMessage(Message msg) {
-								JSONObject obj = JSONObject.parseObject(msg.obj
-										.toString());
-								int errcode = obj.getIntValue("errcode");
-								if (errcode == 0) {
-									getMSG();
-								}
-							}
-						});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			collectOrNot();
 			break;
 		case R.id.good:
-			String praise_url = String.format(Const.PRAISE_URL,
-					User.getUID(self), User.getLoginToken(self), id, type);
-			try {
-				HttpUtil.getRequestJsonRunnable(praise_url, null,
-						new Handler() {
-							public void handleMessage(Message msg) {
-								JSONObject obj = JSONObject.parseObject(msg.obj
-										.toString());
-								int errcode = obj.getIntValue("errcode");
-								if (errcode == 0) {
-									getMSG();
-								}
-							}
-						});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			recognise();
 			break;
-
 		case R.id.comment:
 
-			buttom_btns.setVisibility(View.GONE);
+			bottom_btns.setVisibility(View.GONE);
 			comment_input.setVisibility(View.VISIBLE);
 			comment_text = getView(R.id.comment_text);
 			comment_text.setFocusable(true);
@@ -270,6 +233,61 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 		}
 	}
 
+	/**
+	 * good
+	 */
+	private void recognise(){
+		String praise_url = String.format(Const.PRAISE_URL, User.getUID(self), User.getLoginToken(self), news.getId());
+		try {
+			HttpUtil.getRequestJsonRunnable(praise_url, null,
+					new Handler() {
+						public void handleMessage(Message msg) {
+							JSONObject obj = JSONObject.parseObject(msg.obj.toString());
+							int errcode = obj.getIntValue("errcode");
+							if (errcode == 0) {
+								getMSG();
+							}
+						}
+					});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * collect or cancel
+	 */
+	private void collectOrNot(){
+		if(!isCollect) {
+			String add_collection_url = String.format(Const.ADD_COLLECTION_URL, User.getUID(self), User.getLoginToken(self),news.getId());
+			try {
+				HttpUtil.getRequestJsonRunnable(add_collection_url, null,
+						new Handler() {
+							public void handleMessage(Message msg) {
+								JSONObject obj = JSONObject.parseObject(msg.obj.toString());
+								int errcode = obj.getIntValue("errcode");
+								if (errcode == 0) {
+									getMSG();
+								}
+							}
+						});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(self), User.getLoginToken(self));
+			MultipartEntity entity = new MultipartEntity();
+			try {
+				entity.addPart("list",new StringBody("[\""+news.getId()+"\"]"));
+				JSONObject obj= HttpUtil.getRequestJson(deleteCollectionUrl, entity);
+				int err_code=obj.getIntValue("errcode");
+				if(err_code==0)
+					getMSG();
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		switch (event.getKeyCode()) {
 		case KeyEvent.KEYCODE_ENTER:
@@ -292,9 +310,9 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
             return;
         }
         imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-        buttom_btns.setVisibility(View.VISIBLE);
+        bottom_btns.setVisibility(View.VISIBLE);
         comment_input.setVisibility(View.GONE);
-        String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self), id, type);
+        String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self),news.getId());
         try {
             MultipartEntity entity = new MultipartEntity();
             entity.addPart("content", new StringBody(comment, Charset.forName("utf-8")));
@@ -315,14 +333,14 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
                             /**
                              * get new comment
                              */
-                            News news=new News();
-                            JSONObject jsonObject= object.getJSONObject("data");
-                            news.setContent(jsonObject.getString("content"));
-                            news.setCreatetime(jsonObject.getString("createtime"));
-                            news.setHeadpic(jsonObject.getString("headpic"));
-                            news.setNickname(jsonObject.getString("nickname"));
+							Comment comment_result=new Comment();
+							JSONObject jsonObject= object.getJSONObject("data");
+							comment_result.setContent(jsonObject.getString("content"));
+							comment_result.setComment_time(jsonObject.getString("createtime"));
+							comment_result.setHeadpic(jsonObject.getString("headpic"));
+							comment_result.setNickname(jsonObject.getString("nickname"));
 
-                            newsList.add(0, news);
+							commentArrayList.add(0, comment_result);
                             adapter.notifyDataSetChanged();
                         }else{
                             toast("评论失败!");
@@ -351,9 +369,7 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 				String json = msg.obj.toString();
 				JSONObject obj = JSONObject.parseObject(json);
 				int code = obj.getIntValue("errcode");
-
 				if (code == 0) {
-
 					JSONObject date = obj.getJSONObject("data");
 
 					String praise_time = date.getString("praise_time");
@@ -371,8 +387,10 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 
 					}
 					if (is_collect != 0) {
+						isCollect=true;
 						collection.setImageResource(R.drawable.ic_collected);
 					} else {
+						isCollect=false;
 						collection.setImageResource(R.drawable.ic_collection);
 					}
 				}
@@ -383,13 +401,9 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 
 	public static void intentToDetailNews(News news, Context context, int type) {
 		Intent intent = new Intent(context, FunnyDetailActivity.class);
-		intent.putExtra("title", news.getTitle());
-		intent.putExtra("content", news.getContent());
-		intent.putExtra("oncreatetime", news.getCreatetime());
-		intent.putExtra("origin", news.getOrigin());
-		intent.putExtra("id", news.getId());
-		intent.putExtra("image", news.getPic());
-		intent.putExtra("type", type);
+		Bundle bundle=new Bundle();
+		bundle.putParcelable("news",news);
+		intent.putExtras(bundle);
 		context.startActivity(intent);
 
 	}

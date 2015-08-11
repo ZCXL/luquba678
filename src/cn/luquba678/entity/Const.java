@@ -13,6 +13,7 @@ public class Const {
 	//login using other platform
 	public final static String OTHER_LOGIN_URL=BASE_URL+"/api/common/otherLogin";
 
+	public final static String CHECK_LOGIN_STATE=BASE_URL+"/api/user/checkLogin?uid=%s&login_token=%s";
 	// 忘记密码
 	public final static String FORGETPASS_URL = BASE_URL
 			+ "/api/common/findPassword";
@@ -24,19 +25,19 @@ public class Const {
 			+ "/home/detail?uid=UID&login_token=LOGIN_TOKEN&type=TYPE";
 	// 评论 post:content
 	public final static String COMMENT_URL = BASE_URL
-			+ "/api/comment/add?uid=%s&login_token=%s&id=%d&type=%d";
+			+ "/api/comment/add?uid=%s&login_token=%s&id=%s";
 	// 评论列表
 	public final static String COMMENT_LIST_URL = BASE_URL
-			+ "/api/comment/query?uid=%s&login_token=%s&id=%d&type=%d&page=%d";
+			+ "/api/comment/query?uid=%s&login_token=%s&id=%s&page=%d";
 	// 点赞
 	public final static String PRAISE_URL = BASE_URL
-			+ "/api/praise?uid=%s&login_token=%s&id=%d&type=%d";
+			+ "/api/praise?uid=%s&login_token=%s&id=%s";
 	// 添加收藏 post ：type,id
 	public final static String ADD_COLLECTION_URL = BASE_URL
-			+ "/api/collection/add?uid=%s&login_token=%s&id=%d&type=%d";
+			+ "/api/collection/add?uid=%s&login_token=%s&id=%s";
 	// 查看详情页的点赞，评论等数据信息
 	public final static String GET_DETAIL_MSG_URL = BASE_URL
-			+ "/api/detail?uid=%s&login_token=%s&id=%d&type=%d";
+			+ "/api/detail?uid=%s&login_token=%s&id=%s";
 	// 获取是否点赞，收藏
 	public final static String DETAILMSG = BASE_URL
 			+ "/api/story/detail?uid=%s&id=%d";
@@ -82,9 +83,6 @@ public class Const {
 	// 查找寄语
 	public final static String QUERY_WORD = BASE_URL
 			+ "/api/sendword/queryAll?uid=%s&login_token=%s";
-	// 确认登录
-	public final static String CHECK_LOGIN = BASE_URL
-			+ "/api/user/checklogin?uid=%s&login_token=%s";
 	// 查询学校列表
 	public final static String QUERY_SCHOOL = BASE_URL
 			+ "/api/gradeline/querySchool?page=";

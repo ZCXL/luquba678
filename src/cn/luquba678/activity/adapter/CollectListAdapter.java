@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.navisdk.util.common.StringUtils;
 import com.zhuchao.utils.ImageLoader;
 
 public class CollectListAdapter extends CommonAdapter<CollectItem> {
@@ -83,34 +84,23 @@ public class CollectListAdapter extends CommonAdapter<CollectItem> {
         /**
          * set image
          */
-		String imgUrl = Const.BASE_URL + "/" +collectItem.getCollect_imgUrl();
-        holder.collect_img.setTag(imgUrl);
-		imageLoader.DisplayImage(imgUrl, holder.collect_img);
-
+		String imgUrl = collectItem.getPic();
+		if(StringUtils.isNotEmpty(imgUrl)) {
+			holder.collect_img.setTag(imgUrl);
+			imageLoader.DisplayImage(imgUrl, holder.collect_img);
+		}
 
         /**
          * set type
          */
-		String label = collectItem.getCollect_type();
-		if (label.equals("1")) {
-			holder.collect_label.setText("励志故事");
-		} else if (label.equals("2")) {
-			holder.collect_label.setText("状元心得");
-		} else if (label.equals("3")) {
-			holder.collect_label.setText("校花校草");
-		} else if (label.equals("4")) {
-			holder.collect_label.setText("校园趣事");
-		} else if (label.equals("5")) {
-			holder.collect_label.setText("搞笑段子");
-		} else if (label.equals("6")) {
-			holder.collect_label.setText("内涵图");
-		}
+		String label = collectItem.getType();
+		holder.collect_label.setText(label);
 
         /**
          * set title
          */
-		holder.collect_title.setText(collectItem.getCollect_title());
-		holder.collect_date.setText(collectItem.getCollect_date());
+		holder.collect_title.setText(collectItem.getTitle());
+		holder.collect_date.setText(collectItem.getCollect_time());
 		holder.collect_check.setVisibility(View.GONE);
 
         /**

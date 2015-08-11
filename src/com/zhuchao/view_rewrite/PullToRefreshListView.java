@@ -70,7 +70,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView>
 	}
 
 	@Override
-	protected ListView createRefreshableView(Context context, AttributeSet attrs) {
+	protected SwipeListView createRefreshableView(Context context, AttributeSet attrs) {
 		SwipeListView swipeListView=new SwipeListView(context,attrs);
 		mListView =swipeListView;
 		swipeListView.setOnScrollListener(this);
