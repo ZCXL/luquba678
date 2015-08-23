@@ -18,7 +18,18 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@drawable/back_array" />
+            android:src="@drawable/new_wish_back" />
+        <TextView
+            android:id="@+id/back_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/title_top_image"
+            android:textColor="@android:color/white"
+            android:text="个人信息"
+            android:textSize="15sp"
+            android:layout_marginLeft="2dp"
+            />
 
         <TextView
             android:id="@+id/save"
@@ -27,6 +38,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
             android:text="保存" />
 
         <TextView
@@ -37,20 +50,27 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:text="简介"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="20.66dp"
+        android:background="#fff4f4f4"/>
     <EditText
         android:id="@+id/et_detail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@null"
-        android:maxLength="25" />
-
+        android:background="@android:color/white"
+        android:maxLength="30"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
     <View
         android:id="@+id/under_line"
-        style="@style/under_line" />
+        android:background="#fff4f4f4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/person_detail_edit_dialog.xml -->

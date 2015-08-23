@@ -1,5 +1,6 @@
 package com.zhuchao.view_rewrite;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,7 +19,7 @@ import cn.luquba678.R;
  */
 public class ConnectNetDialog extends Dialog {
     public ConnectNetDialog(Context context) {
-        super(context);
+        super(context,R.style.CustomProgressDialog);
     }
 
     public static class Builder implements View.OnClickListener{
@@ -49,6 +50,7 @@ public class ConnectNetDialog extends Dialog {
             switch (v.getId()){
                 case R.id.quit:
                     connectNetDialog.dismiss();
+                    ((Activity)context).finish();
                     break;
                 case R.id.connect:
                     Intent intent = null;

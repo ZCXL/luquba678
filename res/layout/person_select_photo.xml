@@ -7,12 +7,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="48dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:textSize="13.66sp"
             android:text="选择图片来源" />
     </RelativeLayout>
 
@@ -21,13 +22,14 @@
     <RelativeLayout
         android:id="@+id/rl_camer"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="52dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="相机"
+            android:textSize="13sp"
             android:textColor="@color/black" />
     </RelativeLayout>
 
@@ -36,13 +38,14 @@
     <RelativeLayout
         android:id="@+id/rl_photo_album"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="52dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="相册"
+            android:textSize="13sp"
             android:textColor="@color/black" />
     </RelativeLayout>
 
@@ -51,13 +54,14 @@
     <RelativeLayout
         android:id="@+id/rl_cancle"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="52dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="取消"
+            android:textSize="13sp"
             android:textColor="@color/black" />
     </RelativeLayout>
 

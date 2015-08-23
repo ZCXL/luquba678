@@ -36,15 +36,29 @@
                     android:orientation="vertical" >
 
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/regist_verify"
-                        style="@style/regist_input_style" >
+                        style="@style/regist_input_style"
+                        android:layout_height="34.33dp">
 
                         <EditText
                             android:id="@+id/verify"
                             style="@style/regist_editor_style"
-                            android:hint="@string/verify" />
-                    </LinearLayout>
+                            android:layout_gravity="center_vertical"
+                            android:hint="@string/verify"
+                            android:layout_centerVertical="true"
+                            android:layout_width="match_parent"
+                            android:layout_toLeftOf="@+id/resend"/>
+                        <Button
+                            android:id="@+id/resend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="重发验证码"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@android:color/white"
+                            android:background="@drawable/new_select_birthday_confirm"/>
+                    </RelativeLayout>
 
                     <View
                         style="@style/under_line"
@@ -52,12 +66,15 @@
                         android:layout_marginTop="8dp"
                         android:background="@color/main_color" />
 
-                    <LinearLayout style="@style/regist_input_style" >
+                    <LinearLayout
+                        android:layout_height="34.33dp"
+                        style="@style/regist_input_style" >
 
                         <EditText
                             android:id="@+id/password"
                             style="@style/regist_editor_style"
                             android:hint="重新设置密码"
+                            android:layout_gravity="center_vertical"
                             android:inputType="textPassword"
                             android:password="true" />
                     </LinearLayout>
@@ -68,12 +85,15 @@
                         android:layout_marginTop="8dp"
                         android:background="@color/main_color" />
 
-                    <LinearLayout style="@style/regist_input_style" >
+                    <LinearLayout
+                        android:layout_height="34.33dp"
+                        style="@style/regist_input_style" >
 
                         <EditText
                             android:id="@+id/repassword"
                             style="@style/regist_editor_style"
                             android:hint="@string/repid_password"
+                            android:layout_gravity="center_vertical"
                             android:inputType="textPassword"
                             android:password="true" />
                     </LinearLayout>
@@ -89,6 +109,8 @@
                 <Button
                     android:id="@+id/do_resetpass"
                     style="@style/btn_green_style"
+                    android:background="@drawable/new_login_confirm"
+                    android:textColor="@android:color/white"
                     android:text="确认提交" />
             </LinearLayout>
         </RelativeLayout>

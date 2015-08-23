@@ -153,7 +153,6 @@ public class MainActivity extends Activity {
             @Override
             public void onAnimationRepeat(Animation arg0) {
             }
-
             // 这里监听动画结束的动作，在动画结束的时候开启一个线程，这个线程中绑定一个Handler,并
             // 在这个Handler中调用goHome方法，而通过postDelayed方法使这个方法延迟500毫秒执行，达到
             // 达到持续显示第一屏500毫秒的效果

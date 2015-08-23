@@ -6,30 +6,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.os.Environment;
-import android.support.v4.util.LruCache;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import cn.luquba678.R;
-import cn.luquba678.entity.Const;
 import cn.luquba678.entity.GridItem;
-import cn.luquba678.ui.DiskLruCache;
 import cn.luquba678.ui.WdjyGridAdapter.HeaderViewHolder;
 import cn.luquba678.ui.WdjyImageView;
 import cn.luquba678.ui.WdjyImageView.OnMeasureListener;
@@ -42,17 +32,15 @@ import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapterWrapper;
 
-public class WdjyGridDataAdapter extends CommonAdapter<GridItem> implements
-		StickyGridHeadersSimpleAdapter {
+public class WdjyGridDataAdapter extends CommonAdapter<GridItem> implements StickyGridHeadersSimpleAdapter {
 	private LayoutInflater Inflater;
 	private StickyGridHeadersGridView mGridView;
 	private Point mPoint = new Point(0, 0);
 	private StickyGridHeadersSimpleAdapterWrapper mWrap;
-	FileCache fileCache;
-	ImageLoader loader;
+	private FileCache fileCache;
+	private ImageLoader loader;
 
-	public WdjyGridDataAdapter(Context context, List<GridItem> list,
-			StickyGridHeadersGridView mGridView) {
+	public WdjyGridDataAdapter(Context context, List<GridItem> list, StickyGridHeadersGridView mGridView) {
 		super(context, list, R.layout.wdjy_grid_item);
 		this.context = context;
 		this.dates = list;
@@ -67,8 +55,7 @@ public class WdjyGridDataAdapter extends CommonAdapter<GridItem> implements
 				try {
 					FileDescriptor fileDescriptor = fileInputStream.getFD();
 					if (fileDescriptor != null) {
-						Bitmap bitmap = BitmapFactory
-								.decodeFileDescriptor(fileDescriptor);
+						Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
 						String key = MD5.MD5Encode(path);
 						copmassIPEG(bitmap, key, 75);
 					}
@@ -122,57 +109,20 @@ public class WdjyGridDataAdapter extends CommonAdapter<GridItem> implements
 		HeaderViewHolder mHeaderHolder;
 		if (convertView == null) {
 			mHeaderHolder = new HeaderViewHolder();
-			convertView = Inflater.inflate(R.layout.wdjy_grid_header, parent,
-					false);
-			mHeaderHolder.mTextView = (TextView) convertView
-					.findViewById(R.id.header);
+			convertView = Inflater.inflate(R.layout.wdjy_grid_header, parent, false);
+			mHeaderHolder.mTextView = (TextView) convertView.findViewById(R.id.header);
 			convertView.setTag(mHeaderHolder);
 		} else {
 			mHeaderHolder = (HeaderViewHolder) convertView.getTag();
 		}
 
-		/*
-		 * String strDate = dateTimeToStr(strToDateTime(dates.get(position)
-		 * .getTime()));
-		 */
 		int nCount = mWrap.getCountForHeader((int) getHeaderId(position));
 		try {
-			String strHeader = String.format("%s (%d)", dates.get(position)
-					.getTime(), nCount);
+			String strHeader = String.format("%s (%d)", dates.get(position).getTime(), nCount);
 			mHeaderHolder.mTextView.setText(strHeader);
 		} catch (Exception e) {
 		}
 		return convertView;
-	}
-
-	class ViewHodler {
-		public WdjyImageView imageView;
-	}
-
-	public File getDiskCacheDir(Context context, String uniqueName) {
-		String cachePath;
-		if (Environment.MEDIA_MOUNTED.equals(Environment
-				.getExternalStorageState())
-				|| !Environment.isExternalStorageRemovable()) {
-			cachePath = context.getExternalCacheDir().getPath();
-		} else {
-			cachePath = context.getCacheDir().getPath();
-		}
-		return new File(cachePath + File.separator + uniqueName);
-	}
-
-	/**
-	 * 获取当前应用程序的版本号。
-	 */
-	public int getAppVersion(Context context) {
-		try {
-			PackageInfo info = context.getPackageManager().getPackageInfo(
-					context.getPackageName(), 0);
-			return info.versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return 1;
 	}
 
 	@Override
@@ -184,9 +134,9 @@ public class WdjyGridDataAdapter extends CommonAdapter<GridItem> implements
 				mPoint.set(width, height);
 			}
 		});
-		String path = dates.get(position).getPath();
+		String path = dates.get(position).getPic();
+		Log.d("zhuchao", path);
 		imageView.setTag(position);
-		imageView.setImageResource(R.drawable.empty_photo);
 		loader.DisplayImage(path, imageView, false, 300);
 
 	}

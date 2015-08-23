@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.luquba678.R;
@@ -37,8 +38,9 @@ import com.zhuchao.view_rewrite.PullToRefreshListView;
 import com.zhuchao.view_rewrite.SwipeListView;
 
 public class PersonCollectActivity extends Activity implements OnClickListener, OnItemClickListener,CollectListAdapter.OnDeleteListener, PullToRefreshBase.OnRefreshListener<ListView> {
-	private TextView top_text, collect_edit, collect_delete, title_top_cancel;
+	private TextView collect_edit, collect_delete, title_top_cancel;
 	private ImageView title_top_image;
+	private LinearLayout back;
 	private SwipeListView collect_listView;
 	private CollectListAdapter adapter;
 	private ArrayList<CollectItem> collectItem_list;
@@ -110,12 +112,12 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 		ptrlv.setOnRefreshListener(this);
 		collect_listView =(SwipeListView)ptrlv.getRefreshableView();
 		collect_listView.setOnItemClickListener(this);
-		top_text = (TextView) findViewById(R.id.top_text);
-		top_text.setText("我的收藏");
 		title_top_cancel = (TextView) findViewById(R.id.title_top_cancle);
 		title_top_cancel.setOnClickListener(this);
 		title_top_image = (ImageView) findViewById(R.id.title_top_image);
 		title_top_image.setOnClickListener(this);
+		back=(LinearLayout)findViewById(R.id.top_back);
+		back.setOnClickListener(this);
 		collect_edit = (TextView) findViewById(R.id.collect_edit);
 		collect_edit.setOnClickListener(this);
 		collect_delete = (TextView) findViewById(R.id.collect_delete);
@@ -137,25 +139,28 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.title_top_image:
-			finish();
-			break;
-		case R.id.collect_edit:
-			changeTopState(true);
-			adapter.showCheckBox(true);
-			break;
-		case R.id.collect_delete:
-            /**
-             * delete,and system will roll back
-             */
-			adapter.deleteItem();
-			break;
-		case R.id.title_top_cancle:
-			changeTopState(false);
-			adapter.showCheckBox(false);
-			break;
-		default:
-			break;
+			case R.id.title_top_image:
+				finish();
+				break;
+			case R.id.top_back:
+				finish();
+				break;
+			case R.id.collect_edit:
+				changeTopState(true);
+				adapter.showCheckBox(true);
+				break;
+			case R.id.collect_delete:
+				/**
+				 * delete,and system will roll back
+				 */
+				adapter.deleteItem();
+				break;
+			case R.id.title_top_cancle:
+				changeTopState(false);
+				adapter.showCheckBox(false);
+				break;
+			default:
+				break;
 		}
 	}
 

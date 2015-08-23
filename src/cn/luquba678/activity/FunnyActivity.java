@@ -24,8 +24,10 @@ import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,9 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 	private PullToRefreshListView ptrlv;
 
 	private LoadingDialog loadingDialog;
+
+	private RelativeLayout error_layout;
+	private Button refresh_button;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,6 +72,13 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 		map.put(GXDZ,1);
 		map.put(NHT,1);
 		map.put(XYQS,1);
+
+		/**
+		 * network error bg
+		 */
+		error_layout=(RelativeLayout)findViewById(R.id.network_error);
+		refresh_button=(Button)findViewById(R.id.network_error_button);
+		refresh_button.setOnClickListener(this);
 
 		setOnClickLinstener(R.id.top_back, R.id.funny_school_btn, R.id.funny_image_btn, R.id.jokes_btn, R.id.funny_school, R.id.funny_image, R.id.jokes);
 		rb_funny_school_btn = getView(R.id.funny_school);
@@ -126,6 +138,9 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
             case R.id.jokes_btn:
                 rb_jokes_btn.performClick();
                 break;
+			case R.id.network_error_button:
+				setFunny(map.get(currentType), currentType, ADD);
+				break;
             default:
                 break;
         }
@@ -164,6 +179,8 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 
 	public void setFunny(final int page, final int type, final int action) {
 		if(Network.checkNetWorkState(FunnyActivity.this)) {
+			if(error_layout.getVisibility()==View.VISIBLE)
+				error_layout.setVisibility(View.INVISIBLE);
             loadingDialog.startProgressDialog();
 			Executors.newSingleThreadExecutor().execute(new Runnable() {
 				@Override
@@ -203,7 +220,9 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 			/**
 			 * send network broadcast
 			 */
-			Until.sendNetworkBroadcast(FunnyActivity.this);
+			Toast.makeText(FunnyActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+			if(error_layout.getVisibility()==View.INVISIBLE)
+				error_layout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -217,7 +236,8 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
         else{
             news=jokes.get(arg2);
         }
-		FunnyDetailActivity.intentToDetailNews(news, self, currentType);
+		//FunnyDetailActivity.intentToDetailNews(news, self, currentType);
+		CommonNewsActivity.intentToDetailNews(news,self,currentType);
 	}
 
 	public void addFunny() {

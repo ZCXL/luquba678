@@ -20,9 +20,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.Button;
 /**
  * 
  * @author zhy
@@ -35,40 +33,30 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 	private WheelView mCity;
 	private WheelView mArea;
 	private String[] mProvinceDatas;
-	private TextView showChooseOK, showChooseCancle,choose_title;
-	private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
-	private Map<String, String[]> mAreaDatasMap = new HashMap<String, String[]>();
+	private Map<String, String[]> mCitiesDataMap = new HashMap<String, String[]>();
+	private Map<String, String[]> mAreaDataMap = new HashMap<String, String[]>();
 	public String mCurrentProvinceName;
 	public String mCurrentCityName;
 	public String mCurrentAreaName = "";
 
-	private RelativeLayout confirm,cancel;
+	private Button confirm,cancel;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.choose);
+		setContentView(R.layout.select_address);
 		initJsonData();
 		mProvince = (WheelView) findViewById(R.id.id_province);
 		mCity = (WheelView) findViewById(R.id.id_city);
 		mArea = (WheelView) findViewById(R.id.id_area);
-		showChooseOK = (TextView) findViewById(R.id.showChooseOK);
-		showChooseOK.setOnClickListener(this);
-		showChooseCancle = (TextView) findViewById(R.id.showChooseCancel);
-		showChooseCancle.setOnClickListener(this);
-		choose_title = (TextView) findViewById(R.id.choose_title);
-		choose_title.setText("请选择家乡所在地");
-
-		confirm=(RelativeLayout)findViewById(R.id.confirm_button);
+		confirm=(Button)findViewById(R.id.showChooseOK);
 		confirm.setOnClickListener(this);
-		cancel=(RelativeLayout)findViewById(R.id.cancel_button);
+		cancel=(Button)findViewById(R.id.showChooseCancel);
 		cancel.setOnClickListener(this);
-
 
 		initDatas();
 
-		mProvince.setViewAdapter(new ArrayWheelAdapter<String>(this,
-				mProvinceDatas));
+		mProvince.setViewAdapter(new ArrayWheelAdapter<String>(this, mProvinceDatas));
 		mProvince.addChangingListener(this);
 		mCity.addChangingListener(this);
 		mArea.addChangingListener(this);
@@ -83,8 +71,8 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 
 	private void updateAreas() {
 		int pCurrent = mCity.getCurrentItem();
-		mCurrentCityName = mCitisDatasMap.get(mCurrentProvinceName)[pCurrent];
-		String[] areas = mAreaDatasMap.get(mCurrentCityName);
+		mCurrentCityName = mCitiesDataMap.get(mCurrentProvinceName)[pCurrent];
+		String[] areas = mAreaDataMap.get(mCurrentCityName);
 
 		if (areas == null) {
 			areas = new String[] { "" };
@@ -97,12 +85,12 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 	private void updateCities() {
 		int pCurrent = mProvince.getCurrentItem();
 		mCurrentProvinceName = mProvinceDatas[pCurrent];
-		String[] cities = mCitisDatasMap.get(mCurrentProvinceName);
+		String[] cities = mCitiesDataMap.get(mCurrentProvinceName);
 		if (cities == null) {
 			cities = new String[] { "" };
 		}
 		mCity.setViewAdapter(new ArrayWheelAdapter<String>(this, cities));
-		mCity.setCurrentItem(5);
+		mCity.setCurrentItem(0);
 		updateAreas();
 	}
 
@@ -147,10 +135,10 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 						String area = jsonAreas.getJSONObject(k).getString("s");
 						mAreasDatas[k] = area;
 					}
-					mAreaDatasMap.put(city, mAreasDatas);
+					mAreaDataMap.put(city, mAreasDatas);
 				}
 
-				mCitisDatasMap.put(province, mCitiesDatas);
+				mCitiesDataMap.put(province, mCitiesDatas);
 			}
 
 		} catch (JSONException e) {
@@ -184,7 +172,7 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 		} else if (wheel == mCity) {
 			updateAreas();
 		} else if (wheel == mArea) {
-			mCurrentAreaName = mAreaDatasMap.get(mCurrentCityName)[newValue];
+			mCurrentAreaName = mAreaDataMap.get(mCurrentCityName)[newValue];
 		}
 	}
 
@@ -196,9 +184,9 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 				Intent intent = new Intent();
 				intent.putExtra("proviceName", mCurrentProvinceName);
 				intent.putExtra("cityName", mCurrentCityName);
-				if (mAreaDatasMap.get(mCurrentCityName) != null) {
+				if (mAreaDataMap.get(mCurrentCityName) != null) {
 					intent.putExtra("areaName",
-							mAreaDatasMap.get(mCurrentCityName)[position]);
+							mAreaDataMap.get(mCurrentCityName)[position]);
 				}
 				setResult(5, intent);
 				finish();
@@ -211,9 +199,9 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 				intent = new Intent();
 				intent.putExtra("proviceName", mCurrentProvinceName);
 				intent.putExtra("cityName", mCurrentCityName);
-				if (mAreaDatasMap.get(mCurrentCityName) != null) {
+				if (mAreaDataMap.get(mCurrentCityName) != null) {
 					intent.putExtra("areaName",
-							mAreaDatasMap.get(mCurrentCityName)[position]);
+							mAreaDataMap.get(mCurrentCityName)[position]);
 				}
 				setResult(5, intent);
 				finish();

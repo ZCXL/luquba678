@@ -40,11 +40,10 @@ public class UniversityDetailActivity extends CommonActivity implements
 
 	private ImageLoader ima = new cn.luquba678.utils.ImageLoader(this);
 	private CircularImage logo;
-	private ListView msgList;
 
 	private TextView schoolNameTv, topTitle, introduce, school_type_text,
 			mark_211, mark_985, school_province_text, tel_text, web_text;
-	String fomatA = "<a href=\"%s\">%s</a>";
+	String formatA = "<a href=\"%s\">%s</a>";
 	private School school;
 	private Intent intent;
 	private GradeLineAdapter GradeLineAdapter;
@@ -92,7 +91,7 @@ public class UniversityDetailActivity extends CommonActivity implements
 		else
 			is_yanjiusheng.setVisibility(View.GONE);
 		tel_text.setText(school.getTel());
-		web_text.setText(Html.fromHtml(String.format(fomatA, school.getWeb(),
+		web_text.setText(Html.fromHtml(String.format(formatA, school.getWeb(),
 				school.getWeb())));
 		setOnClickLinstener(R.id.top_back, R.id.phone, R.id.web_text);
 		initGradeLine();

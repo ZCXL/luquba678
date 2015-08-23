@@ -1,8 +1,6 @@
 package cn.luquba678.activity.person;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,27 +8,27 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zhuchao.bean.Version;
 import com.zhuchao.function.CheckVersion;
-import com.zhuchao.utils.FileSystem;
-import com.zhuchao.utils.ImageProcess;
+import com.zhuchao.view_rewrite.AboutUs;
+import com.zhuchao.view_rewrite.ClearCacheDialog;
+import com.zhuchao.view_rewrite.VersionCheckDialog;
 
 import cn.luquba678.R;
-import cn.luquba678.activity.MainFragmentActivity;
+import cn.luquba678.activity.AgreementDialog;
 import cn.luquba678.ui.FullScreenDialog;
-import cn.luquba678.utils.ToolUtils;
 
-public class PersonSettingAboutDialog extends FullScreenDialog implements
-		View.OnClickListener {
-	private LinearLayout about_us, ll_person_about,clear_cache;
+public class PersonSettingAboutDialog extends FullScreenDialog implements View.OnClickListener {
+	private LinearLayout about_us,clear_cache,rule;
 	private RelativeLayout check_version;
 	private Context context;
-    private PersonSettingAboutUsDialog personSettingAboutUsDialog;
+    private AboutUs aboutUs;
 
 	private CheckVersion checkVersion;
 
@@ -38,6 +36,8 @@ public class PersonSettingAboutDialog extends FullScreenDialog implements
 	private TextView version_textview;
 
 	private Version version;
+	private ImageView back_image;
+	private LinearLayout back;
 	/**
 	 *init
 	 * @param context
@@ -53,23 +53,13 @@ public class PersonSettingAboutDialog extends FullScreenDialog implements
 		public void handleMessage(Message msg) {
 			switch (msg.what){
 				case 1:
-					ToolUtils.showShortToast(context, "缓存已清除");
+
 					break;
 				case 2:
-					if(version!=null&&!versionString.equals(version.getVersionId())){
-						new AlertDialog.Builder(context).setTitle("New Version").setMessage("VersionId:"+version.getVersionId()+"\nVersionDescription:"+version.getVersionDescription()).setPositiveButton("Update now", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								if(MainFragmentActivity.downloadService!=null)
-									MainFragmentActivity.downloadService.addDownloadTask(version.getVersionUrl(), 1);
-							}
-						}).setNegativeButton("Remember me later", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-							}
-						}).show();
-					}
+					if(!version.getVersionId().equals(versionString))
+						new VersionCheckDialog(getContext(),version.getVersionId(),version.getVersionDescription(),version.getVersionUrl()).show();
+					else
+						Toast.makeText(getContext(),"已是最新版本",Toast.LENGTH_SHORT).show();
 					break;
 			}
 			super.handleMessage(msg);
@@ -82,14 +72,20 @@ public class PersonSettingAboutDialog extends FullScreenDialog implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.person_setting_about);
 		initView();
-		initTitle(findViewById(R.id.person_setting_title), "关于软件");
 	}
 
 	private void initView() {
+		aboutUs=new AboutUs(context);
+		back_image=(ImageView)findViewById(R.id.title_top_image);
+		back=(LinearLayout)findViewById(R.id.top_back);
+		back_image.setOnClickListener(this);
+		back.setOnClickListener(this);
 		about_us = (LinearLayout) findViewById(R.id.about_us);
 		about_us.setOnClickListener(this);
 		clear_cache = (LinearLayout) findViewById(R.id.clear_cache);
 		clear_cache.setOnClickListener(this);
+		rule=(LinearLayout)findViewById(R.id.use_detail);
+		rule.setOnClickListener(this);
 
 		check_version=(RelativeLayout)findViewById(R.id.check_update);
 		check_version.setOnClickListener(this);
@@ -125,38 +121,27 @@ public class PersonSettingAboutDialog extends FullScreenDialog implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.about_us:
-				personSettingAboutUsDialog = new PersonSettingAboutUsDialog(context);
-				personSettingAboutUsDialog.show();
+				aboutUs.show();
 				break;
 			case R.id.clear_cache:
-				showClearCacheDialog();
-				break;
-			case R.id.btn_cancle:
-				clearCacheDialog.dismiss();
-				break;
-			case R.id.btn_ok:
-				ImageProcess.DeleteImage();
-				mHandler.sendEmptyMessage(1);
-				clearCacheDialog.dismiss();
+				new ClearCacheDialog(getContext()).show();
 				break;
 			case R.id.check_update:
 				checkVersion.startCheck();
 				break;
+			case R.id.use_detail:
+				AgreementDialog agreementDialog = new AgreementDialog(context);
+				agreementDialog.show();
+				break;
+			case R.id.title_top_image:
+				dismiss();
+				break;
+			case R.id.top_back:
+				dismiss();
+				break;
 			default:
 				break;
 		}
-	}
-	AlertDialog clearCacheDialog;
-
-	private void showClearCacheDialog() {
-		clearCacheDialog = new AlertDialog.Builder(context).create();
-		clearCacheDialog.show();
-		clearCacheDialog.getWindow().setContentView(R.layout.person_clearcache_dialog);
-		Button btn_cancle, btn_ok;
-		btn_cancle = (Button) clearCacheDialog.findViewById(R.id.btn_cancle);
-		btn_cancle.setOnClickListener(this);
-		btn_ok = (Button) clearCacheDialog.findViewById(R.id.btn_ok);
-		btn_ok.setOnClickListener(this);
 	}
 
 }

@@ -4,97 +4,45 @@ import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.text.BreakIterator;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Picture;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.provider.ContactsContract.DataUsageFeedback;
 import android.text.Editable;
-import android.text.Html;
-import android.text.Selection;
-import android.text.Spannable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
-import android.widget.Toast;
 import cn.luquba678.R;
 import cn.luquba678.entity.Const;
-import cn.luquba678.service.LoadDataFromServer;
-import cn.luquba678.service.LoadDataFromServer.DataCallBack;
 import cn.luquba678.ui.HttpUtil;
-import cn.luquba678.utils.DateUtils;
 import cn.luquba678.utils.MD5;
-
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.navisdk.util.common.StringUtils;
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
 
 public class RegisterActivity extends CommonActivity implements TextWatcher {
-	private Uri headImageUri;
 	private File headImageFile;
 
-	private TextView agreement;
-	private EditText phone, check_code;
-	private Button register_next, register_reback, checkbtn, goRegist,
-			btn_get_verify;
+	private Button goRegist, btn_get_verify;
 	private EditText et_usernick;
 
 	private EditText et_usertel;
 	private Button btn_register;
-	private TextView tv_xieyi;
-	private ImageView iv_hide;
-	private ImageView iv_show;
-	private ImageView iv_back;
-	private ImageView iv_photo;
 
 	private String imageName;
-	private AlertDialog dlg;
-	private PasswordTransformationMethod ptm;
 	private EditText et_tel, et_password, et_repassword, et_verify;
 	private String tel;
-	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
-	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
-	private static final int PHOTO_REQUEST_CUT = 3;// 结果
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -111,22 +59,6 @@ public class RegisterActivity extends CommonActivity implements TextWatcher {
 		et_tel.addTextChangedListener(this);
 		et_password.addTextChangedListener(this);
 		dialog = new ProgressDialog(RegisterActivity.this);
-
-		/*
-		 * et_usernick = (EditText) findViewById(R.id.et_usernick);
-		 * 
-		 * et_usertel = (EditText) findViewById(R.id.et_usertel); et_password =
-		 * (EditText) findViewById(R.id.et_password); // 监听多个输入框
-		 * et_usernick.addTextChangedListener(new TextChange());
-		 * et_usertel.addTextChangedListener(new TextChange());
-		 * et_password.addTextChangedListener(new TextChange()); btn_register =
-		 * (Button) findViewById(R.id.btn_register);
-		 * btn_register.setOnClickListener(this); iv_back = (ImageView)
-		 * findViewById(R.id.iv_back); iv_back.setOnClickListener(this);
-		 * ((CheckBox) findViewById(R.id.show_pass))
-		 * .setOnCheckedChangeListener(this); iv_photo = (ImageView)
-		 * findViewById(R.id.iv_photo); iv_photo.setOnClickListener(this);
-		 */
 	}
 
 	@Override
@@ -145,40 +77,6 @@ public class RegisterActivity extends CommonActivity implements TextWatcher {
 			AgreementDialog agreementDialog = new AgreementDialog(self);
 			agreementDialog.show();
 			break;
-		/*
-		 * case R.id.tv_content2: imageName = DateFormat.format("MMddHHmmssSS",
-		 * new Date()) .toString() + ".jpg"; intent = new
-		 * Intent(Intent.ACTION_PICK, null);
-		 * intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-		 * "image/*"); startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-		 * dlg.cancel(); break; case R.id.tv_content1: imageName =
-		 * DateFormat.format("MMddHHmmssSS", new Date()) .toString() + ".jpg";
-		 * headImageFile = ImageUtil.camara(imageName, this,
-		 * PHOTO_REQUEST_TAKEPHOTO);
-		 * 
-		 * // 指定调用相机拍照后照片的储存路径 dlg.cancel(); break; case R.id.register_next: if
-		 * ("".equals(phone.getText().toString()) ||
-		 * "".equals(check_code.getText().toString())) // 判断 帐号和密码 { new
-		 * AlertDialog.Builder(this) .setIcon( getResources().getDrawable(
-		 * R.drawable.login_error_icon))
-		 * .setTitle("亲，对不起").setPositiveButton("确定", null)
-		 * .setMessage("手机号与验证码不能为空哦，\n请重试！").create().show(); break; } if
-		 * (checkcode.equals(check_code.getText().toString()) && checkcode !=
-		 * null) // 判断 帐号和密码 { Toast.makeText(getApplicationContext(), "登录成功",
-		 * Toast.LENGTH_SHORT).show(); intent = new Intent();
-		 * intent.setClass(this,
-		 * com.sinzk.pkeggs.activities.registersteppw.class);
-		 * startActivity(intent); Toast.makeText(getApplicationContext(),
-		 * "登录成功", Toast.LENGTH_SHORT).show(); } else {
-		 * 
-		 * new AlertDialog.Builder(this) .setIcon( getResources().getDrawable(
-		 * R.drawable.login_error_icon))
-		 * .setTitle("验证失败").setPositiveButton("确定", null)
-		 * .setMessage("帐号或者密码不正确，\n请检查后重新输入！").create().show(); } break; case
-		 * R.id.btn_register: submitRegist(); break; case R.id.checkbtn:
-		 * checkIdentifyingCode(); case R.id.iv_photo: showCamera(); break;
-		 */
-
 		default:
 			break;
 		}
@@ -303,13 +201,9 @@ public class RegisterActivity extends CommonActivity implements TextWatcher {
 			entity.addPart("password", new StringBody(password));
 			entity.addPart("sms", new StringBody(verify));
 			entity.addPart("tel", new StringBody(tel));
-
-			// entity.addPart("api_token",new
-			// StringBody("ee8d24c15bc04befa12ff717734d5344"));
 			JSONObject obj = HttpUtil.getRequestJson(Const.REGIST_URL, entity);
 			int errcode = obj.getIntValue("errcode");
 			if (errcode == 0) {
-
 				RegisterActivity.this.finish();
 			} else {
 				toast(obj.getString("errmsg"));
@@ -377,48 +271,10 @@ public class RegisterActivity extends CommonActivity implements TextWatcher {
 		}
 
 	}
-
-	/*
-	 * private void showCamera() { dlg = new AlertDialog.Builder(this).create();
-	 * dlg.show(); Window window = dlg.getWindow(); // *** 主要就是在这里实现这种效果的. //
-	 * 设置窗口的内容页面,shrew_exit_dialog.xml文件中定义view内容
-	 * window.setContentView(R.layout.alertdialog); // 为确认按钮添加事件,执行退出应用操作
-	 * tv_paizhao = (TextView) window.findViewById(R.id.tv_content1);
-	 * tv_paizhao.setText("拍照"); tv_paizhao.setOnClickListener(this); tv_xiangce
-	 * = (TextView) window.findViewById(R.id.tv_content2);
-	 * tv_xiangce.setText("相册"); tv_xiangce.setOnClickListener(this); }
-	 */
 	@SuppressLint("SdCardPath")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		/*
-		 * String filePath = "";
-		 * System.out.println("111111111111111111111111111111111111"
-		 * +"requestCode="+requestCode);
-		 * 
-		 * if (data != null) { headImageUri = data.getData();
-		 * 
-		 * if (resultCode == RESULT_OK) { switch (requestCode) { case
-		 * PHOTO_REQUEST_GALLERY:// 直接从相册获取 if (data != null) {
-		 * 
-		 * if (headImageUri != null) {
-		 * filePath=startPhotoZoom(headImageUri,480).toString(); filePath =
-		 * PictureUtils.getPickPhotoPath(this, headImageUri); headImageFile =
-		 * new File(filePath); iv_photo.setImageURI(headImageUri); } } break;
-		 * case PHOTO_REQUEST_TAKEPHOTO:// 调用相机拍照 try {
-		 * iv_photo.setImageBitmap(BitmapFactory.decodeStream(new
-		 * FileInputStream(headImageFile))); } catch (FileNotFoundException e) {
-		 * e.printStackTrace(); } if(headImageFile.exists()){
-		 * System.out.println(headImageFile+"---------"); }else{
-		 * System.out.println("meiyou!!!"); } break; case PHOTO_REQUEST_CUT:
-		 * System.out.println(headImageUri);
-		 * 
-		 * System.out.println("111111111111111111111111111111111111"+filePath);
-		 * iv_photo.setImageBitmap(BitmapFactory.decodeFile(filePath));
-		 * //iv_photo.setImageURI(headImageUri); break;
-		 * 
-		 * } } }
-		 */
+		super.onActivityResult(requestCode,resultCode,data);
 	}
 
 	@Override

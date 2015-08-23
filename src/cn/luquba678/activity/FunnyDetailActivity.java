@@ -110,7 +110,7 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
          * set value
          */
         ((TextView) container.findViewById(R.id.story_title)).setText(news.getTitle());
-        ((TextView) container.findViewById(R.id.story_content)).setText(Html.fromHtml(Html.fromHtml(news.getIntro()).toString()));
+        ((TextView) container.findViewById(R.id.story_content)).setText(Html.fromHtml(Html.fromHtml(news.getContent()).toString()));
         //((TextView) container.findViewById(R.id.leibie)).setText(getType(type));
         ((TextView) container.findViewById(R.id.origin)).setText(news.getOrigin());
         ((TextView) container.findViewById(R.id.createtime)).setText(news.getCreatetime());
@@ -159,7 +159,9 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
                             int errcode = json.getIntValue("errcode");
                             if (errcode == 0) {
                                 JSONArray array = json.getJSONArray("data");
-                                ArrayList<Comment> arrayList = Comment.getListFromJson(array.toJSONString());
+								ArrayList<Comment> arrayList = new ArrayList<Comment>();
+								for(int i=0;i<array.size();i++)
+									arrayList.add(new Comment(array.get(i).toString()));
                                 if(arrayList!=null){
                                     commentArrayList.addAll(arrayList);
                                     adapter.notifyDataSetChanged();
@@ -208,7 +210,7 @@ public class FunnyDetailActivity extends CommonActivity implements OnClickListen
 			this.finish();
 			break;
 		case R.id.share:
-			ShareInit.showShare(false,null,FunnyDetailActivity.this,news.getTitle(),news.getUrl(),Html.fromHtml(Html.fromHtml(news.getIntro()).toString()).toString(),news.getPic());
+			ShareInit.showShare(false,null,FunnyDetailActivity.this,news.getTitle(),news.getUrl(),Html.fromHtml(Html.fromHtml(news.getContent()).toString()).toString(),news.getPic());
 			break;
 		case R.id.collection:
 			collectOrNot();

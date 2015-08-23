@@ -1,8 +1,11 @@
 package com.zhuchao.utils;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * Created by zhuchao on 8/2/15.
@@ -10,12 +13,11 @@ import java.io.File;
 public class FileSystem {
     public static long getFolderSize(){
         String movieImage="/sdcard/luquba/HeadImages";
-       // String movie="/sdcard/luquba/Movies";
+        String movie="/sdcard/luquba/StoryImages";
         if(isSDExit()){
-            //File file=new File(movie);
+            File file=new File(movie);
             File file1=new File(movieImage);
-            //return getFolderSize(file)+getFolderSize(file1);
-            return getFolderSize(file1);
+            return getFolderSize(file)+getFolderSize(file1);
         }
         return 0;
     }
@@ -45,5 +47,37 @@ public class FileSystem {
         }else{
             return false;
         }
+    }
+    public static boolean saveFile(String content,String name){
+        try
+        {
+            if(FileSystem.isSDExit()) {
+                String fileFolderPath = "/sdcard/luquba/tmp/";
+                String parentPath = "/sdcard/luquba/";
+                File parentFile = new File(parentPath);
+                File fileFolder = new File(fileFolderPath);
+                File file = new File(fileFolderPath + name+".txt");
+                if (!parentFile.exists())
+                    parentFile.mkdir();
+                if (!fileFolder.exists()) {
+                    fileFolder.mkdir();
+                }
+                if (!file.exists()) {
+                    file.createNewFile();
+                } else {
+                    return true;
+                }
+                FileOutputStream outStream = new FileOutputStream(file);
+                OutputStreamWriter writer = new OutputStreamWriter(outStream,"utf-8");
+                writer.write(content);
+                writer.write("\n");
+                writer.flush();
+                writer.close();//记得关闭
+                outStream.close();
+            }
+        }catch (Exception e) {
+            Log.e("m", "file write error");
+        }
+        return false;
     }
 }

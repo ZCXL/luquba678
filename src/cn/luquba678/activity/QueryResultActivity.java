@@ -2,67 +2,42 @@ package cn.luquba678.activity;
 
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
-
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.navisdk.util.common.StringUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import cn.luquba678.R;
-import cn.luquba678.activity.adapter.CommonAdapter;
 import cn.luquba678.activity.adapter.SchoolListAdapter;
-import cn.luquba678.activity.adapter.ViewHolder;
-import cn.luquba678.entity.CityMsg;
 import cn.luquba678.entity.Const;
-import cn.luquba678.entity.MatriculateMsg;
 import cn.luquba678.entity.School;
-import cn.luquba678.service.LoadDataFromServer;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshListView;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 
-public class QueryResultActivity extends CommonActivity implements
-		OnClickListener, OnItemClickListener, OnRefreshListener<ListView> {
-	private LoadDataFromServer loadDate;
+public class QueryResultActivity extends CommonActivity implements OnClickListener, OnItemClickListener, OnRefreshListener<ListView> {
 
 	private ListView schoolListView;
-	private ArrayList<CityMsg> cities;
 
 	private SchoolListAdapter adapter;
 
 	private MultipartEntity entity;
 	private PullToRefreshListView ptrlv;
-	private SharedPreferences sharedPreferences;
-	private Editor editor;
+
+	private ArrayList<School> schools=new ArrayList<School>();
+
+	private int page = 1;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +63,12 @@ public class QueryResultActivity extends CommonActivity implements
 			Intent intent = getIntent();
 			String grade = intent.getStringExtra(School.GRADE);
 			String stu_area_id = intent.getStringExtra(School.HOME_AREA_ID);
-			String school_area_id = intent
-					.getStringExtra(School.SCHOOL_AREA_ID);
+			String school_area_id = intent.getStringExtra(School.SCHOOL_AREA_ID);
 			String kelei = intent.getStringExtra(School.KELEI);
-			entity.addPart("stu_area_id",
-					new StringBody(stu_area_id, Charset.forName("UTF-8")));
-			entity.addPart("school_area_id", new StringBody(school_area_id,
-					Charset.forName("UTF-8")));
-			entity.addPart("kelei",
-					new StringBody(kelei, Charset.forName("UTF-8")));
-			entity.addPart("grade",
-					new StringBody(grade, Charset.forName("UTF-8")));
+			entity.addPart("stu_area_id", new StringBody(stu_area_id, Charset.forName("UTF-8")));
+			entity.addPart("school_area_id", new StringBody(school_area_id, Charset.forName("UTF-8")));
+			entity.addPart("kelei",new StringBody(kelei, Charset.forName("UTF-8")));
+			entity.addPart("grade",new StringBody(grade, Charset.forName("UTF-8")));
 			getSchool(page, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,16 +76,11 @@ public class QueryResultActivity extends CommonActivity implements
 
 	}
 
-	private ArrayList<School> schools=new ArrayList<School>();
-
-	private int page = 1;
-
 	public void getSchool(int page, int action) {
 		boolean hasMoreData = false;
 		try {
 
-			String jsonData = HttpUtil.postRequestEntity(Const.QUERY_SCHOOL
-					+ page, entity);
+			String jsonData = HttpUtil.postRequestEntity(Const.QUERY_SCHOOL + page, entity);
 			if (StringUtils.isNotEmpty(jsonData)) {
 				JSONObject obj = JSONObject.parseObject(jsonData);
 				Integer errCode = obj.getInteger("errcode");
@@ -141,7 +106,7 @@ public class QueryResultActivity extends CommonActivity implements
 							adapter.changeDateInThread(schools);
 						}
 					} else {
-						toast("没有查询到可上学校！");
+						toast("亲,没有可刷新的了!");
 					}
 				} else {
 					toast("没有查询到可上学校！");
@@ -183,6 +148,7 @@ public class QueryResultActivity extends CommonActivity implements
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+		page++;
 		getSchool(page,ADD);
 
 	}

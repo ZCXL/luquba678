@@ -1,12 +1,10 @@
 package cn.luquba678.activity.fragment;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.GeofenceClient;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.navisdk.util.common.StringUtils;
+import com.zhuchao.http.Network;
 
 import cn.luquba678.R;
 import cn.luquba678.activity.CityChooserActivity;
@@ -14,30 +12,25 @@ import cn.luquba678.activity.QueryResultActivity;
 import cn.luquba678.activity.listener.BackChangeOnTouchListener;
 import cn.luquba678.entity.CityMsg;
 import cn.luquba678.entity.School;
-import cn.luquba678.service.LoadDataFromServer;
 import cn.luquba678.utils.baidumap.LocationListener;
 import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * @ClassName: TabCFm
@@ -46,7 +39,7 @@ import android.widget.AdapterView.OnItemClickListener;
  * @date 2013 2013年11月6日 下午4:06:47
  *
  */
-public class QueryFragment extends Fragment implements OnItemClickListener, OnClickListener, OnCheckedChangeListener {
+public class QueryFragment extends Fragment implements OnClickListener, OnCheckedChangeListener {
 	//score edit
 	private EditText etScore;
 	//type of school
@@ -60,9 +53,6 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
 	private String tempcoor = "gcj02";
 	private LocationClient mLocationClient;
 	private LocationListener mMyLocationListener;
-	private GeofenceClient mGeofenceClient;
-	private Vibrator mVibrator;
-	private boolean isLocated = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -134,8 +124,6 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
                     Log.i("定位省份", province);
 					locat_area = CityMsg.getShortName(null, province);
 					query_home_place_home.setText(locat_area.getArea_shortname());
-
-					isLocated = true;
 					mLocationClient.stop();
 				}
 
@@ -143,54 +131,11 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
 
 		};
 		mLocationClient.registerLocationListener(mMyLocationListener);
-        //mLocationClient.registerLocationListener(new MapListener());
-		mGeofenceClient = new GeofenceClient(getActivity().getApplicationContext());
-		mVibrator = (Vibrator) getActivity().getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
 		mLocationClient.start();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	}
-
-	@Override
 	public void onClick(View v) {
-		LoadDataFromServer loadDate = null;
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.query_home_place:
@@ -204,6 +149,10 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
 			startActivityForResult(intent, 2);
 			break;
 		case R.id.do_search:
+			if(!Network.checkNetWorkState(getActivity())) {
+				Toast.makeText(getActivity(), "未连接网络", Toast.LENGTH_SHORT).show();
+				break;
+			}
 			sharedPreferences = getActivity().getSharedPreferences("luquba_login", Context.MODE_PRIVATE);
 			editor = sharedPreferences.edit();// 获取编辑器
 
@@ -216,7 +165,7 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
 				Toast.makeText(this.getActivity(), "同学，请告诉我你考了多少分呀？", Toast.LENGTH_SHORT).show();
 				etScore.selectAll();
 				break;
-			} else if (Double.parseDouble(score) > 900 || Double.parseDouble(score) < 0) {
+			} else if (Double.parseDouble(score) > getGrade() || Double.parseDouble(score) < 0) {
 				Toast.makeText(this.getActivity(), "同学，你在逗我吗？", Toast.LENGTH_SHORT).show();
 				etScore.selectAll();
 				break;
@@ -269,63 +218,33 @@ public class QueryFragment extends Fragment implements OnItemClickListener, OnCl
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode) {
-		case 200:
-			String area_name = data.getStringExtra("area_name");
-			switch (requestCode) {
-			case 1:
-				query_home_place_home.setText(area_name);
+			case 200:
+				String area_name = data.getStringExtra("area_name");
+				switch (requestCode) {
+					case 1:
+						query_home_place_home.setText(area_name);
+						break;
+					case 2:
+						query_school_place_school.setText(area_name);
+						break;
+					default:
+						break;
+				}
 				break;
-			case 2:
-				query_school_place_school.setText(area_name);
-				break;
-
 			default:
 				break;
-			}
-			break;
-
-		default:
-			break;
 		}
-
 	}
-
-    class MapListener implements BDLocationListener{
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            if (location == null)
-                return;
-            StringBuffer sb = new StringBuffer(256);
-            sb.append("time : ");
-            sb.append(location.getTime());
-            sb.append("\nerror code : ");
-            sb.append(location.getLocType());
-            sb.append("\nlatitude : ");
-            sb.append(location.getLatitude());
-            sb.append("\nlontitude : ");
-            sb.append(location.getLongitude());
-            sb.append("\nradius : ");
-            sb.append(location.getRadius());
-            if (location.getLocType() == BDLocation.TypeGpsLocation)//定位结果描述：GPS定位结果
-            {
-                sb.append("\nspeed : ");
-                sb.append(location.getSpeed());
-                sb.append("\nsatellite : ");
-                sb.append(location.getSatelliteNumber());
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation)//定位结果描述：网络定位结果
-            {
-
-                sb.append("\nprovince : ");
-                sb.append(location.getProvince());
-                sb.append("\ncity : ");
-                sb.append(location.getCity());
-
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-            }
-
-            Log.d("zhuchao",sb.toString());
-        }
-    }
+	private int getGrade(){
+		String province=query_home_place_home.getText().toString();
+		if(province.equals("上海"))
+			return 630;
+		if(province.equals("江苏"))
+			return 480;
+		if(province.equals("浙江"))
+			return 810;
+		if(province.equals("海南"))
+			return 900;
+		return 750;
+	}
 }

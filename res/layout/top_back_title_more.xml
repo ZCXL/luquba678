@@ -27,7 +27,7 @@
             android:clickable="false"
             android:enabled="false"
             android:layout_height="20dp"
-            android:src="@drawable/back_array" />
+            android:src="@drawable/new_wish_back" />
 
     </LinearLayout>
 
@@ -50,6 +50,6 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
 </RelativeLayout>

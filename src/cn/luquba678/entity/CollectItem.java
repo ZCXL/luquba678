@@ -14,8 +14,8 @@ import cn.luquba678.utils.DateUtils;
 public class CollectItem extends News{
 	private String type;
 	private String collect_time;
-	public CollectItem(String id,String pic, String origin,String create_time,String title,String intro,String author,String url,String type,String collect_time){
-		super(id,pic,origin,create_time,title,intro,author,url);
+	public CollectItem(String id,String pic, String origin,String create_time,String title,String intro,String author,String url,String content,String type,String collect_time){
+		super(id,pic,origin,create_time,title,intro,author,url,content);
 		this.type=type;
 		this.collect_time=collect_time;
 	}
@@ -29,7 +29,6 @@ public class CollectItem extends News{
 			setCollect_time(jsonObject.getString("collect_createtime"));
 			setType(jsonObject.getString("type"));
 			setAuthor(jsonObject.getString("author"));
-			setIntro(jsonObject.getString("intro"));
 			setPic(jsonObject.getString("pic"));
 			setTitle(jsonObject.getString("title"));
 			setOrigin(jsonObject.getString("origin"));

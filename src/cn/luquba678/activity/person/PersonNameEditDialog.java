@@ -1,6 +1,5 @@
 package cn.luquba678.activity.person;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
@@ -10,20 +9,22 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.luquba678.R;
 import cn.luquba678.activity.PersonMessageActivity;
 import cn.luquba678.ui.FullScreenDialog;
-import cn.luquba678.utils.KeyBoardUtils;
-import cn.luquba678.utils.SPUtils;
 import cn.luquba678.utils.ToolUtils;
 
-public class PersonNameEditDialog extends FullScreenDialog implements
-		android.view.View.OnClickListener, TextWatcher {
+public class PersonNameEditDialog extends FullScreenDialog implements android.view.View.OnClickListener, TextWatcher {
 	private TextView tv_save, tv_name, tv_count;
 	private EditText et_name;
 	private PersonMessageActivity context;
-	private final int nick_name = 2,address = 5;
+	private final int nick_name = 2;
+	private ImageView back_image;
+    private RelativeLayout back;
 	public PersonNameEditDialog(PersonMessageActivity context, TextView tv_name) {
 		super(context);
 		this.context = context;
@@ -34,7 +35,6 @@ public class PersonNameEditDialog extends FullScreenDialog implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.person_name_edit_dialog);
-		initTitle(findViewById(R.id.top_back), "更改名字");
 		tv_save = (TextView) findViewById(R.id.save);
 		tv_count = (TextView) findViewById(R.id.tv_count);
 		int tv_length = tv_name.length();
@@ -53,36 +53,45 @@ public class PersonNameEditDialog extends FullScreenDialog implements
 		tv_save.setOnClickListener(this);
 		et_name = (EditText) findViewById(R.id.et_name);
 		et_name.setText(tv_name.getText().toString());
-		// KeyBoardUtils.openKeybord(et_name, context);
 		CharSequence text = et_name.getText();
 		if (text instanceof Spannable) {
 			Spannable spanText = (Spannable) text;
 			Selection.setSelection(spanText, text.length());
 		}
 		et_name.addTextChangedListener(this);
+
+		back_image=(ImageView)findViewById(R.id.title_top_image);
+        back_image.setOnClickListener(this);
+        back=(RelativeLayout)findViewById(R.id.top_back);
+		back.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.save:
-			String name = et_name.getText().toString();
-			if (checkIsCanSaveName(name)) {
-				ToolUtils.showShortToast(context, "保存成功!!!");
-				tv_name.setText(et_name.getText().toString());
-				context.uploadChange(nick_name, name);
-				dismiss();
-			}
-			break;
-		default:
-			break;
+            case R.id.save:
+                String name = et_name.getText().toString();
+                if (checkIsCanSaveName(name)) {
+                    ToolUtils.showShortToast(context, "保存成功!!!");
+                    tv_name.setText(et_name.getText().toString());
+                    context.uploadChange(nick_name, name);
+                    dismiss();
+                }
+                break;
+            case R.id.title_top_image:
+                dismiss();
+                break;
+            case R.id.top_back:
+                dismiss();
+                break;
+            default:
+                break;
 		}
 
 	}
 
 	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 	}
 
 	@Override
@@ -94,9 +103,9 @@ public class PersonNameEditDialog extends FullScreenDialog implements
 	public void afterTextChanged(Editable s) {
 		int tv_length = s.length();
 		int maxInputLength = 8;
-		int showLenth = maxInputLength - tv_length;
+		int showLength = maxInputLength - tv_length;
 		if (tv_length > 0) {
-			if (showLenth > 0) {
+			if (showLength > 0) {
 				tv_count.setTextColor(context.getResources().getColor(
 						R.color.black));
 			} else {
@@ -107,7 +116,7 @@ public class PersonNameEditDialog extends FullScreenDialog implements
 			tv_count.setTextColor(context.getResources()
 					.getColor(R.color.black));
 		}
-		tv_count.setText(showLenth + "");
+		tv_count.setText(showLength + "");
 	}
 
 	@Override

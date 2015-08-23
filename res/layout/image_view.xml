@@ -6,7 +6,7 @@
     <ImageView 
         android:id="@+id/image_view"
         style="@style/width_fill_height_fill"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         />
 
 </LinearLayout>

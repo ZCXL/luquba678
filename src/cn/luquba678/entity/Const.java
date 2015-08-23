@@ -76,7 +76,7 @@ public class Const {
 	public final static String SEND_WORD = BASE_URL
 			+ "/api/sendword/add?uid=%s&login_token=%s";
 	// 删除寄语
-	public final static String DELETE_WORD = BASE_URL + "/api/sendword/delete";
+	public final static String DELETE_WORD = BASE_URL + "/api/sendword/delete?uid=%s&login_token=%s";
 	// 查询寄语
 	public final static String QUERY_PAGE_WORD = BASE_URL
 			+ "/api/story/query?page=";
@@ -96,7 +96,7 @@ public class Const {
 	public final static String CHANGE_USER_INFO = BASE_URL
 			+ "/api/user/changeUserInfo?uid=%s&login_token=%s";
 	// 常见问题
-	public final static String GET_HELP = BASE_URL + "/api/user/getHelp";
+	public final static String GET_HELP = BASE_URL + "/api/info/getHelp";
 	// 意见反馈
 	public final static String FEED_BACK = BASE_URL + "/api/user/feedback";
 

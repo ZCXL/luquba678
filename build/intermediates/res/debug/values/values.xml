@@ -36,7 +36,13 @@
     <color name="white">#ffffff</color>
     <color name="white_half">#88ffffff</color>
     <declare-styleable name="CircularProgressBar"><attr format="color" name="circle_color"/><attr format="dimension" name="width"/></declare-styleable>
+    <declare-styleable name="CustomAttributes"><attr format="color|reference" name="rippleColor"/><attr format="float" name="rippleSpeed"/><attr format="boolean" name="showNumberIndicator"/><attr format="integer" name="max"/><attr format="integer" name="min"/><attr format="integer" name="value"/><attr format="integer" name="progress"/><attr format="dimension" name="ringWidth"/><attr format="boolean" name="check"/><attr format="dimension" name="checkBoxSize"/><attr format="dimension" name="thumbSize"/><attr format="integer" name="iconDrawable"/><attr format="dimension" name="iconSize"/><attr format="boolean" name="animate"/><attr format="float" name="rippleBorderRadius"/><attr format="boolean" name="clickAfterRipple"/></declare-styleable>
+    <declare-styleable name="CustomTheme"><attr format="reference" name="gifViewStyle"/></declare-styleable>
+    <declare-styleable name="GifView"><attr format="reference" name="gif"/><attr format="boolean" name="paused"/></declare-styleable>
+    <declare-styleable name="RoundCornerImage"><attr format="integer" name="radius"/></declare-styleable>
+    <declare-styleable name="expandableLayout"><attr format="integer" name="up_arrow"/><attr format="integer" name="down_arrow"/><attr format="boolean" name="is_expand"/></declare-styleable>
     <declare-styleable name="roundedImageView"><attr format="dimension" name="border_thickness"/><attr format="color" name="border_inside_color"/><attr format="color" name="border_outside_color"/></declare-styleable>
+    <declare-styleable name="searchRotateView"><attr format="integer" name="image_source"/><attr format="integer|color" name="ripple_color"/><attr format="integer" name="ripple_speed"/><attr format="integer" name="rotate_speed"/><attr format="boolean" name="is_rotate"/></declare-styleable>
     <declare-styleable name="swipelistviewstyle"><attr format="dimension" name="right_width"/></declare-styleable>
     <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/dimens.xml -->
     <eat-comment/>
@@ -362,6 +368,11 @@
     <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/ssdk_strings.xml -->
     <eat-comment/>
     <string name="tencentweibo">腾讯微博</string>
+    <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="title_activity_test">Test</string>
+    <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/ssdk_strings.xml -->
+    <eat-comment/>
     <string name="tumblr">Tumblr</string>
     <string name="twitter">Twitter</string>
     <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/strings.xml -->
@@ -423,7 +434,7 @@
     <style name="Dialog_Fullscreen">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
     <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/values/styles_bottomBar.xml -->
     <eat-comment/>
@@ -470,6 +481,14 @@
         <item name="android:textColor">@drawable/radio_buttom_text_color</item>
         <item name="android:button">@null</item>
     </style>
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+    </style>
     <style name="famous_says_info_style" parent="@style/width_wrap_height_wrap">
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:textColor">#6C6B66</item>
@@ -505,19 +524,20 @@
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">2</item>
         <item name="android:textColor">#0e0e0d</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
     <style name="ic_hint">
         <item name="android:layout_width">22dp</item>
         <item name="android:layout_height">22dp</item>
         <item name="android:layout_marginLeft">15dp</item>
     </style>
-    <style name="image_button_forword">
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:layout_gravity">right|center_vertical</item>
+    <style name="image_button_forward">
+        <item name="android:layout_marginRight">18.66dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_width">8dp</item>
         <item name="android:layout_height">12dp</item>
-        <item name="android:background">@drawable/personal_change</item>
+        <item name="android:background">@drawable/new_go</item>
     </style>
     <style name="input_item">
         <item name="android:background">#1D8F83</item>
@@ -558,7 +578,7 @@
     <eat-comment/>
     <style name="linearlayout_line_item">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
@@ -635,12 +655,23 @@
     </style>
     <style name="save_wdjy_buttom_btn" parent="android:Widget.ImageButton">
         <item name="android:clickable">false</item>
-         <item name="android:layout_height">22dp</item>
-        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">6.66dp</item>
     </style>
     <style name="save_wdjy_buttom_btn_text" parent="@style/width_wrap_height_wrap">
-        <item name="android:textColor">#FF524F4F</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginTop">5.66dp</item>
+    </style>
+    <style name="select_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
     <style name="style_cell_navigation" parent="@style/width_fill_height_fill">
         <item name="android:background">@color/white</item>
@@ -653,6 +684,10 @@
         <item name="android:clickable">false</item>
         <item name="android:layout_width">25dp</item>
         <item name="android:layout_height">20dp</item>
+    </style>
+    <style name="style_left" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/head_in</item>  //进入时的动画
+        <item name="@android:windowExitAnimation">@anim/head_out</item>    //退出时的动画
     </style>
     <style name="style_text_navigation" parent="@style/width_wrap_height_wrap">
         <item name="android:textColor">#989898</item>
@@ -680,7 +715,7 @@
     </style>
     <style name="text_view_right_gray" parent="@style/width_wrap_height_wrap">
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginRight">13sp</item>
         <item name="android:textColor">@color/gray_6</item>
     </style>
     <style name="textview_left_black" parent="@style/personal_text_view">

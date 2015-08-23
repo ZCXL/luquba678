@@ -71,7 +71,7 @@ public class WheelView extends View {
 	private Drawable centerDrawable;
 
 	// Wheel drawables
-	private int wheelBackground = R.color.white;
+	private int wheelBackground = android.R.color.transparent;
 	private int wheelForeground = R.drawable.wheel_val;
 
 	// Shadows drawables
@@ -674,7 +674,7 @@ public class WheelView extends View {
 
 	/**
 	 * Draws shadows on top and bottom of control
-	 * 
+	 *
 	 * @param canvas
 	 *            the canvas for drawing
 	 */
@@ -818,7 +818,7 @@ public class WheelView extends View {
 	/**
 	 * Scroll the wheel
 	 * 
-	 * @param itemsToSkip
+	 * @param itemsToScroll
 	 *            items to scroll
 	 * @param time
 	 *            scrolling duration

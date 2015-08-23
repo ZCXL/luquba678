@@ -1,88 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical" >
-
-            <include
-                android:id="@+id/editer_top"
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                layout="@layout/top_back_title_more" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@color/main_color"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
             <LinearLayout
-                android:id="@+id/famous_says_text_area"
-                android:layout_width="fill_parent"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_famous_says"
-                android:gravity="center" >
-				<RelativeLayout 
-				    style="@style/width_wrap_height_wrap"
-				    
-				    >
-                <TextView
-                    android:id="@+id/famous_says_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/famous_says_author"
-                    android:layout_below="@+id/famous_says_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="34dp"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-                </RelativeLayout>
-            </LinearLayout>
- <RelativeLayout
-     android:id="@+id/ad_relativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="110dp" >
-            <cn.luquba678.view.ImgScrollViewPager
-                android:id="@+id/pager_ad"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-            </cn.luquba678.view.ImgScrollViewPager>
-			<LinearLayout
-                    android:id="@+id/indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-                </LinearLayout></RelativeLayout>
-            <cn.luquba678.view.PullToRefreshListView
-                android:id="@+id/listview_stories"
-                android:layout_width="match_parent"
+                android:id="@+id/top_back"
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
                 android:layout_height="fill_parent"
-                android:layout_margin="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:cacheColorHint="#00000000"
-                android:divider="#D6D3D3"
-                android:dividerHeight="0.5dp"
-                android:fadingEdge="none"
-                android:fadingEdgeLength="0dp"
-                android:overScrollMode="never"
-                android:padding="0dp"
-               />
+                android:background="@null"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                >
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/title_top_image"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:layout_height="20dp"
+                    android:src="@drawable/new_wish_back" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/top_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:background="@null"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/famous_says_text_area"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp"
+                    android:background="@drawable/bg_famous_says"
+                    android:gravity="center" >
+                    <RelativeLayout style="@style/width_wrap_height_wrap">
+                        <TextView
+                            android:id="@+id/famous_says_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/famous_says_author"
+                            android:layout_below="@+id/famous_says_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="34dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/ad_relativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp" >
+                    <cn.luquba678.view.ImgScrollViewPager
+                        android:id="@+id/pager_ad"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" >
+                    </cn.luquba678.view.ImgScrollViewPager>
+                    <LinearLayout
+                        android:id="@+id/indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+                </RelativeLayout>
+                <cn.luquba678.view.PullToRefreshListView
+                    android:id="@+id/listview_stories"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:cacheColorHint="#00000000"
+                    android:divider="#D6D3D3"
+                    android:dividerHeight="0.5dp"
+                    android:fadingEdge="none"
+                    android:fadingEdgeLength="0dp"
+                    android:overScrollMode="never"
+                    android:padding="0dp"
+                    />
+            </LinearLayout>
+            <include
+                android:id="@+id/network_error"
+                layout="@layout/network_error"
+                android:visibility="invisible"/>
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/activity_story_main_page.xml -->

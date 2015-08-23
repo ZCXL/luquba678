@@ -28,7 +28,7 @@ public class NetworkReceiver extends BroadcastReceiver {
                 }
             }
             if(isConnected){
-                Toast.makeText(context,"Have Connected NetWork",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"已连接网络",Toast.LENGTH_LONG).show();
                 isConnected=false;
                 /**
                  * send broadcast to tell activity that network is connected.
@@ -41,7 +41,7 @@ public class NetworkReceiver extends BroadcastReceiver {
                  */
                 Intent intent1=new Intent(NETWORK_DISCONNECT);
                 context.sendBroadcast(intent1);
-                Toast.makeText(context,"Connect NetWork Failed",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"网络已断开",Toast.LENGTH_LONG).show();
             }
         }
     }

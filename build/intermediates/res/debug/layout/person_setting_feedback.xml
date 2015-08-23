@@ -5,11 +5,47 @@
     android:background="@color/gray_e"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/person_setting_feedback_title"
-        android:layout_width="match_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="48dp"
-        layout="@layout/top_back_title_more" />
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <!-- style="@style/style_top_base" -->
+
+        <LinearLayout
+            android:id="@+id/top_back"
+            android:layout_width="wrap_content"
+            android:minWidth="50dp"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/title_top_image"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:src="@drawable/new_wish_back" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text="意见反馈"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -22,9 +58,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
-            android:gravity="top|start"
             android:background="@color/white"
-            android:hint="请不要吝啬地写下您的意见和建议，这是对我们最大的支持，谢谢！" />
+            android:textAlignment="center"
+            android:gravity="start|top"
+            android:hint="    请不要吝啬地写下您的意见和建议，这是对我们最大的支持，谢谢！" />
 
         <Button
             android:id="@+id/ed_commit_btn"
@@ -33,7 +70,7 @@
             android:layout_below="@id/ed_feedback"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:background="@color/main_color"
+            android:background="@drawable/new_select_birthday_confirm"
             android:layout_marginTop="30dp"
             android:text="确认提交" />
     </RelativeLayout>

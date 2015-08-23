@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
-    android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/new_sex_select_bg" >
 
     <TextView
         android:id="@+id/tv_score"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center"
-        android:text="请输入分数"
+        android:text="请输入高考分数"
         android:textColor="@color/black"
         android:textSize="18dp" />
 
-    <View
-        style="@style/under_line"
-        android:layout_below="@id/tv_score" />
 
     <EditText
         android:id="@+id/ed_score"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/tv_score"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@null" />
-
-    <View
-        android:id="@+id/under_line"
-        style="@style/under_line"
-        android:layout_below="@id/ed_score" />
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/white" />
 
     <RelativeLayout
         android:id="@+id/rl_input_error_hint"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_below="@id/under_line" >
+        android:layout_below="@id/ed_score" >
 
         <TextView
             android:id="@+id/input_error_hint"
@@ -51,9 +43,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/rl_input_error_hint"
         android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        >
-
+        android:layout_marginStart="13.66dp">
         <Button
             android:id="@+id/btn_cancle"
             android:layout_width="95dp"
@@ -61,8 +51,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="6dp"
-            android:background="@drawable/bg_grey_solid"
+            android:background="@drawable/new_select_birthday_cancel"
             android:gravity="center"
+            android:textColor="#807e7c"
             android:text="取消" />
 
         <Button
@@ -72,9 +63,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="6dp"
-            android:background="@drawable/bg_grey_solid"
+            android:background="@drawable/new_select_birthday_confirm"
             android:text="确定"
-            android:textColor="@color/red" />
+            android:textColor="@android:color/white" />
     </RelativeLayout>
 
 </RelativeLayout>

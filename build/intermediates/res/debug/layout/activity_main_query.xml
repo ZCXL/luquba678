@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_search"
+    android:background="@drawable/new_search_bg"
     android:orientation="vertical" >
 
     <include
@@ -203,13 +203,19 @@
                 android:src="@drawable/ic_forword_arraw" />
         </LinearLayout>
     </RelativeLayout>
-
-    <ImageButton
+    <com.zhuchao.view_rewrite.SearchRotateView
+        xmlns:customer="http://schemas.android.com/apk/res-auto"
         android:id="@+id/do_search"
         android:layout_gravity="center_horizontal"
-        android:layout_width="86dp"
         android:layout_marginTop="30dp"
-        android:layout_height="86dp"
-        android:background="@drawable/ic_search_big" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        customer:image_source="@drawable/ic_search_big"
+        customer:ripple_color="#ff42a8ff"
+        customer:ripple_speed="1"
+        customer:rotate_speed="5"
+        customer:is_rotate="false"
+        android:layout_centerInParent="true"
+        />
 
 </LinearLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/activity_main_query.xml -->

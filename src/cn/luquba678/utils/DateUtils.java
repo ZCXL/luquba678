@@ -8,7 +8,6 @@ import java.util.Date;
 
 import com.baidu.navisdk.util.common.StringUtils;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -21,41 +20,9 @@ public class DateUtils {
 			"天蝎座", "射手座", "摩羯座" };
 
 	public final static long SECOND = 1000;
-	public final static long MINUT = SECOND * 60;
-	public final static long HOUR = MINUT * 60;
+	public final static long MINUTE = SECOND * 60;
+	public final static long HOUR = MINUTE * 60;
 	public final static long DAY = HOUR * 24;
-
-	public static String getCreatetime(String createtime) {
-		if (StringUtils.isNotEmpty(createtime))
-			return DateUtils.timeHint(Long.parseLong(createtime) * 1000,
-					"yyyy年MM月dd日");
-		else
-			return "";
-	}
-
-	
-	/** 传入月份和日期获取星座 */
-	public static String getConstellation(int month, int day) {
-		return day < dayArr[month - 1] ? constellationArr[month - 1]
-				: constellationArr[month];
-	}
-
-	/** 传入时间毫秒数获取星座 */
-	public static String getConstellationByTimeMillis(Long time) {
-		String[] mmdd = formatDate("MM-dd", time).split("[^0-9]");
-		return getConstellation(Integer.parseInt(mmdd[0]),
-				Integer.parseInt(mmdd[1]));
-	}
-
-	/** 传入时间和对应时间格式获取星座 */
-	public static String getConstellationByDate(String pattern, String timeStr) {
-		return getConstellationByTimeMillis(getTimeMillis(pattern, timeStr));
-	}
-
-	/** 传入时间(Timestamp)星座 */
-	public static String getConstellationByTimestamp(Timestamp s) {
-		return getConstellationByTimeMillis(s.getTime());
-	}
 
 	/**
 	 * 将毫秒数转换成对应时间格式
@@ -89,73 +56,32 @@ public class DateUtils {
 			return d.getTime();
 		}
 	}
-
-	/** 根据日期毫秒数获取距今多少年的工具(获取年龄) */
-	public static int getAge(Long time) {
-		Calendar b = Calendar.getInstance();
-		int yy = b.get(Calendar.YEAR);
-		int mm = b.get(Calendar.MONTH);
-		int dd = b.get(Calendar.DATE);
-		b.setTimeInMillis(time);
-		int age = yy - b.get(Calendar.YEAR);
-		if (b.get(Calendar.MONTH) > mm
-				|| (b.get(Calendar.MONTH) == mm && b.get(Calendar.DATE) > dd)) {
-			age = age - 1;
-		}
-		return age;
-	}
-
-	/** 传入两个时间计算相差多少天 */
-	public static int timeBefor(Long befor, Long after) {
-		long a = after - befor;
-		int c = (int) (a / DAY);
-		return c;
-	}
-
 	/**
 	 * 时间提示
 	 * 
-	 * @param after
+	 * @param before
 	 * @return
 	 */
-	public static String timeHint(Long befor, String format) {
-		long a = System.currentTimeMillis() - befor;
+	public static String timeHint(Long before, String format) {
+		long a = System.currentTimeMillis() - before;
 		int c = (int) (a / DAY);
 		String result = "";
 		if (a < DAY && a > HOUR) {
 			result = a / HOUR + "小时前";
-		} else if (a < HOUR && a > MINUT) {
-			result = a / MINUT + "分钟前";
-		} else if (a < MINUT && a > 0) {
+		} else if (a < HOUR && a > MINUTE) {
+			result = a / MINUTE + "分钟前";
+		} else if (a < MINUTE && a > 0) {
 			result = a / SECOND + "秒前";
 		} else if (c <= 3) {
 			result = c + "天前";
 		} else {
-			result = formatDate(format, befor);
+			result = formatDate(format, before);
 		}
 		return result;
 	}
 
-	/** 传入生日毫秒数，获取还有多少天过生日 */
-	public static int getBirthDayBefore(Long birth) {
-		long a = getMillisBefore(birth);
-		int c = (int) (a / 1000 / 60 / 60 / 24);
-		return c;
-	}
-
-	/** 传入生日毫秒数，获取还有多少毫秒 */
-	public static long getMillisBefore(Long birth) {
-		Calendar b = Calendar.getInstance();
-		int age = getAge(birth);
-		b.setTimeInMillis(birth);
-		b.set(b.get(Calendar.YEAR) + 1 + age, b.get(Calendar.MONTH),
-				b.get(Calendar.DATE));
-		return b.getTimeInMillis() - System.currentTimeMillis();
-	}
-
 	public static long getMillisBefore(int year) {
-		return getTimeMillis("yyyy-MM-dd HH", year + "-06-07 09")
-				- System.currentTimeMillis();
+		return getTimeMillis("yyyy-MM-dd HH", year + "-06-07 09") - System.currentTimeMillis();
 	}
 
 	public static String getStringFromMil(long mil) {
@@ -167,32 +93,13 @@ public class DateUtils {
 	}
 
 	public static String countNationalHigherEducationEntranceExamination(
-			int year) {
-		return getStringFromMil(getMillisBefore(year));
-	}
-
-	public static String countNationalHigherEducationEntranceExamination(
 			String year) {
 		return getStringFromMil(getMillisBefore(Integer.valueOf(year)));
 	}
-
-	/** 今天是否是生日 */
-	public static boolean isBirthDay(Long time) {
-		return getBirthDayBefore(time) == 0;
-	}
-
-	/**
-	 * 获取当前应用程序的版本号。
-	 */
-	public int getAppVersion(Context context) {
-		try {
-			PackageInfo info = context.getPackageManager().getPackageInfo(
-					context.getPackageName(), 0);
-			return info.versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return 1;
+	public static String getDay(long time){
+		SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd" );
+		String d = format.format(time);
+		return d;
 	}
 
 }

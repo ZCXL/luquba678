@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -149,16 +150,16 @@
         <activity
             android:name="cn.luquba678.activity.CitiesActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/select_dialog" >
         </activity>
         <activity
             android:name="cn.luquba678.activity.BirthdayActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/select_dialog" >
         </activity>
         <!-- 微信分享回调 -->
         <activity
-            android:name="wxapi.WXEntryActivity"
+            android:name="cn.luquba678.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -186,6 +187,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="cn.luquba678.activity.Test"
+            android:label="@string/title_activity_test" >
+        </activity>
     </application>
 
 </manifest>

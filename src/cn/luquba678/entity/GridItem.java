@@ -1,6 +1,4 @@
 package cn.luquba678.entity;
-
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -12,11 +10,16 @@ import cn.luquba678.utils.DateUtils;
 public class GridItem{
 	int id;
 	private String pic;
-	private Long createtime;
+	private Long create_time;
 	private String content;
 	private int section = 0;
 
-
+	public Long getCreate_time() {
+		return create_time;
+	}
+	public void setCreate_time(Long create_time) {
+		this.create_time = create_time;
+	}
 
 	public int getId() {
 		return id;
@@ -30,12 +33,7 @@ public class GridItem{
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
-	public Long getCreatetime() {
-		return createtime;
-	}
-	public void setCreatetime(Long createtime) {
-		this.createtime = createtime;
-	}
+
 	public static ArrayList<GridItem> getListFromJson(String jsonData) {
 		Type listType = new TypeToken<ArrayList<GridItem>>() {
 		}.getType();
@@ -61,15 +59,15 @@ public class GridItem{
 
 	public String getTime() {
 		return DateUtils.formatDate("yyyy年MM月",
-				createtime * 1000);
+				create_time * 1000);
 	}
-	public String getTime(String fomat) {
-		return DateUtils.formatDate(fomat,
-				createtime * 1000);
+	public String getTime(String format) {
+		return DateUtils.formatDate(format,
+				create_time * 1000);
 	}
 
 	public void setTime(Long time) {
-		this.createtime = time;
+		this.create_time = time;
 	}
 
 	public int getSection() {

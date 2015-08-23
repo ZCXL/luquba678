@@ -1,65 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="225.33dp"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/new_sex_select_bg"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
-
+        android:layout_height="48dp" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="选择" />
+            android:textSize="13.33dp"
+            android:textColor="#787777"
+            android:text="选择性别" />
     </RelativeLayout>
 
     <View style="@style/under_line" />
-
     <RelativeLayout
-        android:id="@+id/rl_boy"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+        android:layout_height="103dp">
+        <Button
+            android:id="@+id/female"
+            android:layout_width="65dp"
+            android:layout_height="25.33dp"
             android:text="男"
-            android:textColor="@color/black" />
-    </RelativeLayout>
-
-    <View style="@style/under_line" />
-
-    <RelativeLayout
-        android:id="@+id/rl_girl"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:background="@drawable/new_sex_checked"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginBottom="30.66dp"/>
+        <Button
+            android:id="@+id/male"
+            android:layout_width="65dp"
+            android:layout_height="25.33dp"
             android:text="女"
-            android:textColor="@color/black" />
+            android:background="@drawable/new_sex_unchecked"
+            android:layout_toRightOf="@+id/female"
+            android:layout_marginLeft="28.66dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginBottom="30.66dp"/>
     </RelativeLayout>
-
     <View style="@style/under_line" />
 
     <RelativeLayout
-        android:id="@+id/rl_cancle"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        >
-
-        <TextView
+        android:layout_height="40dp">
+        <Button
+            android:id="@+id/rl_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="取消"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginTop="12.66dp"
+            android:background="@drawable/new_sex_select_button"/>
     </RelativeLayout>
 
 </LinearLayout>

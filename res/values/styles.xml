@@ -27,7 +27,7 @@
     <style name="Dialog_Fullscreen">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
 
     <style name="style_text_navigation" parent="@style/width_wrap_height_wrap">
@@ -79,12 +79,13 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="image_button_forword">
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:layout_gravity">right|center_vertical</item>
+    <style name="image_button_forward">
+        <item name="android:layout_marginRight">18.66dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_width">8dp</item>
         <item name="android:layout_height">12dp</item>
-        <item name="android:background">@drawable/personal_change</item>
+        <item name="android:background">@drawable/new_go</item>
     </style>
 
     <style name="under_line">
@@ -111,13 +112,13 @@
 
     <style name="text_view_right_gray" parent="@style/width_wrap_height_wrap">
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginRight">13sp</item>
         <item name="android:textColor">@color/gray_6</item>
     </style>
 
     <style name="linearlayout_line_item">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
@@ -186,12 +187,14 @@
     </style>
     <style name="save_wdjy_buttom_btn" parent="android:Widget.ImageButton">
         <item name="android:clickable">false</item>
-         <item name="android:layout_height">22dp</item>
-        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">6.66dp</item>
     </style>
     <style name="save_wdjy_buttom_btn_text" parent="@style/width_wrap_height_wrap">
-        <item name="android:textColor">#FF524F4F</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginTop">5.66dp</item>
     </style>
     <style name="save_wdjy_btn_item">
         <item name="android:layout_height">match_parent</item>
@@ -208,7 +211,7 @@
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">2</item>
         <item name="android:textColor">#0e0e0d</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
     
     <style name="width_fill_height_wrap">
@@ -283,5 +286,26 @@
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="style_left" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/head_in</item>  //进入时的动画
+        <item name="@android:windowExitAnimation">@anim/head_out</item>    //退出时的动画
+    </style>
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+    </style>
+    <style name="select_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
 </resources>

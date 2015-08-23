@@ -1,45 +1,24 @@
 package cn.luquba678.activity;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.MajorListAdapter;
-import cn.luquba678.activity.adapter.SchoolListAdapter;
-import cn.luquba678.entity.CityMsg;
 import cn.luquba678.entity.MatriculateMsg;
-import cn.luquba678.entity.School;
-import cn.luquba678.entity.TestMajorDate;
-import cn.luquba678.service.LoadDataFromServer;
-import cn.luquba678.utils.ImageLoader;
-import cn.luquba678.view.CircularImage;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-public class MajorsDetailActivity extends CommonActivity implements
-		OnClickListener, OnItemClickListener {
+public class MajorsDetailActivity extends CommonActivity implements OnClickListener {
 
 	private TextView title;
-	ImageLoader ima = new cn.luquba678.utils.ImageLoader(this);
-	private CircularImage logo;
-	private ListView msgList;
 	private ListView major_list;
-	private ArrayList<TestMajorDate> tmds;
 	private ArrayList<MatriculateMsg> majors;
 
 	@Override
@@ -68,11 +47,8 @@ public class MajorsDetailActivity extends CommonActivity implements
 
 		@Override
 		public void handleMessage(Message msg) {
-			adapter = new MajorListAdapter(MajorsDetailActivity.this,
-					(ArrayList<MatriculateMsg>) msg.obj,
-					R.layout.majors_detail_item);
+			adapter = new MajorListAdapter(MajorsDetailActivity.this, (ArrayList<MatriculateMsg>) msg.obj, R.layout.majors_detail_item);
 			major_list.setAdapter(adapter);
-			major_list.setOnItemClickListener(MajorsDetailActivity.this);
 		}
 	};
 
@@ -87,14 +63,5 @@ public class MajorsDetailActivity extends CommonActivity implements
 		}
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		View v = view.findViewById(R.id.major_content);
-		if (v.getVisibility() == View.GONE)
-			v.setVisibility(View.VISIBLE);
-		else
-			v.setVisibility(View.GONE);
-	}
 
 }

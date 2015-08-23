@@ -10,16 +10,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Button;
 import cn.luquba678.R;
 
-public class BirthdayActivity extends Activity implements
-		OnWheelChangedListener, OnClickListener {
+public class BirthdayActivity extends Activity implements OnWheelChangedListener, OnClickListener {
 	private WheelView mYear;
 	private WheelView mMonth;
 	private WheelView mDay;
-	private TextView showChooseOK, showChooseCancel,choose_title;
 	private String[] mYearDatas;
 	private String[] mMonthDatas;
 	private String[] mDayDatas;
@@ -27,26 +24,20 @@ public class BirthdayActivity extends Activity implements
 	public String mCurrentMonth;
 	public String mCurrentDay = "";
 
-	private RelativeLayout confirm,cancel;
+	private Button confirm,cancel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.choose);
-		mYear = (WheelView) findViewById(R.id.id_province);
-		mMonth = (WheelView) findViewById(R.id.id_city);
-		mDay = (WheelView) findViewById(R.id.id_area);
-		showChooseOK = (TextView) findViewById(R.id.showChooseOK);
-		showChooseOK.setOnClickListener(this);
-		showChooseCancel = (TextView) findViewById(R.id.showChooseCancel);
-		showChooseCancel.setOnClickListener(this);
-		choose_title = (TextView) findViewById(R.id.choose_title);
-		choose_title.setText("请选择出生日期");
+		setContentView(R.layout.select_birthday);
+		mYear = (WheelView) findViewById(R.id.id_year);
+		mMonth = (WheelView) findViewById(R.id.id_month);
+		mDay = (WheelView) findViewById(R.id.id_day);
 
-		confirm=(RelativeLayout)findViewById(R.id.confirm_button);
+		confirm=(Button)findViewById(R.id.showChooseOK);
 		confirm.setOnClickListener(this);
-		cancel=(RelativeLayout)findViewById(R.id.cancel_button);
+		cancel=(Button)findViewById(R.id.showChooseCancel);
 		cancel.setOnClickListener(this);
 
 		initDatas();

@@ -7,11 +7,14 @@ import internal.org.apache.http.entity.mime.content.StringBody;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.zhuchao.receiver.NetworkReceiver;
+import com.zhuchao.utils.FileSystem;
 import com.zhuchao.view_rewrite.LoadingDialog;
 
 import android.content.BroadcastReceiver;
@@ -247,7 +250,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 			Platform weChat = ShareSDK.getPlatform(this, Wechat.NAME);
 			weChat.removeAccount();
 			weChat.setPlatformActionListener(mActionListener);
-            weChat.SSOSetting(true);
 			weChat.showUser(null);
             loadingDialog.startProgressDialog();
 			break;
@@ -279,28 +281,54 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 		}
 
 		@Override
-		public void onComplete(Platform arg0, int arg1,
-				HashMap<String, Object> res) {
+		public void onComplete(Platform arg0, int arg1, HashMap<String, Object> res) {
 
 
             String platformName=arg0.getName();
             info=new Info();
             if(platformName.equals(SinaWeibo.NAME)){
-
                 //get weibo info
+                StringBuilder builder=new StringBuilder();
+                Iterator iter = res.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    Object key = entry.getKey();
+                    Object val = entry.getValue();
+                    builder.append(String.valueOf(key) + ":" + String.valueOf(val) + "\n");
+                }
+                FileSystem.saveFile(builder.toString(),"weibo");
                 info.nickname=res.get("name").toString();
                 info.head_pic=res.get("avatar_hd").toString();
                 info.uid=res.get("id").toString();
 				info.type="weibo";
             }else if(platformName.equals(Wechat.NAME)){
-
-            }else if(platformName.equals(QQ.NAME)){
-
-                //get qq info
+                StringBuilder builder=new StringBuilder();
+				Iterator iter = res.entrySet().iterator();
+				while (iter.hasNext()) {
+					Map.Entry entry = (Map.Entry) iter.next();
+					Object key = entry.getKey();
+					Object val = entry.getValue();
+					builder.append(String.valueOf(key) + ":" + String.valueOf(val) + "\n");
+				}
+                FileSystem.saveFile(builder.toString(),"wechat");
+                info.nickname=res.get("nickname").toString();
+                info.uid=res.get("unionid").toString();
+                info.head_pic=res.get("headimgurl").toString();
+                info.type="wechat";
+			}else if(platformName.equals(QQ.NAME)){
+                StringBuilder builder=new StringBuilder();
+                Iterator iter = res.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    Object key = entry.getKey();
+                    Object val = entry.getValue();
+                    builder.append(String.valueOf(key) + ":" + String.valueOf(val) + "\n");
+                }
+                FileSystem.saveFile(builder.toString(),"qq");
                 info.nickname=res.get("nickname").toString();
                 info.head_pic=res.get("figureurl_qq_2").toString();
                 String temp=new String(info.head_pic);
-                temp=temp.substring(temp.indexOf("1104470925/")+11);
+                temp=temp.substring(temp.indexOf("1104786104/")+11);
                 temp=temp.substring(0,temp.indexOf("/"));
                 info.uid=temp;
 				info.type="qq";

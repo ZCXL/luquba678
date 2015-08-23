@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhuchao.view_rewrite.ExpandableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customer="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    customer:up_arrow="@drawable/ic_up_arrow"
+    customer:down_arrow="@drawable/ic_down_arrow"
+    customer:is_expand="true">
+    <LinearLayout
+        android:id="@+id/collapse_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="33dp"
+            android:layout_marginTop="15dp"
+            android:background="#E9E8E8" >
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:background="#13B199" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="37dp"
+                android:text="@string/shool_introduce"
+                android:textColor="#B1B0B0"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/icon_value"
+                android:layout_width="12dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_up_arrow" />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/expand_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/introduce"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text_black_color"
+            android:textSize="13sp" />
+    </LinearLayout>
+</com.zhuchao.view_rewrite.ExpandableLayout>

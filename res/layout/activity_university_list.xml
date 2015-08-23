@@ -11,11 +11,19 @@
         android:layout_height="48dp"
         layout="@layout/top_back_title_more" />
 
-    <cn.luquba678.view.PullToRefreshListView
-        android:id="@+id/universityList"
-        android:background="@color/white"
-        style="@style/list_view_nofading"
-        android:divider="#CDCFCF"
-        android:dividerHeight="0.5dp" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <cn.luquba678.view.PullToRefreshListView
+            android:id="@+id/universityList"
+            android:background="@color/white"
+            style="@style/list_view_nofading"
+            android:divider="#CDCFCF"
+            android:dividerHeight="0.5dp" />
+        <include
+            android:id="@+id/network_error"
+            layout="@layout/network_error"
+            android:visibility="invisible"/>
+    </FrameLayout>
 
 </LinearLayout>

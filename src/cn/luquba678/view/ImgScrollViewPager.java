@@ -9,12 +9,10 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 
 /**
@@ -55,15 +53,12 @@ public class ImgScrollViewPager extends ViewPager {
 	 * @param normalId
 	 *            ovalLayout为空时 写0, 圆点layout XMl 正常时背景
 	 */
-	public void start(Activity mainActivity, List<View> imgList,
-			int scrollTime, LinearLayout ovalLayout, int ovalLayoutId,
-			int ovalLayoutItemId, int focusedId, int normalId) {
+	public void start(Activity mainActivity, List<View> imgList, int scrollTime, LinearLayout ovalLayout, int ovalLayoutId, int ovalLayoutItemId, int focusedId, int normalId) {
 		mActivity = mainActivity;
 		mListViews = imgList;
 		mScrollTime = scrollTime;
 		// 设置圆点
-		setOvalLayout(ovalLayout, ovalLayoutId, ovalLayoutItemId, focusedId,
-				normalId);
+		setOvalLayout(ovalLayout, ovalLayoutId, ovalLayoutItemId, focusedId, normalId);
 		this.setAdapter(new MyPagerAdapter());// 设置适配器
 		if (scrollTime != 0 && imgList.size() > 1) {
 			// 设置滑动动画时间 ,如果用默认动画时间可不用 ,反射技术实现
@@ -83,8 +78,7 @@ public class ImgScrollViewPager extends ViewPager {
 			});
 		}
 		if (mListViews.size() > 1) {
-			this.setCurrentItem((Integer.MAX_VALUE / 2)
-					- (Integer.MAX_VALUE / 2) % mListViews.size());// 设置选中为中间/图片为和第0张一样
+			this.setCurrentItem((Integer.MAX_VALUE / 2)- (Integer.MAX_VALUE / 2) % mListViews.size());// 设置选中为中间/图片为和第0张一样
 		}
 	}
 
@@ -98,8 +92,7 @@ public class ImgScrollViewPager extends ViewPager {
 
 			}
 			// 选中第一个
-			ovalLayout.getChildAt(0).findViewById(ovalLayoutItemId)
-					.setBackgroundResource(focusedId);
+			ovalLayout.getChildAt(0).findViewById(ovalLayoutItemId).setBackgroundResource(focusedId);
 			this.setOnPageChangeListener(new OnPageChangeListener() {
 				public void onPageSelected(int i) {
 					curIndex = i % mListViews.size();
@@ -172,13 +165,13 @@ public class ImgScrollViewPager extends ViewPager {
 			return Integer.MAX_VALUE;
 		}
 
-		public Object instantiateItem(View v, int i) {
+		public Object  instantiateItem(View v, int i) {
 			if (((ViewPager) v).getChildCount() == mListViews.size()) {
-				((ViewPager) v)
-						.removeView(mListViews.get(i % mListViews.size()));
+				((ViewPager) v).removeView(mListViews.get(i % mListViews.size()));
 			}
 			((ViewPager) v).addView(mListViews.get(i % mListViews.size()), 0);
-			return mListViews.get(i % mListViews.size());
+			View view=mListViews.get(i % mListViews.size());
+			return view;
 		}
 
 		public boolean isViewFromObject(View arg0, Object arg1) {

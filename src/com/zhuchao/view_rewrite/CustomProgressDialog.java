@@ -32,8 +32,8 @@ public class CustomProgressDialog extends Dialog {
         if (customProgressDialog == null){
 	            return;
         }
-        CircularProgressBar circularProgressBar = (CircularProgressBar) customProgressDialog.findViewById(R.id.customer_progress_dialog_progressBar);
-        circularProgressBar.startAnimation();
+//        CircularProgressBar circularProgressBar = (CircularProgressBar) customProgressDialog.findViewById(R.id.customer_progress_dialog_progressBar);
+//        circularProgressBar.startAnimation();
     }
     public CustomProgressDialog setTitile(String strTitle){
         return customProgressDialog;

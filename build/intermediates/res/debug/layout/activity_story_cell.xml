@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="110.66dp"
     android:background="@color/white"
     android:orientation="horizontal">
     <ImageView
@@ -20,7 +20,6 @@
     android:orientation="vertical"
     android:layout_marginLeft="14.66dp"
      >
-
     <TextView
         android:id="@+id/story_title"
         style="@style/home_title_text_style"
@@ -29,9 +28,11 @@
         android:layout_marginTop="15dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:text="我是标题我是标题我是标题我是标题我是标题我是标题" />
+        android:layout_alignParentTop="true"
+        android:text="我是标题" />
 
     <LinearLayout
+        android:id="@+id/intro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -39,15 +40,11 @@
         android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp">
-
-
         <TextView
             android:id="@+id/come_from"
             style="@style/famous_says_info_style"
             android:layout_weight="1"
             android:text="aaa" />
-
-
         <TextView
             android:id="@+id/creat_date"
             style="@style/famous_says_info_style"

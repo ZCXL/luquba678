@@ -1,33 +1,37 @@
 package cn.luquba678.activity.fragment;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import cn.luquba678.R;
 import cn.luquba678.activity.BrowseImageDialog;
 import cn.luquba678.activity.WdjyWriteActivity;
-import cn.luquba678.activity.adapter.WdjyGridDataAdapter;
 import cn.luquba678.entity.Const;
-import cn.luquba678.entity.GridItem;
 import cn.luquba678.entity.User;
 import cn.luquba678.ui.HttpUtil;
+import cn.luquba678.view.PullToRefreshBase;
+import cn.luquba678.view.PullToRefreshListView;
+import internal.org.apache.http.entity.mime.MultipartEntity;
+import internal.org.apache.http.entity.mime.content.StringBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
+import com.zhuchao.adapter.WishAdapter;
+import com.zhuchao.bean.Wish;
 
 /**
  * @ClassName: TabCFm
@@ -35,18 +39,37 @@ import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
  * @date 2013 2013年11月6日 下午4:06:47
  *
  */
-public class TabMyStoryFragment extends Fragment implements OnItemClickListener,OnClickListener,OnLongClickListener{
-	public static ProgressDialog dialog;
-	private StickyGridHeadersGridView mGridView;
-	private View writeBtn;
+public class TabMyStoryFragment extends Fragment implements OnClickListener,PullToRefreshBase.OnRefreshListener<ListView>,AdapterView.OnItemClickListener,BrowseImageDialog.OnChangeListener {
+	private ImageView writeBtn;
 
-    private List<GridItem> mGridList = new ArrayList<GridItem>();
+	private PullToRefreshListView pullToRefreshListView;
+	private ListView listView;
+	private WishAdapter adapter;
+	private LinearLayout write_bg;
+	private ArrayList<Wish>wishs;
+
+	private int page=1;
+	public final static int ADD=0,CHANGE=1;
     public static WdjyWriteActivity activity;
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
 
+    private boolean isInit=false;
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case 0:
+					adapter.notifyDataSetChanged();
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+			}
+            pullToRefreshListView.onPullDownRefreshComplete();
+            pullToRefreshListView.onPullUpRefreshComplete();
+            pullToRefreshListView.setHasMoreData(true);
+		}
+	};
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,23 +87,28 @@ public class TabMyStoryFragment extends Fragment implements OnItemClickListener,
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		findViewById(R.id.top_back).setVisibility(View.INVISIBLE);
 		((TextView) findViewById(R.id.top_text)).setText("寄语");
 
-		writeBtn = getView().findViewById(R.id.id_tab_bottom_write);
+		writeBtn = (ImageView)getView().findViewById(R.id.btn_tab_bottom_write);
 		writeBtn.setOnClickListener(this);
-		mGridView = (StickyGridHeadersGridView) getView().findViewById(R.id.asset_grid);
+		write_bg=(LinearLayout)findViewById(R.id.write_bg);
+		write_bg.setOnClickListener(this);
 
-		mGridView.setOnItemClickListener(this);
-		mGridView.setOnLongClickListener(this);
+		pullToRefreshListView=(PullToRefreshListView)getView().findViewById(R.id.wish_list);
+		// 设置下拉刷新可用
+		pullToRefreshListView.setPullRefreshEnabled(true);
+		// 设置上拉加载可用
+		pullToRefreshListView.setPullLoadEnabled(true);
+        pullToRefreshListView.setOnRefreshListener(this);
+		listView=pullToRefreshListView.getRefreshableView();
+		wishs=new ArrayList<Wish>();
 
+		adapter=new WishAdapter(wishs,getActivity());
+        listView.setSelector(R.drawable.list_item_bg);
+        listView.setOnItemClickListener(this);
+		listView.setAdapter(adapter);
 	}
 
-    @Override
-	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-		BrowseImageDialog dialogBrowseImage = new BrowseImageDialog(TabMyStoryFragment.this.getActivity(), mGridList, position);
-		dialogBrowseImage.show();
-	}
 
 	@Override
 	public void onStart() {
@@ -90,78 +118,99 @@ public class TabMyStoryFragment extends Fragment implements OnItemClickListener,
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		if (getAllWdjy()) {
-			mGridView.setAdapter(new WdjyGridDataAdapter(getActivity(), mGridList, mGridView));
-		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
+        if(!isInit) {
+            getWish(page, ADD);
+            isInit=true;
+        }
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+		if(requestCode==2){
+			if(data!=null){
+				Bundle bundle=data.getExtras();
+				if(bundle!=null) {
+					Wish wish = bundle.getParcelable("wish");
+					wishs.add(0,wish);
+					adapter.notifyDataSetChanged();
+				}
+			}
+		}
 		super.onActivityResult(requestCode, resultCode, data);
-
 	}
 
-	private boolean getAllWdjy() {
-		mGridList.clear();
+	private void getWish(int page,int action) {
 		try {
 			String url = String.format(Const.QUERY_WORD, User.getUID(this.getActivity()),User.getLoginToken(getActivity()));
-			JSONObject jsonObj = JSONObject.parseObject(HttpUtil.postRequestEntity(url, null));
+			MultipartEntity entity=new MultipartEntity();
+			Log.d("zhuchao", String.valueOf(page));
+			entity.addPart("page",new StringBody(String.valueOf(page), Charset.forName("utf-8")));
+			JSONObject jsonObj = JSONObject.parseObject(HttpUtil.postRequestEntity(url, entity));
 			if (jsonObj.getInteger("errcode") == 0) {
 				JSONArray jyItems = jsonObj.getJSONArray("data");
-				mGridList = GridItem.getListFromJson(jyItems.toJSONString());
-				return true;
+				ArrayList<Wish> temp=new ArrayList<Wish>();
+				for(int i=0;i<jyItems.size();i++){
+					Wish wish=new Wish(jyItems.get(i).toString());
+					temp.add(wish);
+				}
+				if(action==ADD)
+					wishs.addAll(temp);
+				else if(action==CHANGE) {
+					wishs.clear();
+					wishs.addAll(temp);
+				}
+				handler.sendEmptyMessage(0);
+			}else{
+				handler.sendEmptyMessage(1);
 			}
 		} catch (Exception e) {
+			handler.sendEmptyMessage(2);
 			e.printStackTrace();
 		}
-
-		return false;
 	}
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.id_tab_bottom_write:
-			activity=new WdjyWriteActivity(getActivity());
-			activity.show();
-			break;
-
-		default:
-			break;
+			case R.id.btn_tab_bottom_write:
+				activity=new WdjyWriteActivity(getActivity());
+				activity.show();
+				break;
+			case R.id.write_bg:
+				activity=new WdjyWriteActivity(getActivity());
+				activity.show();
+				break;
+			default:
+				break;
 		}
 		
 	}
 
 	@Override
-	public boolean onLongClick(View v) {
-		// TODO Auto-generated method stub
-		return false;
+	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+		getWish(page=1,CHANGE);
 	}
 
+	@Override
+	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        page++;
+		getWish(page,ADD);
+	}
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		if(position==0){
+			activity=new WdjyWriteActivity(getActivity());
+			activity.show();
+		}else {
+			BrowseImageDialog dialogBrowseImage = new BrowseImageDialog(TabMyStoryFragment.this.getActivity(), wishs, position-1);
+			dialogBrowseImage.setOnChangeListener(this);
+			dialogBrowseImage.show();
+		}
+    }
+
+	@Override
+	public void onChange(ArrayList<Wish> wishs) {
+		this.wishs=wishs;
+		adapter.notifyDataSetChanged();
+	}
 }

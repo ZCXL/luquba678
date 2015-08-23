@@ -131,12 +131,10 @@ public class RoundImageView extends ImageView {
                 scaledSrcBmp.getWidth() / 2, 
                 paint); 
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN)); 
-        canvas.drawBitmap(scaledSrcBmp, rect, rect, paint); 
-        bmp = null; 
-        squareBitmap = null; 
-        scaledSrcBmp = null; 
+        canvas.drawBitmap(scaledSrcBmp, rect, rect, paint);
         return output; 
     } 
+
 
     private void drawCircleBorder(Canvas canvas, int radius, int color) { 
         Paint paint = new Paint();

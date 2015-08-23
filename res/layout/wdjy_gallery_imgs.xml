@@ -3,15 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include
-        android:id="@+id/editer_top"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        layout="@layout/top_back_title_more" />
-	<cn.luquba678.ui.UGallery
-         android:id="@+id/gallery_wdjy_imgs"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:spacing="0dip" />
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@color/main_color"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/top_back"
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
+                android:layout_height="fill_parent"
+                android:background="@null"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:id="@+id/title_top_image"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:src="@drawable/new_wish_back" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/top_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:background="@null"
+                android:gravity="center"
+                android:text="A minute ago"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:gravity="right"
+                android:background="@drawable/new_wish_delete" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+        <cn.luquba678.ui.UGallery
+            android:id="@+id/gallery_wdjy_imgs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:spacing="0dip" />
+    </FrameLayout>
 
 </LinearLayout>

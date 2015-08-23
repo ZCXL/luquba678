@@ -27,9 +27,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +41,7 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 	private CommonAdapter<News> adapter;
 	private ImageLoader imageLoader;
 	private RadioButton rb_pretty_girl, rb_pretty_boy;
-	final static int BOY = 1, GIRL = 2;
+	final static int BOY = 2, GIRL = 1;
 
     private static final int PRETTY_MATE = 3;
     private static final int ACTION_ADD=0,ACTION_REFRESH=1;
@@ -50,31 +52,37 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 	public static final String PRETTY = "校花校草";
     private LoadingDialog loadingDialog;
 
+    private RelativeLayout error_layout;
+    private Button refresh_button;
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.top_back:
-			this.finish();
-			break;
-		case R.id.pretty_boy:
-            currentType=BOY;
-			changePage(BOY);
-			break;
-		case R.id.pretty_girl:
-            currentType=GIRL;
-			changePage(GIRL);
-			break;
-		case R.id.pretty_girl_btn:
-			rb_pretty_girl.performClick();
-			break;
-		case R.id.pretty_boy_btn:
-			rb_pretty_boy.performClick();
-			break;
-		case R.id.get_more:
-			setPretty(map.get(currentType),currentType, ACTION_ADD);
-			break;
-		default:
-			break;
+            case R.id.top_back:
+                this.finish();
+                break;
+            case R.id.pretty_boy:
+                currentType=BOY;
+                changePage(BOY);
+                break;
+            case R.id.pretty_girl:
+                currentType=GIRL;
+                changePage(GIRL);
+                break;
+            case R.id.pretty_girl_btn:
+                rb_pretty_girl.performClick();
+                break;
+            case R.id.pretty_boy_btn:
+                rb_pretty_boy.performClick();
+                break;
+            case R.id.get_more:
+                setPretty(map.get(currentType), currentType, ACTION_ADD);
+                break;
+            case R.id.network_error_button:
+                setPretty(map.get(currentType), currentType, ACTION_ADD);
+                break;
+            default:
+                break;
 		}
 
 	}
@@ -82,6 +90,13 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pretty_school_mate);
+        /**
+         * network error bg
+         */
+        error_layout=(RelativeLayout)findViewById(R.id.network_error);
+        refresh_button=(Button)findViewById(R.id.network_error_button);
+        refresh_button.setOnClickListener(this);
+
 		setOnClickLinstener(R.id.top_back, R.id.pretty_boy, R.id.pretty_girl, R.id.pretty_girl_btn, R.id.pretty_boy_btn);
 		((TextView) findViewById(R.id.top_text)).setText(PRETTY);
 		// mGrid = getView(R.id.pretty_school_mates);
@@ -115,7 +130,6 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
          */
 		setPretty(map.get(GIRL), GIRL, ACTION_ADD);
 	}
-
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
 		setPretty(1,currentType, ACTION_REFRESH);
@@ -140,6 +154,8 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 
 	public void setPretty(final int page, final int sex, final int action) {
 		if(Network.checkNetWorkState(PrettySchoolMateActivity.this)) {
+            if(error_layout.getVisibility()==View.VISIBLE)
+                error_layout.setVisibility(View.INVISIBLE);
             loadingDialog.startProgressDialog();
 			Executors.newSingleThreadExecutor().execute(new Runnable() {
 				@Override
@@ -170,7 +186,9 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 			/**
 			 * send network broadcast
 			 */
-			Until.sendNetworkBroadcast(PrettySchoolMateActivity.this);
+            Toast.makeText(PrettySchoolMateActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+			if(error_layout.getVisibility()==View.INVISIBLE)
+                error_layout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -218,6 +236,7 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
         };
         mGrid.setAdapter(adapter);
         mGrid.setOnItemClickListener(PrettySchoolMateActivity.this);
+        mGrid.setSelector(R.drawable.list_item_bg);
     }
     /**
      * change page value

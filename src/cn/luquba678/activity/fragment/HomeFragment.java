@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		String title = null;
 		switch (v.getId()) {
 		case R.id.home_champion_experience:
-			title = "状元心得";
+			title = "高分秘籍";
 			break;
 		case R.id.home_funny:
 			intent = new Intent(getActivity(), FunnyActivity.class);
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			getActivity().startActivity(intent);
 			return;
 		case R.id.home_story:
-			title = "励志故事";
+			title = "青春励志";
 			break;
 		default:
 			break;

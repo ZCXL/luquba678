@@ -7,6 +7,7 @@ import cn.luquba678.R;
 import cn.luquba678.photo.AlbumHelper;
 import cn.luquba678.photo.ImageBucket;
 import cn.luquba678.photo.ImageBucketAdapter;
+import cn.luquba678.utils.SPUtils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -44,6 +45,7 @@ public class SelectPhotosActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
+				SPUtils.put(SelectPhotosActivity.this, "head_img", "nopath");
 				finish();
 			}
 		});
@@ -51,8 +53,7 @@ public class SelectPhotosActivity extends Activity {
 
 	private void initData() {
 		dataList = helper.getImagesBucketList(false);
-		bimap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.icon_addpic_unfocused);
+		bimap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused);
 	}
 
 	private void initView() {

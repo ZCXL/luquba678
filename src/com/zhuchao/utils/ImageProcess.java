@@ -1,9 +1,12 @@
 package com.zhuchao.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
@@ -16,7 +19,7 @@ import java.io.InputStream;
 
 @SuppressLint("SdCardPath")
 public class ImageProcess {
-   public enum FileType_Image{MovieImage,HeadImage}//Type of image
+   public enum FileType_Image{StoryImage,HeadImage}//Type of image
    public static String TAG="ImageProcess";
    @SuppressLint("SdCardPath")
 public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String filename){
@@ -24,8 +27,8 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
 	   if(FileSystem.isSDExit()){
 	        String fileFolderPath="";
 	        String parentPath="/sdcard/luquba/";
-	        if(fImage== FileType_Image.MovieImage){
-		      fileFolderPath=parentPath+"MovieImages/";
+	        if(fImage== FileType_Image.StoryImage){
+		      fileFolderPath=parentPath+"StoryImages/";
 	          }else if (fImage== FileType_Image.HeadImage) {
 		      fileFolderPath=parentPath+"HeadImages/";
 	           }
@@ -63,8 +66,8 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
 	   String fileFolderPath="";
 	   Bitmap bitmap;
 	   String parentPath="/sdcard/luquba/";
-	   if(fImage== FileType_Image.MovieImage){
-		   fileFolderPath=parentPath+"MovieImages/";
+	   if(fImage== FileType_Image.StoryImage){
+		   fileFolderPath=parentPath+"StoryImages/";
 	   }else if (fImage== FileType_Image.HeadImage) {
 		   fileFolderPath=parentPath+"HeadImages/";
 	   }
@@ -95,8 +98,8 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
    public static boolean SearchImage(FileType_Image fImage,String filename){
 	   String fileFolderPath="";//�ļ��е�ַ
 	   String parentPath="/sdcard/luquba/";
-	   if(fImage== FileType_Image.MovieImage){
-		   fileFolderPath=parentPath+"MovieImages/";
+	   if(fImage== FileType_Image.StoryImage){
+		   fileFolderPath=parentPath+"StoryImages/";
 	   }else if (fImage== FileType_Image.HeadImage) {
 		   fileFolderPath=parentPath+"HeadImages/";
 	   }
@@ -109,7 +112,7 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
 	   return false;
    }
    public static boolean DeleteImage(){
-	   DeleteImage("/sdcard/luquba/MovieImages");
+	   DeleteImage("/sdcard/luquba/StoryImages");
 	   DeleteImage("/sdcard/luquba/Movies");
 	   return true;
    }
@@ -181,5 +184,49 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
 		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
 		return bitmap;
+	}
+	public static Bitmap getBitmapFromUri(Uri uri,Context context)
+	{
+		try
+		{
+			// 读取uri所在的图片
+			Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+			return bitmap;
+		}
+		catch (Exception e)
+		{
+			Log.e("[Android]", e.getMessage());
+			Log.e("[Android]", "目录为：" + uri);
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * get bitmap by uri
+	 * @param uri
+	 * @return
+	 */
+	public static Bitmap getBitmapFromPath(Uri uri){
+		String path=uri.getPath();
+		Log.d("zhuchao",path);
+		//先解析图片边框的大小
+		BitmapFactory.Options ops = new BitmapFactory.Options();
+		ops.inJustDecodeBounds = true;
+		Bitmap bm ;
+		bm= BitmapFactory.decodeFile(path, ops);
+		ops.inSampleSize = 1;
+		int oHeight = ops.outHeight;
+		int oWidth = ops.outWidth;
+		int contentHeight = 0;
+		int contentWidth = 0;
+		if(((float)oHeight/contentHeight) < ((float)oWidth/contentWidth)){
+			ops.inSampleSize = (int) Math.ceil((float)oWidth/contentWidth);
+		}else{
+			ops.inSampleSize = (int) Math.ceil((float)oHeight/contentHeight);
+		}
+		ops.inJustDecodeBounds = false;
+		bm = BitmapFactory.decodeFile(path, ops);
+		return bm;
 	}
 }

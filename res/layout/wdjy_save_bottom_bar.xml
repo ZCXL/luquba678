@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:background="@drawable/new_wish_bottom"
     android:gravity="center_vertical" >
 
     <LinearLayout
@@ -13,7 +13,7 @@
         <ImageButton
             android:id="@+id/btn_tab_bottom_switch"
             style="@style/save_wdjy_buttom_btn"
-            android:background="@drawable/switch_pic" />
+            android:background="@drawable/new_gallery_checked" />
 
         <TextView
             android:id="@+id/tv_tab_bottom_switch_text"
@@ -28,7 +28,7 @@
         <ImageButton
             android:id="@+id/btn_tab_bottom_album"
             style="@style/save_wdjy_buttom_btn"
-            android:background="@drawable/album" />
+            android:background="@drawable/new_album_checked" />
 
         <TextView
             android:id="@+id/tv_tab_bottom_album_text"
@@ -43,7 +43,7 @@
         <ImageButton
             android:id="@+id/btn_tab_bottom_font"
             style="@style/save_wdjy_buttom_btn"
-            android:background="@drawable/font" />
+            android:background="@drawable/new_text_checked" />
 
         <TextView
             android:id="@+id/tv_tab_bottom_font_text"

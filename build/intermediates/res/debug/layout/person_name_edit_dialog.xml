@@ -18,7 +18,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@drawable/back_array" />
+            android:src="@drawable/new_wish_back" />
 
         <TextView
             android:id="@+id/save"
@@ -38,11 +38,15 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text=""
+            android:text="昵称"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="20.66dp"
+        android:background="#fff4f4f4"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >

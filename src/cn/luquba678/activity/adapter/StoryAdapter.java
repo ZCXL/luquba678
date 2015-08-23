@@ -6,7 +6,7 @@ import com.baidu.navisdk.util.common.StringUtils;
 import com.zhuchao.utils.ImageLoader;
 
 import android.content.Context;
-import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,10 +40,12 @@ public class StoryAdapter extends CommonAdapter<News> {
 			if(StringUtils.isEmpty(url)){
 				story_content.setVisibility(View.VISIBLE);
 				image.setVisibility(View.GONE);
+				String content=jsonToString(t.getContent());
+                Log.d("zhuchao", content);
 				/**
 				 * decode twice
 				 */
-				story_content.setText(Html.fromHtml(Html.fromHtml(t.getIntro()).toString()));
+				story_content.setText(content);
 			}else{
 				story_content.setVisibility(View.GONE);
 				image.setVisibility(View.VISIBLE);
@@ -58,11 +60,21 @@ public class StoryAdapter extends CommonAdapter<News> {
 			} else {
 				image.setVisibility(View.GONE);
 			}
-			
+
 		}
 
 		title.setText(t.getTitle());
 		origin.setText(t.getOrigin());
 		create_date.setText(t.getCreatetime());
 	}
+    private String jsonToString(String content){
+        String[]contents=content.split("\r\n");
+        StringBuilder builder=new StringBuilder();
+        for(int i=0;i<contents.length;i++)
+			if(i==contents.length-1)
+				builder.append(contents[i]);
+			else
+				builder.append(contents[i]+"\n");
+        return builder.toString();
+    }
 }

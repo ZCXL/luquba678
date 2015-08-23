@@ -5,11 +5,51 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/person_accout_title"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        layout="@layout/top_back_title_more" />
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <!-- style="@style/style_top_base" -->
+
+        <LinearLayout
+            android:id="@+id/top_back"
+            android:layout_width="wrap_content"
+            android:minWidth="50dp"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:id="@+id/title_top_image"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:src="@drawable/new_wish_back" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text="我的账号"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="20.66dp"
+        android:background="#fff4f4f4"/>
 
     <LinearLayout style="@style/linearlayout_line_item" >
 
@@ -20,7 +60,8 @@
         <TextView
             android:id="@+id/phone_number"
             style="@style/text_view_right_gray"
-            android:text="Not bound" />
+            android:text="未绑定" />
+        <ImageView style="@style/image_button_forward" />
     </LinearLayout>
 
     <View style="@style/under_line" />
@@ -34,7 +75,8 @@
         <TextView
             android:id="@+id/wechat_number"
             style="@style/text_view_right_gray"
-            android:text="Not bound" />
+            android:text="未绑定" />
+        <ImageView style="@style/image_button_forward" />
     </LinearLayout>
 
     <View style="@style/under_line" />
@@ -48,7 +90,8 @@
         <TextView
             android:id="@+id/QQ_number"
             style="@style/text_view_right_gray"
-            android:text="Not bound" />
+            android:text="未绑定" />
+        <ImageView style="@style/image_button_forward" />
     </LinearLayout>
 
     <View style="@style/under_line" />
@@ -62,11 +105,16 @@
         <TextView
             android:id="@+id/microblog_number"
             style="@style/text_view_right_gray"
-            android:text="Not bound" />
+            android:text="未绑定" />
+        <ImageView style="@style/image_button_forward" />
     </LinearLayout>
 
     <View style="@style/under_line" />
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="20.66dp"
+        android:background="#fff4f4f4"/>
     <LinearLayout style="@style/linearlayout_line_item" >
 
         <TextView
@@ -76,8 +124,12 @@
         <TextView
             style="@style/text_view_right_gray"
             android:text="已保护" />
+        <ImageView style="@style/image_button_forward" />
     </LinearLayout>
 
-    <View style="@style/under_line" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="#fff4f4f4"/>
 
 </LinearLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/person_account.xml -->

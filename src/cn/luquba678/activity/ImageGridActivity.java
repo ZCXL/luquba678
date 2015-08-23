@@ -40,7 +40,7 @@ public class ImageGridActivity extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 0:
-				Toast.makeText(ImageGridActivity.this, "最多选择1张图片", 400).show();
+				Toast.makeText(ImageGridActivity.this, "最多选择1张图片", Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;
@@ -93,6 +93,7 @@ public class ImageGridActivity extends Activity {
 		tv_topTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				SPUtils.put(ImageGridActivity.this, "head_img", "nopath");
 				finish();
 			}
 		});

@@ -84,7 +84,6 @@ public class WdjyWriteActivity extends FullScreenDialog implements OnClickListen
 				DialogUtil.showDialog(activity, "亲，说点什么吧！", false);
 				return;
 			}
-			
 			Intent intent = new Intent(activity, WdjySaveActivity.class);
 			intent.putExtra("MyWish", myWishEditText.getText().toString());
 			activity.startActivityForResult(intent, 2);

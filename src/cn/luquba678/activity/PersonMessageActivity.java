@@ -38,6 +38,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,22 +50,21 @@ import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.utils.BitmapUtil;
-import cn.luquba678.utils.ImageLoader;
 import cn.luquba678.utils.SPUtils;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 
 public class PersonMessageActivity extends Activity implements OnClickListener {
+    private LinearLayout back;
 	private ImageView headImage, top_back;
-	private TextView name, sex, date, province, detail, score, type, year,
-			top_text;
-	private RelativeLayout rl_head_img, rl_name, rl_sex, rl_date, rl_province,
-			rl_detail, rl_score, rl_type, rl_year;
+	private TextView name, sex, date, province, detail, score, type, year;
+	private RelativeLayout rl_head_img, rl_name, rl_sex, rl_date, rl_province, rl_detail, rl_score, rl_type, rl_year;
 	private PersonDetailEditDialog pDetailEditDialog;
 	private PersonNameEditDialog pNameEditDialog;
-	private ImageLoader imgLoader;
 	private static final int SELECT_PICTURE = 10;
-	private static final int SELECT_CAMER = 20;
+	private static final int SELECT_CAMERA = 20;
 	private static final int CROP_IMAGE=30;
-	private String proviceName = null;
+	private String provinceName = null;
 	private String mYear, mMonth, mDay;
 	private final int img_head = 1, nick_name = 2, user_sex = 3, birth = 4, address = 5, intro = 6, user_year = 7,examinatio_type = 8, grade = 9;
 
@@ -109,8 +109,10 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 					SPUtils.put(PersonMessageActivity.this, "address",changeBody);
 					break;
 				case intro:
-					detail.setText(changeBody);
 					SPUtils.put(PersonMessageActivity.this, "intro",changeBody);
+					if(changeBody.length()>8)
+						changeBody=changeBody.substring(0,8)+"...";
+					detail.setText(changeBody);
 					break;
 				case examinatio_type:
 					type.setText(changeBody);
@@ -139,13 +141,12 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 
 	@SuppressLint("NewApi")
 	private void initPrams() {
-		imgLoader = new ImageLoader(this);
 		DisplayMetrics metric = new DisplayMetrics();
 		getWindow().getWindowManager().getDefaultDisplay().getMetrics(metric);
 		int width = metric.widthPixels;
 		headImage = (ImageView) findViewById(R.id.head_img);
-
-		new DownloadImageTask().execute(SPUtils.get(this, "headpic", "sss").toString());
+		if(Network.checkNetWorkState(this))
+			new DownloadImageTask().execute(SPUtils.get(this, "headpic", "sss").toString());
 		rl_head_img = (RelativeLayout) findViewById(R.id.rl_head_img);
 		rl_head_img.setOnClickListener(this);
 		rl_name = (RelativeLayout) findViewById(R.id.rl_name);
@@ -167,8 +168,8 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 
 		top_back = (ImageView) findViewById(R.id.title_top_image);
 		top_back.setOnClickListener(this);
-		top_text = (TextView) findViewById(R.id.top_text);
-		top_text.setText("个人信息");
+        back=(LinearLayout)findViewById(R.id.top_back);
+        back.setOnClickListener(this);
 		name = (TextView) findViewById(R.id.name);
 		name.setText(SPUtils.get(this, "nickname", "ss").toString());
 		sex = (TextView) findViewById(R.id.sex);
@@ -182,9 +183,12 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		date.setText(SPUtils.get(this, "birth", "1999-9-9").toString());
 		province = (TextView) findViewById(R.id.province);
 		province.setText(SPUtils.get(this, "address", "湖北").toString());
-		proviceName = SPUtils.get(this, "address", "湖北").toString();
+		provinceName = SPUtils.get(this, "address", "湖北").toString();
 		detail = (TextView) findViewById(R.id.detail);
-		detail.setText(SPUtils.get(this, "intro", "***").toString());
+		String detail_string=SPUtils.get(this, "intro", "***").toString();
+		if(detail_string.length()>8)
+			detail_string=detail_string.substring(0,8)+"...";
+		detail.setText(detail_string);
 		score = (TextView) findViewById(R.id.score);
 		score.setText(SPUtils.get(this, "grade", "0").toString());
 		type = (TextView) findViewById(R.id.type);
@@ -227,40 +231,43 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.rl_name:
-			pNameEditDialog = new PersonNameEditDialog(this, name);
-			pNameEditDialog.show();
-			break;
-		case R.id.rl_detail:
-			pDetailEditDialog = new PersonDetailEditDialog(this, detail);
-			pDetailEditDialog.show();
-			break;
-		case R.id.rl_head_img:
-			showSelectPhotoDialog();
-			break;
-		case R.id.title_top_image:
-			finish();
-			break;
-		case R.id.rl_sex:
-			showSelectSexDialog();
-			break;
-		case R.id.rl_date:
-			startActivityForResult(new Intent(this, BirthdayActivity.class), 5);
-			break;
-		case R.id.rl_province:
-			startActivityForResult(new Intent(this, CitiesActivity.class), 4);
-			break;
-		case R.id.rl_score:
-			showSelectScore();
-			break;
-		case R.id.rl_type:
-			showSelectSubjectDialog();
-			break;
-		case R.id.rl_year:
-			showSelectYearDialog();
-			break;
-		default:
-			break;
+            case R.id.rl_name:
+                pNameEditDialog = new PersonNameEditDialog(this, name);
+                pNameEditDialog.show();
+                break;
+            case R.id.rl_detail:
+                pDetailEditDialog = new PersonDetailEditDialog(this, detail);
+                pDetailEditDialog.show();
+                break;
+            case R.id.rl_head_img:
+                showSelectPhotoDialog();
+                break;
+            case R.id.title_top_image:
+                finish();
+                break;
+            case R.id.top_back:
+                finish();
+                break;
+            case R.id.rl_sex:
+                showSelectSexDialog();
+                break;
+            case R.id.rl_date:
+                startActivityForResult(new Intent(this, BirthdayActivity.class), 5);
+                break;
+            case R.id.rl_province:
+                startActivityForResult(new Intent(this, CitiesActivity.class), 4);
+                break;
+            case R.id.rl_score:
+                showSelectScore();
+                break;
+            case R.id.rl_type:
+                showSelectSubjectDialog();
+                break;
+            case R.id.rl_year:
+                showSelectYearDialog();
+                break;
+            default:
+                break;
 		}
 	}
 
@@ -287,13 +294,13 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		 * get location info
 		 */
 		else if (resultCode == 5) {
-			proviceName = data.getStringExtra("proviceName");
+			provinceName = data.getStringExtra("proviceName");
 			String cityName = data.getStringExtra("cityName");
 			String areaName = "";
 			if (data.getStringExtra("areaName") != null) {
 				areaName = data.getStringExtra("areaName");
 			}
-			uploadChange(address, proviceName + " " + cityName + " " + areaName);
+			uploadChange(address, provinceName + " " + cityName + " " + areaName);
 		}
 		/**
 		 * get birth
@@ -308,7 +315,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		/**
 		 * select photo from camera
 		 */
-		else if (requestCode == SELECT_CAMER) {
+		else if (requestCode == SELECT_CAMERA) {
             startPhotoZoom(Uri.fromFile(tempFile));
 		}
 		//super.onActivityResult(requestCode, resultCode, data);
@@ -322,12 +329,11 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		photoDialog = new AlertDialog.Builder(this).create();
 		photoDialog.show();
 		photoDialog.getWindow().setContentView(R.layout.person_select_photo);
-		RelativeLayout rl_camer, rl_photo_album, rl_cancle;
-		rl_camer = (RelativeLayout) photoDialog.findViewById(R.id.rl_camer);
-		rl_photo_album = (RelativeLayout) photoDialog
-				.findViewById(R.id.rl_photo_album);
-		rl_cancle = (RelativeLayout) photoDialog.findViewById(R.id.rl_cancle);
-		rl_camer.setOnClickListener(new OnClickListener() {
+		RelativeLayout rl_camera, rl_photo_album, rl_cancel;
+		rl_camera = (RelativeLayout) photoDialog.findViewById(R.id.rl_camer);
+		rl_photo_album = (RelativeLayout) photoDialog.findViewById(R.id.rl_photo_album);
+		rl_cancel = (RelativeLayout) photoDialog.findViewById(R.id.rl_cancle);
+		rl_camera.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -345,7 +351,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
                 photoDialog.dismiss();
 			}
 		});
-		rl_cancle.setOnClickListener(new OnClickListener() {
+		rl_cancel.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -362,26 +368,37 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		sexDialog = new AlertDialog.Builder(this).create();
 		sexDialog.show();
 		sexDialog.getWindow().setContentView(R.layout.person_select_sex_dialog);
-		RelativeLayout rl_boy, rl_girl, rl_cancle;
-		rl_boy = (RelativeLayout) sexDialog.findViewById(R.id.rl_boy);
+		final Button rl_boy, rl_girl, rl_cancle;
+		rl_boy = (Button) sexDialog.findViewById(R.id.female);
+		rl_girl = (Button) sexDialog.findViewById(R.id.male);
+		if(SPUtils.get(this, "sex", "男").toString().equals("1")){
+			rl_boy.setBackgroundResource(R.drawable.new_sex_checked);
+			rl_girl.setBackgroundResource(R.drawable.new_sex_unchecked);
+		}else {
+			rl_boy.setBackgroundResource(R.drawable.new_sex_unchecked);
+			rl_girl.setBackgroundResource(R.drawable.new_sex_checked);
+		}
 		rl_boy.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				uploadChange(user_sex, "1");
+				rl_boy.setBackgroundResource(R.drawable.new_sex_checked);
+				rl_girl.setBackgroundResource(R.drawable.new_sex_unchecked);
 				sexDialog.dismiss();
 			}
 		});
-		rl_girl = (RelativeLayout) sexDialog.findViewById(R.id.rl_girl);
 		rl_girl.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				uploadChange(user_sex, "2");
+				rl_boy.setBackgroundResource(R.drawable.new_sex_unchecked);
+				rl_girl.setBackgroundResource(R.drawable.new_sex_checked);
 				sexDialog.dismiss();
 			}
 		});
-		rl_cancle = (RelativeLayout) sexDialog.findViewById(R.id.rl_cancle);
+		rl_cancle = (Button) sexDialog.findViewById(R.id.rl_cancel);
 		rl_cancle.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -399,16 +416,23 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		subjectDialog = new AlertDialog.Builder(this).create();
 		subjectDialog.show();
 		subjectDialog.getWindow().setContentView(R.layout.person_select_sciences);
-		RelativeLayout rl_liberal_arts, rl_science_subject, rl_cancle;
-		rl_liberal_arts = (RelativeLayout) subjectDialog
-				.findViewById(R.id.rl_liberal_arts);
-		rl_science_subject = (RelativeLayout) subjectDialog
-				.findViewById(R.id.rl_science_subject);
-		rl_cancle = (RelativeLayout) subjectDialog.findViewById(R.id.rl_cancle);
+		final Button rl_liberal_arts,rl_science_subject,rl_cancle;
+		rl_liberal_arts = (Button) subjectDialog.findViewById(R.id.messy);
+		rl_science_subject = (Button) subjectDialog.findViewById(R.id.math);
+		rl_cancle = (Button) subjectDialog.findViewById(R.id.rl_cancel);
+		if(SPUtils.get(this, "type", "理科").toString().equals("1")){
+			rl_science_subject.setBackgroundResource(R.drawable.new_sex_checked);
+			rl_liberal_arts.setBackgroundResource(R.drawable.new_sex_unchecked);
+		}else {
+			rl_science_subject.setBackgroundResource(R.drawable.new_sex_unchecked);
+			rl_liberal_arts.setBackgroundResource(R.drawable.new_sex_checked);
+		}
 		rl_liberal_arts.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				rl_science_subject.setBackgroundResource(R.drawable.new_sex_unchecked);
+				rl_liberal_arts.setBackgroundResource(R.drawable.new_sex_checked);
 				uploadChange(examinatio_type, "文科");
 				subjectDialog.dismiss();
 			}
@@ -417,6 +441,8 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
+				rl_science_subject.setBackgroundResource(R.drawable.new_sex_checked);
+				rl_liberal_arts.setBackgroundResource(R.drawable.new_sex_unchecked);
 				uploadChange(examinatio_type, "理科");
 				subjectDialog.dismiss();
 			}
@@ -439,10 +465,8 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		scoreDialog.setView(new EditText(this));
 		scoreDialog.show();
 		scoreDialog.getWindow().setContentView(R.layout.person_score_dialog);
-		final TextView input_error_hint = (TextView) scoreDialog
-				.findViewById(R.id.input_error_hint);
-		final EditText ed_score = (EditText) scoreDialog
-				.findViewById(R.id.ed_score);
+		final TextView input_error_hint = (TextView) scoreDialog.findViewById(R.id.input_error_hint);
+		final EditText ed_score = (EditText) scoreDialog.findViewById(R.id.ed_score);
 		CharSequence text = ed_score.getText();
 		if (text instanceof Spannable) {
 			Spannable spanText = (Spannable) text;
@@ -454,7 +478,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				String editScore = ed_score.getText().toString();
-				if (checkInputScoreIsValid(editScore, proviceName, input_error_hint)) {
+				if (checkInputScoreIsValid(editScore, provinceName, input_error_hint)) {
 					uploadChange(grade, editScore);
 					scoreDialog.dismiss();
 				}
@@ -478,41 +502,24 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		scoreDialog = new AlertDialog.Builder(this).create();
 		scoreDialog.show();
 		scoreDialog.getWindow().setContentView(R.layout.person_select_examinaton_year_dialog);
-		RelativeLayout rl_year, rl_after_year, rl_after_next_year, rl_cancle;
-		rl_year = (RelativeLayout) scoreDialog.findViewById(R.id.rl_year);
-		rl_after_year = (RelativeLayout) scoreDialog
-				.findViewById(R.id.rl_after_year);
-		rl_after_next_year = (RelativeLayout) scoreDialog
-				.findViewById(R.id.rl_after_next_year);
-		rl_cancle = (RelativeLayout) scoreDialog.findViewById(R.id.rl_cancle);
-		rl_year.setOnClickListener(new OnClickListener() {
+		Button confirm,cancel;
+        final WheelView year;
+        confirm=(Button)scoreDialog.findViewById(R.id.btn_ok);
+        cancel=(Button)scoreDialog.findViewById(R.id.btn_cancel);
+        year=(WheelView)scoreDialog.findViewById(R.id.id_year);
 
-			@Override
-			public void onClick(View v) {
-				uploadChange(user_year, "2016");
-				scoreDialog.dismiss();
-			}
-		});
+        final String years[]={"2016","2017","2018"};
+        year.setViewAdapter(new ArrayWheelAdapter<String>(this, years));
+        year.setCurrentItem(1);
 
-		rl_after_year.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				uploadChange(user_year, "2017");
-				scoreDialog.dismiss();
-			}
-		});
-
-		rl_after_next_year.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				uploadChange(user_year, "2018");
-				scoreDialog.dismiss();
-			}
-		});
-
-		rl_cancle.setOnClickListener(new OnClickListener() {
+        confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadChange(user_year, years[year.getCurrentItem()]);
+                scoreDialog.dismiss();
+            }
+        });
+		cancel.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -655,7 +662,6 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
     private void getImageFromGallery(){
         Intent intent=new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-		intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
         startActivityForResult(intent, SELECT_PICTURE);
     }
 
@@ -668,7 +674,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // 指定调用相机拍照后照片的储存路径
         intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
-        startActivityForResult(intent,SELECT_CAMER);
+        startActivityForResult(intent,SELECT_CAMERA);
     }
     // 使用系统当前日期加以调整作为照片的名称
 
@@ -713,7 +719,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
                 if(photo!=null){
                     Date d=new Date(System.currentTimeMillis());
                     @SuppressWarnings("deprecation")
-                    final String path=d.getYear()+d.getMonth()+d.getDay()+d.getHours()+d.getMinutes()+d.getSeconds()+".jpg";
+                    final String path=String.valueOf(d.getYear())+String.valueOf(d.getMonth())+String.valueOf(d.getDay())+String.valueOf(d.getHours())+String.valueOf(d.getMinutes())+String.valueOf(d.getSeconds())+".jpg";
                     ImageProcess.InputImage(photo, ImageProcess.FileType_Image.HeadImage, path);
                     if(Network.checkNetWorkState(this)){
                         headImage.setImageBitmap(photo);

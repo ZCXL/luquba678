@@ -17,6 +17,7 @@ import com.zhuchao.view_rewrite.LoadingDialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,10 +28,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import cn.luquba678.R;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
@@ -41,24 +43,25 @@ import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 
 public class CommonNewsActivity extends CommonActivity implements OnClickListener, OnRefreshListener<ListView> {
 
-	private TextView praise_time_tv, comment_time_tv;
 	private WebView story_content_web;
 	private View comment_input;
 	private View buttom_btns;
-	private View activityRootView;
 	private View comment_container;
 	private PullToRefreshListView ptrlv;
 
-
     private ArrayList<Comment> commentArrayList;
     private CommentAdapter adapter;
-    private ImageView collection;
-    private ImageView praise;
+    private ImageButton collection,comment,praise,share;
     private ListView commentList;
 
     private Boolean isCollect;
 	private News news;
 	private LoadingDialog loadingDialog;
+    private TextView comment_number,praise_number;
+    /**
+     * check page
+     */
+    private boolean isLoad=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,7 +71,6 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 
 		getMSG();
 		getCommentList(page);
-
 	}
     /**
      * init view
@@ -86,13 +88,21 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
         ptrlv.setOnRefreshListener(this);
 
         LinearLayout container = (LinearLayout) View.inflate(self, R.layout.detail_container, null);
-
         comment_container = container.findViewById(R.id.comment_container);
-        activityRootView = findViewById(R.id.root_view);
-        //activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
         findViewById(R.id.back_button).setOnClickListener(this);
-        collection = getView(R.id.ic_collect);
-        praise = getView(R.id.ic_praise);
+        collection =(ImageButton)findViewById(R.id.ic_collect);
+        praise =(ImageButton)findViewById(R.id.ic_praise);
+        comment=(ImageButton)findViewById(R.id.comment_icon);
+        share=(ImageButton)findViewById(R.id.ic_share);
+        collection.setOnClickListener(this);
+        praise.setOnClickListener(this);
+        comment.setOnClickListener(this);
+        share.setOnClickListener(this);
+		/**
+		 * comment number and praise number
+		 */
+		comment_number=(TextView)findViewById(R.id.comment_number);
+        praise_number=(TextView)findViewById(R.id.praise_number);
         /**
          * load content of article
          */
@@ -103,6 +113,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
         story_content_web.setWebViewClient(new StoryWebView());
         // 加载需要显示的网页
         story_content_web.loadUrl(news.getUrl());
+
         container.setFocusable(false);
         container.setClickable(false);
 
@@ -135,20 +146,22 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 							int errcode = json.getIntValue("errcode");
 							if (errcode == 0) {
 								JSONArray array = json.getJSONArray("data");
-								ArrayList<Comment> arrayList = Comment.getListFromJson(array.toJSONString());
+								ArrayList<Comment> arrayList = new ArrayList<Comment>();
+                                for(int i=0;i<array.size();i++)
+                                    arrayList.add(new Comment(array.get(i).toString()));
                                 if(arrayList!=null){
                                     commentArrayList.addAll(arrayList);
                                     adapter.notifyDataSetChanged();
                                     comment_container.setVisibility(View.VISIBLE);
                                 }
 							} else if(errcode==40004){
-                                toast("No more data");
 								comment_container.setVisibility(View.GONE);
 							}
 							ptrlv.onPullDownRefreshComplete();
 							ptrlv.onPullUpRefreshComplete();
 							ptrlv.setHasMoreData(true);
-							loadingDialog.stopProgressDialog();
+                            if(isLoad)
+                                loadingDialog.stopProgressDialog();
 						}
 					});
 		} catch (Exception e) {
@@ -193,21 +206,19 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 					String comment_time = date.getString("comment_time");
 					int is_praise = date.getIntValue("is_praise");
 					int is_collect = date.getIntValue("is_collect");
-					praise_time_tv = getView(R.id.praise_time);
-					comment_time_tv = getView(R.id.comment_time);
-					praise_time_tv.setText(praise_time);
-					comment_time_tv.setText(comment_time);
+					comment_number.setText(comment_time);
+                    praise_number.setText(praise_time);
 					if (is_praise != 0) {
-						praise.setImageResource(R.drawable.ic_praised);
+						praise.setImageResource(R.drawable.new_good_checked);
 					} else {
-						praise.setImageResource(R.drawable.ic_praise);
+						praise.setImageResource(R.drawable.new_good_unchecked);
 					}
 					if (is_collect != 0) {
                         isCollect=true;
-						collection.setImageResource(R.drawable.ic_collected);
+						collection.setImageResource(R.drawable.new_collect_checked);
 					} else {
                         isCollect=false;
-						collection.setImageResource(R.drawable.ic_collection);
+						collection.setImageResource(R.drawable.new_collect_unchecked);
 					}
 				}
 			} catch (Exception e) {
@@ -221,32 +232,52 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.back_button:
-			this.finish();
-			break;
-		case R.id.share:
-			ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),news.getIntro(),news.getPic());
-			break;
-		case R.id.collection:
-            collectOrNot();
-			break;
-		case R.id.good:
-			recognise();
-			break;
-		case R.id.comment:
-			buttom_btns.setVisibility(View.GONE);
-			comment_input.setVisibility(View.VISIBLE);
-			comment_text = getView(R.id.comment_text);
-            comment_text.setText("");
-			comment_text.setFocusable(true);
-			comment_text.setFocusableInTouchMode(true);
-			imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			comment_text.requestFocus();
-			imm.showSoftInput(comment_text, InputMethodManager.RESULT_SHOWN);
-			break;
-		case R.id.send_comment:
-			sendComment();
-			break;
+            case R.id.back_button:
+                this.finish();
+                break;
+            case R.id.share:
+                ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),news.getContent(),news.getPic());
+                break;
+            case R.id.collection:
+                collectOrNot();
+                break;
+            case R.id.good:
+                recognise();
+                break;
+            case R.id.comment:
+                buttom_btns.setVisibility(View.GONE);
+                comment_input.setVisibility(View.VISIBLE);
+                comment_text = getView(R.id.comment_text);
+                comment_text.setText("");
+                comment_text.setFocusable(true);
+                comment_text.setFocusableInTouchMode(true);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                comment_text.requestFocus();
+                imm.showSoftInput(comment_text, InputMethodManager.RESULT_SHOWN);
+                break;
+            case R.id.ic_share:
+                ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),news.getIntro(),news.getPic());
+                break;
+            case R.id.ic_collect:
+                collectOrNot();
+                break;
+            case R.id.ic_praise:
+                recognise();
+                break;
+            case R.id.comment_icon:
+                buttom_btns.setVisibility(View.GONE);
+                comment_input.setVisibility(View.VISIBLE);
+                comment_text = getView(R.id.comment_text);
+                comment_text.setText("");
+                comment_text.setFocusable(true);
+                comment_text.setFocusableInTouchMode(true);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                comment_text.requestFocus();
+                imm.showSoftInput(comment_text, InputMethodManager.RESULT_SHOWN);
+                break;
+            case R.id.send_comment:
+                sendComment();
+                break;
 		}
 	}
 
@@ -400,6 +431,21 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 			view.loadUrl(url);
 			return true;
 		}
-	}
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            isLoad=true;
+            loadingDialog.stopProgressDialog();
+        }
 
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+	}
 }

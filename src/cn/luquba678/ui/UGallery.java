@@ -17,8 +17,7 @@ public class UGallery extends Gallery {
 	}
 
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,float velocityY) {
 		int keyCode;
 		if (isScrollingLeft(e1, e2)) {
 			keyCode = KeyEvent.KEYCODE_DPAD_LEFT;

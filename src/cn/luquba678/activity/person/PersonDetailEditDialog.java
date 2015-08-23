@@ -1,6 +1,5 @@
 package cn.luquba678.activity.person;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
@@ -8,6 +7,7 @@ import android.text.Spannable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import cn.luquba678.R;
 import cn.luquba678.activity.PersonMessageActivity;
@@ -15,12 +15,13 @@ import cn.luquba678.ui.FullScreenDialog;
 import cn.luquba678.utils.SPUtils;
 import cn.luquba678.utils.ToolUtils;
 
-public class PersonDetailEditDialog extends FullScreenDialog implements
-		android.view.View.OnClickListener, TextWatcher {
+public class PersonDetailEditDialog extends FullScreenDialog implements android.view.View.OnClickListener, TextWatcher {
 	private TextView tv_save, tv_detail;
 	private EditText et_detail;
 	private PersonMessageActivity context;
 	private final int intro = 6;
+	private ImageView back;
+	private TextView back_text;
 	public PersonDetailEditDialog(PersonMessageActivity context, TextView tv_detail) {
 		super(context);
 		this.context = context;
@@ -42,28 +43,40 @@ public class PersonDetailEditDialog extends FullScreenDialog implements
 		}
 		tv_save.setOnClickListener(this);
 		et_detail = (EditText) findViewById(R.id.et_detail);
-		et_detail.setText(tv_detail.getText().toString());
+		et_detail.setText(SPUtils.get(context, "intro", "***").toString());
 		CharSequence text = et_detail.getText();
 		if (text instanceof Spannable) {
 			Spannable spanText = (Spannable) text;
 			Selection.setSelection(spanText, text.length());
 		}
 		et_detail.addTextChangedListener(this);
+
+		back=(ImageView)findViewById(R.id.title_top_image);
+		back_text=(TextView)findViewById(R.id.back_text);
+		back_text.setOnClickListener(this);
+		back.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.save:
-			ToolUtils.showShortToast(context, "保存成功!!!");
-			tv_detail.setText(et_detail.getText().toString());
-			context.uploadChange(intro, et_detail.getText()
-					.toString());
-			dismiss();
-		default:
-			break;
+			case R.id.save:
+				ToolUtils.showShortToast(context, "保存成功!!!");
+				String content=et_detail.getText().toString();
+				if(content.length()>8)
+					content=content.substring(0,8)+"...";
+				tv_detail.setText(content);
+				context.uploadChange(intro, et_detail.getText().toString());
+				dismiss();
+			case R.id.title_top_image:
+				dismiss();
+				break;
+			case R.id.back_text:
+				dismiss();
+				break;
+			default:
+				break;
 		}
-
 	}
 
 	@Override

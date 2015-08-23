@@ -1,17 +1,16 @@
 package cn.luquba678.activity;
 
-import cn.luquba678.utils.Until;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuchao.http.Network;
+import com.zhuchao.utils.ImageLoader;
 import com.zhuchao.view_rewrite.LoadingDialog;
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.CommonAdapter;
@@ -35,96 +34,69 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class UniversityListActivity extends CommonActivity implements OnClickListener, OnItemClickListener, OnRefreshListener<ListView> {
 
 	private ListView universityList;
-	private cn.luquba678.utils.ImageLoader ima = new cn.luquba678.utils.ImageLoader(this);
-	private List<School> schoolList;
+	private ImageLoader ima = new ImageLoader(this);
+	private ArrayList<School> schoolList;
 	private CommonAdapter<School> adapter;
 	private int page = 1;
 	private LoadingDialog loadingDialog;
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			boolean hasMoreData = false;
-			if (msg.obj != null) {
-				hasMoreData = true;
-				if (adapter == null) {
-					adapter = new CommonAdapter<School>(self, (ArrayList<School>) msg.obj, R.layout.list_university_item) {
-						@Override
-						public void setViews(ViewHolder holder, School t, int p) {
-							TextView count = holder
-									.getView(R.id.grid_university_count);
-							count.setText("排名:" + t.getRank());
-							TextView university_name = holder.getView(R.id.university_name);
-							university_name.setText(t.getSchool_name() + "");
-							TextView university_area = holder.getView(R.id.university_area);
-							university_area.setText("地区:" + t.getAreaName());
-							ImageView logo = holder.getView(R.id.university_logo);
-							ima.DisplayImage(t.getLogo(), logo, false);
-							View mark_211 = holder.getView(R.id.is_211);
-							View mark_985 = holder.getView(R.id.is_985);
-							if (t.getIs_211() == 1) {
-								mark_211.setVisibility(View.VISIBLE);
-							} else
-								mark_211.setVisibility(View.GONE);
-							if (t.getIs_985() == 1)
-								mark_985.setVisibility(View.VISIBLE);
-							else
-								mark_985.setVisibility(View.GONE);
-
-						}
-					};
-					universityList.setAdapter(adapter);
-					universityList
-							.setOnItemClickListener(UniversityListActivity.this);
-
-				} else {
-					adapter.changeDateInThread((ArrayList<School>) msg.obj);
-				}
-			} else if (msg.what == 1) {
-				Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
-
-			} else {
-				Toast.makeText(self, "获取列表错误！", Toast.LENGTH_SHORT).show();
-
-			}
-			ptrlv.onPullDownRefreshComplete();
-			ptrlv.onPullUpRefreshComplete();
-			ptrlv.setHasMoreData(hasMoreData);
-            loadingDialog.stopProgressDialog();
-		}
-	};
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.top_back:
-			this.finish();
-			break;
-		case R.id.get_more:
-			getSchoolList(++page, ADD);
-			break;
-		default:
-			break;
-		}
-	}
 
 	private PullToRefreshListView ptrlv;
 	private SharedPreferences sharedPreferences;
 	private Editor editor;
 
+	private RelativeLayout error_layout;
+	private Button refresh_button;
+
+	private final static int ADD = 0, CHANGE = 1;
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case 0:
+					adapter.changeDateInThread(schoolList);
+					break;
+				case 1:
+					Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
+					break;
+				case 2:
+					Toast.makeText(self, "获取列表错误！", Toast.LENGTH_SHORT).show();
+					break;
+			}
+			ptrlv.onPullDownRefreshComplete();
+			ptrlv.onPullUpRefreshComplete();
+			ptrlv.setHasMoreData(true);
+			loadingDialog.stopProgressDialog();
+		}
+	};
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_university_list);
-        loadingDialog=new LoadingDialog(this);
+
+		initView();
+	}
+	private void initView(){
+		loadingDialog=new LoadingDialog(this);
+		ima.setStub_id(R.drawable.new_city_default);
 		findViewById(R.id.top_back).setOnClickListener(this);
 		((TextView) findViewById(R.id.top_text)).setText("学校排名");
+
+		/**
+		 * network error bg
+		 */
+		error_layout=(RelativeLayout)findViewById(R.id.network_error);
+		refresh_button=(Button)findViewById(R.id.network_error_button);
+		refresh_button.setOnClickListener(this);
 
 		ptrlv = getView(R.id.universityList);
 		// 设置下拉刷新可用
@@ -135,48 +107,86 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 		universityList = ptrlv.getRefreshableView();
 		ptrlv.setOnRefreshListener(this);
 
-		// universityList = (ListView) findViewById(R.id.universityList);
 
-		getSchoolList(1, CHANGE);
+		schoolList=new ArrayList<School>();
+		adapter = new CommonAdapter<School>(self,schoolList , R.layout.list_university_item) {
+			@Override
+			public void setViews(ViewHolder holder, School t, int p) {
+				TextView count = holder.getView(R.id.grid_university_count);
+				count.setText("排名:" + t.getRank());
+				TextView university_name = holder.getView(R.id.university_name);
+				university_name.setText(t.getSchool_name() + "");
+				TextView university_area = holder.getView(R.id.university_area);
+				university_area.setText("地区:" + t.getAreaName());
+				ImageView logo = holder.getView(R.id.university_logo);
+				ima.DisplayImage(t.getLogo(), logo);
+				View mark_211 = holder.getView(R.id.is_211);
+				View mark_985 = holder.getView(R.id.is_985);
+				if (t.getIs_211() == 1) {
+					mark_211.setVisibility(View.VISIBLE);
+				} else
+					mark_211.setVisibility(View.GONE);
+				if (t.getIs_985() == 1)
+					mark_985.setVisibility(View.VISIBLE);
+				else
+					mark_985.setVisibility(View.GONE);
 
+			}
+		};
+		universityList.setAdapter(adapter);
+		universityList.setOnItemClickListener(this);
+		getSchoolList(page,ADD);
 	}
-
-	private final static int ADD = 0, CHANGE = 1;
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.top_back:
+				this.finish();
+				break;
+			case R.id.get_more:
+				page++;
+				getSchoolList(page, ADD);
+				break;
+			case R.id.network_error_button:
+				getSchoolList(page,ADD);
+				break;
+			default:
+				break;
+		}
+	}
 
 	public void getSchoolList(final int page, final int type) {
 		if(Network.checkNetWorkState(UniversityListActivity.this)) {
+			if(error_layout.getVisibility()==View.VISIBLE)
+				error_layout.setVisibility(View.INVISIBLE);
             loadingDialog.startProgressDialog();
 			Executors.newSingleThreadExecutor().execute(
 					new Runnable() {
 						@Override
 						public void run() {
 							try {
-								Message msg = new Message();
-								JSONObject obj = JSONObject.parseObject(HttpUtil
-										.postRequestEntity(Const.SCHOOL_QUERY + page, null));
-
-								Integer errcode = obj.getInteger("errcode");
-								msg.what = errcode;
-								JSONArray arry = obj.getJSONArray("data");
-								ArrayList<School> schoolListArry = School.getListFromJson(arry.toString());
-								switch (type) {
-									case CHANGE:
-										schoolList = schoolListArry;
-										break;
-									default:
-										if (schoolList != null) {
-											schoolList.addAll(schoolListArry);
-										} else {
-											schoolList = schoolListArry;
-										}
-										break;
+								JSONObject obj = JSONObject.parseObject(HttpUtil.postRequestEntity(Const.SCHOOL_QUERY + page, null));
+								Integer err_code = obj.getInteger("errcode");
+								if (err_code ==0) {
+									JSONArray array = obj.getJSONArray("data");
+									ArrayList<School> schoolListArray = School.getListFromJson(array.toString());
+									switch (type) {
+										case CHANGE:
+											schoolList.clear();
+											schoolList.addAll(schoolListArray);
+											break;
+										case ADD:
+											schoolList.addAll(schoolListArray);
+											break;
+									}
+									handler.sendEmptyMessage(0);
+								}else{
+									handler.sendEmptyMessage(1);
 								}
-								msg.obj = schoolList;
-								handler.sendMessage(msg);
-							} catch (Exception e) {
+							}catch(Exception e){
+								handler.sendEmptyMessage(2);
 								e.printStackTrace();
 							}
-
 						}
 					}
 			);
@@ -184,7 +194,9 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 			/**
 			 * send network broadcast
 			 */
-			Until.sendNetworkBroadcast(UniversityListActivity.this);
+			Toast.makeText(UniversityListActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+			if(error_layout.getVisibility()==View.INVISIBLE)
+				error_layout.setVisibility(View.VISIBLE);
 		}
 
 	}
@@ -236,7 +248,8 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		getSchoolList(++page, ADD);
+		page++;
+		getSchoolList(page, ADD);
 
 	}
 

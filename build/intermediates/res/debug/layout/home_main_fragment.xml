@@ -13,7 +13,7 @@
 <LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_home"
+    android:background="@drawable/new_home_bg"
     android:orientation="vertical" >
     <TextView
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="励志故事"
+                    android:text="青春励志"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -77,7 +77,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="状元心得"
+                    android:text="高分秘籍"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </LinearLayout>

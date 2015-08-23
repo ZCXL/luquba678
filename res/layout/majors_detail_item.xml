@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhuchao.view_rewrite.ExpandableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/click_zhankai"
+    <LinearLayout
+        android:id="@+id/collapse_value"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/frame_radius5_alfa0_main_color" >
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/click_zhankai"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/frame_radius5_alfa0_main_color" >
 
-        <TextView
-            android:id="@+id/major_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="物理"
-            android:textColor="@color/white"
-            android:textSize="13sp" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/major_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="物理"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+            <ImageView
+                android:id="@+id/icon_value"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="11dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/update_detail_down"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/major_content"
+        android:id="@+id/expand_value"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/major_content_tv"
@@ -62,4 +79,4 @@
         </cn.luquba678.view.NoScrollListView>
     </LinearLayout>
 
-</LinearLayout>
+</com.zhuchao.view_rewrite.ExpandableLayout>

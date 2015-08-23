@@ -1,6 +1,5 @@
 package cn.luquba678.activity;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import internal.org.apache.http.entity.mime.MultipartEntity;
@@ -9,14 +8,12 @@ import cn.luquba678.R;
 import cn.luquba678.entity.Const;
 import cn.luquba678.ui.HttpUtil;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,8 +37,7 @@ public class ResetPassActivity1 extends CommonActivity implements TextWatcher {
 				MultipartEntity entity = new MultipartEntity();
 				String tel = phoneNumber.getText().toString();
 				entity.addPart("tel", new StringBody(tel));
-				String json = HttpUtil.postRequestEntity(
-						Const.FORGETPASS_GETMSG_URL, entity);
+				String json = HttpUtil.postRequestEntity(Const.FORGETPASS_GETMSG_URL, entity);
 				JSONObject obj = JSONObject.parseObject(json);
 				Integer errcode = obj.getInteger("errcode");
 				if (errcode == 0) {
@@ -62,12 +58,9 @@ public class ResetPassActivity1 extends CommonActivity implements TextWatcher {
 			alertDialog = new AlertDialog.Builder(this).create();
 			alertDialog.show();
 			alertDialog.getWindow().setContentView(R.layout.alert_ensure);
-			alertDialog.getWindow().findViewById(R.id.btn_cancel)
-					.setOnClickListener(this);
-			alertDialog.getWindow().findViewById(R.id.btn_ok)
-					.setOnClickListener(this);
-			TextView hint = (TextView) alertDialog.getWindow().findViewById(
-					R.id.hint);
+			alertDialog.getWindow().findViewById(R.id.btn_cancel).setOnClickListener(this);
+			alertDialog.getWindow().findViewById(R.id.btn_ok).setOnClickListener(this);
+			TextView hint = (TextView) alertDialog.getWindow().findViewById(R.id.hint);
 			hint.setText(phoneNumber.getText());
 
 			break;

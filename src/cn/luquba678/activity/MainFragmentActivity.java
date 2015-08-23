@@ -1,48 +1,35 @@
 package cn.luquba678.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.MainFragmentPagerAdapt;
-import cn.luquba678.activity.fragment.TabMyStoryFragment;
-import cn.luquba678.activity.welcome.MainActivity;
-import cn.luquba678.activity.welcome.SharedConfig;
 import cn.luquba678.utils.ImageUtil;
 import cn.luquba678.view.MainViewPager;
-import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhuchao.bean.Version;
 import com.zhuchao.connection.DownloadServiceConnection;
+import com.zhuchao.function.CheckVersion;
 import com.zhuchao.receiver.DownloadReceiver;
 import com.zhuchao.service.DownloadService;
+import com.zhuchao.view_rewrite.VersionCheckDialog;
 
-public class MainFragmentActivity extends FragmentActivity implements
-		OnPageChangeListener {
+public class MainFragmentActivity extends FragmentActivity implements OnPageChangeListener {
 	public MainViewPager viewPager;
 	public Fragment fragments[] = null;
 	private static ImageView[] tabs = null;
@@ -62,6 +49,22 @@ public class MainFragmentActivity extends FragmentActivity implements
 
     private long exitTime;
 
+	private Version version;
+	private CheckVersion checkVersion;
+	private String versionString;
+
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case 1:
+					if(!version.getVersionId().equals(versionString))
+						new VersionCheckDialog(MainFragmentActivity.this,version.getVersionId(),version.getVersionDescription(),version.getVersionUrl()).show();
+					break;
+			}
+		}
+	};
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,8 +85,7 @@ public class MainFragmentActivity extends FragmentActivity implements
 		viewPager.setOffscreenPageLimit(5);
 		viewPager.setOnPageChangeListener(this);
 		// viewPager.setAdapter(new MyPagerAdapter());
-		viewPager.setAdapter(new MainFragmentPagerAdapt(fragmentManager,
-				fragments));
+		viewPager.setAdapter(new MainFragmentPagerAdapt(fragmentManager, fragments));
 		viewPager.setCurrentItem(0);// 选择起始页
 		// onPageSelected(0);
 		// lintabs.get(2).performClick();
@@ -103,6 +105,32 @@ public class MainFragmentActivity extends FragmentActivity implements
 			tabs[i] = (ImageView) findViewById(Resources.navigationImgViewIds[i]);
 			lintabs[i].setOnClickListener(new MyOnClickListener(i));
 		}
+		/**
+		 * check version
+		 */
+		checkVersion=new CheckVersion(this);
+		PackageManager packageManager=getPackageManager();
+		try {
+			PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+			versionString=packageInfo.versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		checkVersion.setOnVersionCheckListener(new CheckVersion.OnVersionCheckListener() {
+			@Override
+			public void getVersion(Version version) {
+				MainFragmentActivity.this.version=version;
+				mHandler.sendEmptyMessage(1);
+			}
+		});
+		checkVersion.startCheck();
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		for(int i=0;i<fragments.length;i++)
+			fragments[i].onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**
@@ -121,8 +149,7 @@ public class MainFragmentActivity extends FragmentActivity implements
 		int[] ic = Resources.iconsChoosed;
 		// 选择的图标变色
 		ImageUtil.setDraById(tabs[i], ic[i], this);
-		tvtabs[i]
-				.setTextColor(getResources().getColor(Resources.textcolors[1]));
+		tvtabs[i].setTextColor(getResources().getColor(Resources.textcolors[1]));
 		currIndex = i;
 	}
 
@@ -156,11 +183,6 @@ public class MainFragmentActivity extends FragmentActivity implements
 		}
 	}
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(arg0, arg1, arg2);
-	}
-	@Override
 	protected void onStop() {
 		super.onStop();
 	}
@@ -173,7 +195,7 @@ public class MainFragmentActivity extends FragmentActivity implements
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK ){
             if((System.currentTimeMillis()-exitTime) >1000){
-                Toast.makeText(getApplicationContext(), "Click again to leave", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();

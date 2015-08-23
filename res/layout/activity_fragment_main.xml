@@ -26,12 +26,6 @@
         android:background="@color/white"
         android:orientation="vertical" >
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentTop="true"
-            android:background="#ADADAD" />
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="49dp"

@@ -2,92 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
-
-    <include
+    android:orientation="vertical"
+    android:background="#fff4f4f4">
+    <RelativeLayout
         android:id="@+id/editer_top"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        layout="@layout/top_back_title_more" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp" >
-
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text="寄语"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
         <LinearLayout
-            android:id="@+id/id_tab_bottom_wdjy"
-            android:layout_width="0dp"
+            android:id="@+id/write_bg"
+            android:layout_width="wrap_content"
+            android:minWidth="50dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:src="@drawable/wdjy" />
-
-            <Button
-                android:id="@+id/btn_tab_bottom_wdjy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#0000"
-                android:paddingLeft="5dp"
-                android:text="我的寄语"
-                android:textColor="#464444"
-                android:textSize="18sp" />
+            android:background="@null"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/btn_tab_bottom_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/new_write_wish" />
         </LinearLayout>
+    </RelativeLayout>
 
-        <View
-            style="@style/under_line"
-            android:layout_width="1dp"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:id="@+id/id_tab_bottom_write"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button_normal"
-            android:descendantFocusability="beforeDescendants"
-            android:gravity="center" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                                android:enabled="false"
-                android:focusable="false"                android:clickable="false"
-                
-                android:background="@drawable/write" />
-
-            <Button
-                android:id="@+id/btn_tab_bottom_write"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#0000"
-                android:paddingLeft="5dp"
-                                android:focusable="false"
-                android:clickable="false"
-                android:enabled="false"
-                android:text="写寄语"
-                android:textColor="#464444"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        style="@style/under_line"
-        android:layout_height="1dp" />
-
-    <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
-        android:id="@+id/asset_grid"
+    <cn.luquba678.view.PullToRefreshListView
+        android:id="@+id/wish_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:columnWidth="92dip"
-        android:horizontalSpacing="3dip"
-        android:numColumns="auto_fit"
-        android:padding="3dp"
-        android:verticalSpacing="3dip" />
-
+        android:layout_height="fill_parent"
+        android:layout_margin="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:cacheColorHint="#00000000"
+        android:divider="#D6D3D3"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:padding="0dp"
+        />
 </LinearLayout>

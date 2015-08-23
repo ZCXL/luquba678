@@ -4,12 +4,61 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_wdjy_write" >
-
-     <include
-        android:id="@+id/editer_top"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        layout="@layout/top_back_title_more" />
+        android:background="@color/main_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <!-- style="@style/style_top_base" -->
+
+        <LinearLayout
+            android:id="@+id/top_back"
+            android:layout_width="wrap_content"
+            android:minWidth="50dp"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/title_top_image"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:focusable="false"
+                android:clickable="false"
+                android:enabled="false"
+                android:layout_height="20dp"
+                android:src="@drawable/new_wish_back" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/top_submit"
+            style="@style/style_top_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:text="下一步"
+            />
+
+        <TextView
+            android:id="@+id/top_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text="写寄语"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
     
     <EditText
         android:id="@+id/et_my_wish"
@@ -22,7 +71,7 @@
         android:background="@drawable/frame_radius12_alfa5_black"
         android:ems="10"
         android:gravity="top"
-        android:hint="说点什么吧!"
+        android:hint="    记录生活的点点滴滴,留住心里的小小感动..."
         android:inputType="text|textMultiLine"
         android:maxLength="140"
         android:minHeight="130dp"

@@ -1,11 +1,8 @@
 package cn.luquba678.entity;
 
 import com.baidu.navisdk.util.common.StringUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.luquba678.utils.DateUtils;
 
@@ -17,6 +14,7 @@ public class Comment {
     private String comment_time;
     private String nickname;
     private String headpic;
+    private String uid;
 
     public Comment(String content, String comment_time, String nickname, String headpic) {
         this.content = content;
@@ -59,14 +57,27 @@ public class Comment {
         return content;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
-    public static ArrayList<Comment> getListFromJson(String jsonData) {
-        Type listType = new TypeToken<ArrayList<Comment>>() {}.getType();
-        Gson gson = new Gson();
-
-        ArrayList<Comment> queryList = gson.fromJson(jsonData, listType);
-        return queryList;
+    public Comment(String result){
+        try {
+            JSONObject jsonObject=new JSONObject(result);
+            setComment_time(jsonObject.getString("createtime"));
+            setContent(jsonObject.getString("content"));
+            setHeadpic(jsonObject.getString("headpic"));
+            setNickname(jsonObject.getString("nickname"));
+            setUid(jsonObject.getString("uid"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

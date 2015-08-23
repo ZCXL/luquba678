@@ -20,8 +20,9 @@ public class News implements Parcelable{
 	private String createtime;
 	private String intro;
 	private String author;
+	private String content;
 
-	public News(String id,String pic, String origin,String createtime,String title,String intro,String author,String url) {
+	public News(String id,String pic, String origin,String createtime,String title,String intro,String author,String url,String content) {
 		super();
 		this.id = id;
 		this.title=title;
@@ -31,6 +32,7 @@ public class News implements Parcelable{
 		this.author=author;
 		this.url=url;
 		this.createtime = createtime;
+		this.content=content;
 	}
 
 	public News() {
@@ -65,7 +67,7 @@ public class News implements Parcelable{
 		if (StringUtils.isEmpty(pic))
 			return null;
 		else
-			return Const.BASE_URL + "/" + pic;
+			return pic;
 	}
 
 	public void setPic(String pic) {
@@ -108,7 +110,15 @@ public class News implements Parcelable{
         this.createtime = createtime;
     }
 
-    public static ArrayList<News> getListFromJson(String jsonData) {
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public static ArrayList<News> getListFromJson(String jsonData) {
 		Type listType = new TypeToken<ArrayList<News>>() {}.getType();
 		Gson gson = new Gson();
 
@@ -131,6 +141,7 @@ public class News implements Parcelable{
         dest.writeString(createtime);
         dest.writeString(intro);
         dest.writeString(author);
+		dest.writeString(content);
     }
     public static  final Parcelable.Creator<News>CREATOR=new Creator<News>() {
         @Override
@@ -152,5 +163,6 @@ public class News implements Parcelable{
         createtime=in.readString();
         intro=in.readString();
         author=in.readString();
+		content=in.readString();
     }
 }

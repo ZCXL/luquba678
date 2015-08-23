@@ -30,7 +30,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:clickable="false"
-                android:src="@drawable/back_array"
+                android:src="@drawable/new_wish_back"
                 />
             <TextView 
                 android:id="@+id/title_top_cancle"
@@ -59,9 +59,9 @@
             android:layout_marginBottom="5dp"
             android:background="@null"
             android:gravity="center"
-            android:text=""
+            android:text="我的收藏"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/collect_edit"
