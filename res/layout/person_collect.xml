@@ -23,13 +23,11 @@
             android:background="@null"
             android:orientation="horizontal"
             android:padding="10dp" >
-
             <ImageView
                 android:id="@+id/title_top_image"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:clickable="false"
                 android:src="@drawable/new_wish_back"
                 />
             <TextView 
@@ -43,13 +41,6 @@
                 />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/top_submit"
-            style="@style/style_top_text"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="right" />
-
         <TextView
             android:id="@+id/top_text"
             android:layout_width="wrap_content"
@@ -62,39 +53,59 @@
             android:text="我的收藏"
             android:textColor="@color/white"
             android:textSize="20sp" />
+        <RelativeLayout
+            android:id="@+id/collect_edit_ly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/collect_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="编辑"
+                android:textColor="@color/white" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/collect_edit"
+        <RelativeLayout
+            android:id="@+id/collect_delete_ly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@null"
-            android:text="编辑"
-            android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/collect_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:text="删除"
+            android:padding="10dp"
             android:visibility="gone"
-            android:textColor="@color/white" />
+            >
+            <TextView
+                android:id="@+id/collect_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="删除"
+                android:textColor="@color/white" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <View style="@style/under_line" />
-
-    <com.zhuchao.view_rewrite.PullToRefreshListView
-        android:id="@+id/collect_listView"
-        style="@style/list_view_nofading"
-        android:layout_margin="0dp"
-        android:divider="#DADADA"
-        android:dividerHeight="0.5dp"
-        android:padding="0dp" >
-    </com.zhuchao.view_rewrite.PullToRefreshListView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.zhuchao.view_rewrite.PullToRefreshListView
+            android:id="@+id/collect_listView"
+            style="@style/list_view_nofading"
+            android:layout_margin="0dp"
+            android:divider="#DADADA"
+            android:dividerHeight="0.5dp"
+            android:padding="0dp" >
+        </com.zhuchao.view_rewrite.PullToRefreshListView>
+        <include
+            android:id="@+id/network_error"
+            layout="@layout/network_error"
+            android:visibility="invisible"/>
+    </FrameLayout>
 
 </LinearLayout>

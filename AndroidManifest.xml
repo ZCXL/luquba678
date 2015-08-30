@@ -95,10 +95,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.FunnyDetailActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".activity.CommonNewsActivity"
             android:screenOrientation="portrait" >
         </activity>

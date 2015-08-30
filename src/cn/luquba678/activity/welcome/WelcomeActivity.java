@@ -23,7 +23,7 @@ public class WelcomeActivity extends CommonActivity implements
 		OnPageChangeListener, OnClickListener {
 	private ViewPager viewPager;
 	private PagerAdapter pagerAdapter;
-	private Button startButton, skip_btn;
+	private Button startButton;
 	private LinearLayout indicatorLayout;
 	private ArrayList<View> views;
 	private ImageView[] indicators = null;
@@ -48,8 +48,7 @@ public class WelcomeActivity extends CommonActivity implements
 		// 实例化视图控件
 		viewPager = (ViewPager) findViewById(R.id.viewpage);
 		startButton = getView(R.id.start_Button);
-		skip_btn = getView(R.id.skip);
-		setOnClickLinstener(R.id.start_Button, R.id.skip);
+		setOnClickLinstener(R.id.start_Button);
 		indicatorLayout = (LinearLayout) findViewById(R.id.indicator);
 		views = new ArrayList<View>();
 		indicators = new ImageView[images.length]; // 定义指示器数组大小
@@ -103,18 +102,15 @@ public class WelcomeActivity extends CommonActivity implements
 		// 显示最后一个图片时显示按钮
 		if (arg0 == indicators.length - 1) {
 			startButton.setVisibility(View.VISIBLE);
-			skip_btn.setVisibility(View.INVISIBLE);
 		} else {
-			skip_btn.setVisibility(View.VISIBLE);
 			startButton.setVisibility(View.INVISIBLE);
 		}
 		// 更改指示器图片
 		for (int i = 0; i < indicators.length; i++) {
 			indicators[arg0]
-					.setBackgroundResource(R.drawable.indicators_now_xml);
+                    .setBackgroundResource(R.drawable.indicators_now_xml);
 			if (arg0 != i) {
-				indicators[i]
-						.setBackgroundResource(R.drawable.indicators_default_xml);
+				indicators[i].setBackgroundResource(R.drawable.indicators_default_xml);
 			}
 		}
 	}

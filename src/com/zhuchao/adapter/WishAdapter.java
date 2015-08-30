@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.zhuchao.bean.Wish;
 import com.zhuchao.utils.ImageLoader;
+import com.zhuchao.utils.NewImageLoader;
 
 import java.util.ArrayList;
 
@@ -23,12 +24,12 @@ import cn.luquba678.utils.DateUtils;
 public class WishAdapter extends BaseAdapter {
     private ArrayList<Wish>wishs;
     private Context context;
-    private ImageLoader imageLoader;
+    private NewImageLoader imageLoader;
 
     public WishAdapter(ArrayList<Wish>wishs,Context context){
         this.wishs=wishs;
         this.context=context;
-        imageLoader=new ImageLoader(context);
+        imageLoader=new NewImageLoader(context);
         imageLoader.setStub_id(R.drawable.new_wish_default_1);
     }
     @Override
@@ -50,12 +51,11 @@ public class WishAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
         if(convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.wish_item,null);
+            convertView= LayoutInflater.from(context).inflate(R.layout.new_wish_item,null);
             holder=new ViewHolder();
             holder.image=(ImageView)convertView.findViewById(R.id.image_1);
             holder.time=(TextView)convertView.findViewById(R.id.show_time);
             holder.wish_word=(TextView)convertView.findViewById(R.id.title);
-            holder.wish_layout=(RelativeLayout)convertView.findViewById(R.id.wish_time_layout);
             convertView.setTag(holder);
         }else{
             holder=(ViewHolder)convertView.getTag();
@@ -64,12 +64,10 @@ public class WishAdapter extends BaseAdapter {
         if(position==0){
             holder.image.setImageResource(R.drawable.new_wish_default_2);
             holder.wish_word.setVisibility(View.INVISIBLE);
-            holder.wish_layout.setVisibility(View.INVISIBLE);
             holder.time.setVisibility(View.INVISIBLE);
             return convertView;
         }else{
             holder.wish_word.setVisibility(View.VISIBLE);
-            holder.wish_layout.setVisibility(View.VISIBLE);
             holder.time.setVisibility(View.VISIBLE);
         }
         Wish wish=wishs.get(position-1);
@@ -85,6 +83,5 @@ public class WishAdapter extends BaseAdapter {
         public TextView time;
         public ImageView image;
         public TextView wish_word;
-        public RelativeLayout wish_layout;
     }
 }

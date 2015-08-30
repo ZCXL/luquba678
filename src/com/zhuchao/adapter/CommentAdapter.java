@@ -60,7 +60,6 @@ public class CommentAdapter extends BaseAdapter {
         if(position==0){
             return layout;
         }
-
         if(convertView==null||convertView.getTag()==null){
             convertView= LayoutInflater.from(context).inflate(R.layout.comment_cell,null);
             holder=new ViewHolder();

@@ -236,6 +236,14 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 		case R.id.do_login_btn:
 			String user = username.getText().toString();
 			String pass = password.getText().toString();
+			if(user.equals("")||user==null){
+				Toast.makeText(this,"请输入账号",Toast.LENGTH_SHORT).show();
+				break;
+			}
+			if(pass.equals("")||pass==null){
+				Toast.makeText(this,"请输入密码",Toast.LENGTH_SHORT).show();
+				break;
+			}
 			loginService(user, pass);
 			break;
 		case R.id.go_regist:
@@ -257,7 +265,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 			Platform weibo = ShareSDK.getPlatform(this, SinaWeibo.NAME);
 			weibo.removeAccount();
 			weibo.setPlatformActionListener(mActionListener);
-			weibo.SSOSetting(true);
 			weibo.showUser(null);
             loadingDialog.startProgressDialog();
 			break;
@@ -277,7 +284,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 
 		@Override
 		public void onError(Platform arg0, int arg1, Throwable arg2) {
-            mHandler.sendEmptyMessage(1);
+            mHandler.sendEmptyMessage(2);
 		}
 
 		@Override
@@ -343,7 +350,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 
 		@Override
 		public void onCancel(Platform arg0, int arg1) {
-            mHandler.sendEmptyMessage(2);
+            mHandler.sendEmptyMessage(3);
 		}
 	};
 	Handler mHandler = new Handler() {
@@ -357,11 +364,11 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 					break;
 				case 2:
                     loadingDialog.stopProgressDialog();
-					toast("Login failed");
+					toast("登录失败");
 					break;
 				case 3:
                     loadingDialog.stopProgressDialog();
-					toast("Have canceled login");
+					toast("已取消登录");
 					break;
 
 			default:
@@ -445,6 +452,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
                                 User u = gson.fromJson(jsonObject.get("user").toString(), User.class);
 
                                 //set login token and uid
+								editor.putString(User.PASSWORD, "");
                                 editor.putString("login_token", login_token);
                                 editor.putString("uid", u.getUid() + "");
                                 editor.commit();

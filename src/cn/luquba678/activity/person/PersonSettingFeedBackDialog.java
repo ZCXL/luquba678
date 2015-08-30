@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuchao.http.Network;
 import com.zhuchao.view_rewrite.LoadingDialog;
 
 import internal.org.apache.http.entity.mime.MultipartEntity;
@@ -45,11 +46,15 @@ public class PersonSettingFeedBackDialog extends FullScreenDialog implements
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case 1:
-				ToolUtils.showShortToast(context, "意见反馈成功..");
-				loadingDialog.stopProgressDialog();
-				dismiss();
-				break;
+				case 0:
+					ToolUtils.showShortToast(context, "意见反馈失败,请重试");
+					loadingDialog.stopProgressDialog();
+					break;
+			    case 1:
+					ToolUtils.showShortToast(context, "意见反馈成功");
+					loadingDialog.stopProgressDialog();
+					dismiss();
+					break;
 			default:
 				break;
 			}
@@ -75,42 +80,44 @@ public class PersonSettingFeedBackDialog extends FullScreenDialog implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.ed_commit_btn:
-				if (ed_feedback.getText().toString().trim().isEmpty()) {
-					ToolUtils.showShortToast(context, "反馈意见内容不能为空!!");
-					return;
-				}
-				Executors.newSingleThreadExecutor().execute(new Runnable() {
-					@Override
-					public void run() {
-
-					}});
-				final MultipartEntity entity = new MultipartEntity();
-				String content = ed_feedback.getText().toString();
-				final String feedBackUrl = Const.FEED_BACK+"?uid="+User.getUID(context) +"&login_token="+User.getLoginToken(context);
-				try {
-					entity.addPart("content", new StringBody(content, Charset.forName("utf-8")));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				loadingDialog.startProgressDialog();
-				Executors.newSingleThreadExecutor().execute(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							JSONObject obj = HttpUtil.getRequestJson(feedBackUrl, entity);
-							Integer errcode = obj.getInteger("errcode");
-							if(errcode == 0){
-								Message msg = handler.obtainMessage();
-								msg.what = 1;
-								handler.sendMessage(msg);
+				if(Network.checkNetWorkState(context)) {
+					if (ed_feedback.getText().toString().trim().isEmpty()) {
+						ToolUtils.showShortToast(context, "反馈意见内容不能为空!!");
+						return;
+					}
+					final MultipartEntity entity = new MultipartEntity();
+					String content = ed_feedback.getText().toString();
+					final String feedBackUrl = Const.FEED_BACK + "?uid=" + User.getUID(context) + "&login_token=" + User.getLoginToken(context);
+					try {
+						entity.addPart("content", new StringBody(content, Charset.forName("utf-8")));
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					loadingDialog.startProgressDialog();
+					Executors.newSingleThreadExecutor().execute(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								JSONObject obj = HttpUtil.getRequestJson(feedBackUrl, entity);
+								Integer errcode = obj.getInteger("errcode");
+								if (errcode == 0) {
+									Message msg = handler.obtainMessage();
+									msg.what = 1;
+									handler.sendMessage(msg);
+								} else {
+									handler.sendEmptyMessage(0);
+								}
+							} catch (Exception e) {
+								handler.sendEmptyMessage(0);
+								e.printStackTrace();
 							}
-						} catch (Exception e) {
-							e.printStackTrace();
+
 						}
 
-					}
-
-				});
+					});
+				}else{
+					ToolUtils.showShortToast(context, "网络连接失败");
+				}
 				break;
 			case R.id.title_top_image:
 				dismiss();

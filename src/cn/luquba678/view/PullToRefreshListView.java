@@ -16,8 +16,7 @@ import android.widget.ListView;
  * @author Li Hong
  * @since 2013-8-15
  */
-public class PullToRefreshListView extends PullToRefreshBase<ListView>
-		implements OnScrollListener {
+public class PullToRefreshListView extends PullToRefreshBase<ListView> implements OnScrollListener {
 
 	/** ListView */
 	public ListView mListView;

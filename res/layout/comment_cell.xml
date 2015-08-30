@@ -63,7 +63,7 @@
                     style="@style/width_wrap_height_wrap"
                     android:layout_weight="1"
                     android:text="1天前"
-                    android:textSize="8sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
         </LinearLayout>

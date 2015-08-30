@@ -63,27 +63,27 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		Intent intent = null;
 		String title = null;
 		switch (v.getId()) {
-		case R.id.home_champion_experience:
-			title = "高分秘籍";
-			break;
-		case R.id.home_funny:
-			intent = new Intent(getActivity(), FunnyActivity.class);
-			getActivity().startActivity(intent);
-			return;
-		case R.id.home_pretty_school_mate:
-			intent = new Intent(getActivity(), PrettySchoolMateActivity.class);
-			getActivity().startActivity(intent);
-			return;
-		case R.id.home_school_rank:
-			title = "学校排名";
-			intent = new Intent(getActivity(), UniversityListActivity.class);
-			getActivity().startActivity(intent);
-			return;
-		case R.id.home_story:
-			title = "青春励志";
-			break;
-		default:
-			break;
+			case R.id.home_champion_experience:
+				title = "高分秘籍";
+				break;
+			case R.id.home_funny:
+				intent = new Intent(getActivity(), FunnyActivity.class);
+				getActivity().startActivity(intent);
+				return;
+			case R.id.home_pretty_school_mate:
+				intent = new Intent(getActivity(), PrettySchoolMateActivity.class);
+				getActivity().startActivity(intent);
+				return;
+			case R.id.home_school_rank:
+				title = "大学排名";
+				intent = new Intent(getActivity(), UniversityListActivity.class);
+				getActivity().startActivity(intent);
+				return;
+			case R.id.home_story:
+				title = "青春励志";
+				break;
+			default:
+				break;
 		}
 		intent = new Intent(getActivity(), SubMainActivity.class);
 		intent.putExtra("title", title);
@@ -103,16 +103,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		public void run() {
 			// 获取消息
 			Message msg = updateHandler.obtainMessage();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 			msg.obj = DateUtils.countNationalHigherEducationEntranceExamination(year);
 			// 把此消息发送到消息队列中
 			if (countFlag) {
-
-				updateHandler.sendMessage(msg);
+				updateHandler.sendMessageDelayed(msg,1000);
 			}
 		}
 	};
@@ -128,13 +122,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onPause() {
-		countFlag = false;
+		countFlag = true;
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		countFlag = false;
+		countFlag = true;
 		super.onStop();
 	}
 

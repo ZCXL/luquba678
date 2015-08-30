@@ -19,14 +19,17 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:background="@drawable/collect_select"
+        android:clickable="false"
+        android:focusable="false"
+        android:enabled="false"
         android:button="@null" />
-
     <ImageView
         android:id="@+id/collect_img"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
+        android:src="@drawable/app_default"
         android:layout_toRightOf="@id/collect_check" />
 
     <TextView
@@ -34,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/collection"
+        android:singleLine="true"
         android:layout_marginLeft="10dp"
         android:textColor="@color/text_black_color"
         android:layout_alignTop="@+id/collect_img"
@@ -50,6 +54,7 @@
             android:id="@+id/collect_lable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="标签"
             android:textColor="@color/gray_6"
             android:textSize="16sp"

@@ -14,7 +14,6 @@ import cn.luquba678.activity.adapter.StoryAdapter;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
 import cn.luquba678.ui.HttpUtil;
-import cn.luquba678.utils.Until;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 import cn.luquba678.view.PullToRefreshListView;
@@ -201,7 +200,7 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 							ArrayList<News> arrays = News.getListFromJson(array.toString());
 							if (arrays != null && arrays.size() > 0) {
 								/**
-								 * sava data
+								 * save data
 								 */
 								processData(arrays, action, type);
 								handler.sendEmptyMessage(0);
@@ -209,7 +208,7 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 								handler.sendEmptyMessage(1);
 							}
 						} else {
-							handler.sendEmptyMessage(2);
+							handler.sendEmptyMessage(1);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -236,7 +235,6 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
         else{
             news=jokes.get(arg2);
         }
-		//FunnyDetailActivity.intentToDetailNews(news, self, currentType);
 		CommonNewsActivity.intentToDetailNews(news,self,currentType);
 	}
 

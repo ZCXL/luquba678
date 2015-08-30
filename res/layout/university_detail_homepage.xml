@@ -7,7 +7,7 @@
     android:orientation="vertical"
     customer:up_arrow="@drawable/ic_up_arrow"
     customer:down_arrow="@drawable/ic_down_arrow"
-    customer:is_expand="true">
+    customer:is_expand="false">
     <LinearLayout
         android:id="@+id/collapse_value"
         android:layout_width="match_parent"

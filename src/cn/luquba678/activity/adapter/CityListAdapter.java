@@ -1,16 +1,10 @@
 package cn.luquba678.activity.adapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cn.luquba678.R;
 import cn.luquba678.entity.CityMsg;
-import cn.luquba678.entity.TestMajorDate;
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CityListAdapter extends CommonAdapter<CityMsg> {

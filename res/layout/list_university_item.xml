@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="10dp" >
 
-    <cn.luquba678.view.CircularImage
+    <com.zhuchao.view_rewrite.RoundImageView
         android:id="@+id/university_logo"
         android:layout_width="66dp"
         android:layout_height="66dp"

@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="28.66dp"
+            android:layout_marginLeft="13.33dp"
             android:src="@drawable/new_person" />
 
         <TextView
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="28.66dp"
+            android:layout_marginLeft="13.33dp"
             android:src="@drawable/new_collection" />
 
         <TextView
@@ -131,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="28.66dp"
+            android:layout_marginLeft="13.33dp"
             android:src="@drawable/new_setting" />
 
         <TextView
@@ -162,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="28.66dp"
+            android:layout_marginLeft="13.33dp"
             android:src="@drawable/new_quit" />
 
         <TextView

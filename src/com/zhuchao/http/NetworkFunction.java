@@ -144,6 +144,8 @@ public class NetworkFunction {
                 URL url=new URL(Const.BASE_URL+"/api/common/uploadImg");
                 HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
                 httpURLConnection.setDoInput(true);
+                httpURLConnection.setConnectTimeout(15000);
+                httpURLConnection.setReadTimeout(15000);
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setUseCaches(false);
                 httpURLConnection.setRequestMethod("POST");

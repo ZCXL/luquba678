@@ -7,7 +7,7 @@
     android:orientation="vertical"
     customer:up_arrow="@drawable/ic_up_arrow"
     customer:down_arrow="@drawable/ic_down_arrow"
-    customer:is_expand="true">
+    customer:is_expand="false">
     <LinearLayout
         android:id="@+id/collapse_value"
         android:layout_width="match_parent"
@@ -69,15 +69,6 @@
                 android:text="招生电话    027-88888888"
                 android:textColor="@color/text_black_color"
                 android:textSize="13sp" />
-
-            <ImageView
-                android:id="@+id/phone"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_phone" />
         </RelativeLayout>
     </LinearLayout>
 </com.zhuchao.view_rewrite.ExpandableLayout>

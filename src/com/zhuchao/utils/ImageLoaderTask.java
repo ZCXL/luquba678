@@ -49,7 +49,7 @@ public class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 		}
 		if(ImageProcess.SearchImage(fileType_Image,temp)){
 			bitmap=ImageProcess.OutputImage(fileType_Image,temp);
-			bitmap=ImageProcess.compressImage(bitmap);
+			bitmap=ImageProcess.compressImage(bitmap,100);
 			if(bitmap!=null){
 				ImageCache.put(filename,new SoftReference<Bitmap>(bitmap));
 				return bitmap;
@@ -58,7 +58,7 @@ public class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 	     	if(Network.checkNetWorkState(context)){
 	         	InputStream iStream= NetworkFunction.DownloadImage(filename);
 	         	bitmap=ImageProcess.getBitmap(iStream);
-				bitmap=ImageProcess.compressImage(bitmap);
+				bitmap=ImageProcess.compressImage(bitmap,100);
 	         	ImageProcess.InputImage(bitmap, fileType_Image, filename.substring(filename.lastIndexOf("/")+1));
 				try {
 					iStream.close();

@@ -11,6 +11,7 @@ import com.baidu.navisdk.util.common.StringUtils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
 
 public class DateUtils {
 	private final static int[] dayArr = new int[] { 20, 19, 21, 20, 21, 22, 23,
@@ -70,9 +71,11 @@ public class DateUtils {
 			result = a / HOUR + "小时前";
 		} else if (a < HOUR && a > MINUTE) {
 			result = a / MINUTE + "分钟前";
-		} else if (a < MINUTE && a > 0) {
+		} else if (a < MINUTE && a >=0) {
 			result = a / SECOND + "秒前";
-		} else if (c <= 3) {
+			if(a<1000)
+				result="刚刚";
+		} else if (c>0&&c <= 3) {
 			result = c + "天前";
 		} else {
 			result = formatDate(format, before);

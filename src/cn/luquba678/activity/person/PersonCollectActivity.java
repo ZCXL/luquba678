@@ -1,7 +1,6 @@
 package cn.luquba678.activity.person;
 
 import cn.luquba678.activity.CommonNewsActivity;
-import cn.luquba678.utils.Until;
 import cn.luquba678.view.PullToRefreshBase;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
@@ -18,10 +17,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import cn.luquba678.R;
 import cn.luquba678.activity.adapter.CollectListAdapter;
 import cn.luquba678.entity.CollectItem;
@@ -48,8 +51,11 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 	private boolean isEditMode;
 	private int page = 1;
 	private LoadingDialog loadingDialog;
-
+	private RelativeLayout delete_ly,edit_ly;
     private ArrayList<String>result;
+
+	private RelativeLayout error_layout;
+	private Button refresh_button;
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -103,6 +109,12 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 
 	private void initView() {
 		/**
+		 * network error bg
+		 */
+		error_layout=(RelativeLayout)findViewById(R.id.network_error);
+		refresh_button=(Button)findViewById(R.id.network_error_button);
+		refresh_button.setOnClickListener(this);
+		/**
 		 * find view
 		 */
 		loadingDialog=new LoadingDialog(this);
@@ -122,7 +134,10 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 		collect_edit.setOnClickListener(this);
 		collect_delete = (TextView) findViewById(R.id.collect_delete);
 		collect_delete.setOnClickListener(this);
-
+		edit_ly=(RelativeLayout)findViewById(R.id.collect_edit_ly);
+		delete_ly=(RelativeLayout)findViewById(R.id.collect_delete_ly);
+		edit_ly.setOnClickListener(this);
+		delete_ly.setOnClickListener(this);
         /**
          * init list view
          */
@@ -139,11 +154,23 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.network_error_button:
+				/**
+				 * get collection
+				 */
+				getCollectionData(page);
+				break;
 			case R.id.title_top_image:
 				finish();
 				break;
 			case R.id.top_back:
-				finish();
+				if(isEditMode){
+					Log.d("zhuchao","cancel");
+					changeTopState(false);
+					adapter.showCheckBox(false);
+				}else {
+					finish();
+				}
 				break;
 			case R.id.collect_edit:
 				changeTopState(true);
@@ -156,8 +183,19 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 				adapter.deleteItem();
 				break;
 			case R.id.title_top_cancle:
+				Log.d("zhuchao","cancel");
 				changeTopState(false);
 				adapter.showCheckBox(false);
+				break;
+			case R.id.collect_edit_ly:
+				changeTopState(true);
+				adapter.showCheckBox(true);
+				break;
+			case R.id.collect_delete_ly:
+				/**
+				 * delete,and system will roll back
+				 */
+				adapter.deleteItem();
 				break;
 			default:
 				break;
@@ -181,14 +219,14 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 		if (isDeleteItemState) {
 			title_top_image.setVisibility(View.GONE);
 			title_top_cancel.setVisibility(View.VISIBLE);
-			collect_edit.setVisibility(View.GONE);
-			collect_delete.setVisibility(View.VISIBLE);
+			edit_ly.setVisibility(View.GONE);
+			delete_ly.setVisibility(View.VISIBLE);
 			isEditMode = true;
 		} else {
 			title_top_image.setVisibility(View.VISIBLE);
 			title_top_cancel.setVisibility(View.GONE);
-			collect_edit.setVisibility(View.VISIBLE);
-			collect_delete.setVisibility(View.GONE);
+			edit_ly.setVisibility(View.VISIBLE);
+			delete_ly.setVisibility(View.GONE);
 			isEditMode = false;
 		}
 
@@ -214,6 +252,8 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 	private void getCollectionData(final int page) {
 		if(Network.checkNetWorkState(this)) {
 			loadingDialog.startProgressDialog();
+			if(error_layout.getVisibility()==View.VISIBLE)
+				error_layout.setVisibility(View.INVISIBLE);
 			Executors.newSingleThreadExecutor().execute(new Runnable() {
 
 				@Override
@@ -247,50 +287,56 @@ public class PersonCollectActivity extends Activity implements OnClickListener, 
 
 			});
 		}else{
-			Until.sendNetworkBroadcast(this);
+			Toast.makeText(PersonCollectActivity.this, "未连接网络", Toast.LENGTH_SHORT).show();
+			if(error_layout.getVisibility()==View.INVISIBLE)
+				error_layout.setVisibility(View.VISIBLE);
 		}
 	}
 
     @Override
     public void onDelete(final ArrayList<CollectItem> list) {
-        /**
-         * format address url
-         */
-        String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(PersonCollectActivity.this), User.getLoginToken(PersonCollectActivity.this));
+		if(Network.checkNetWorkState(this)) {
+			/**
+			 * format address url
+			 */
+			String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(PersonCollectActivity.this), User.getLoginToken(PersonCollectActivity.this));
 
-        /**
-         *set parameters
-         */
-        MultipartEntity entity = new MultipartEntity();
-        Gson gson = new Gson();
-        /**
-         * get all id
-         */
-        ArrayList<String>ids=new ArrayList<String>();
+			/**
+			 *set parameters
+			 */
+			MultipartEntity entity = new MultipartEntity();
+			Gson gson = new Gson();
+			/**
+			 * get all id
+			 */
+			ArrayList<String> ids = new ArrayList<String>();
 
-        for(int i=0;i<list.size();i++) {
-            ids.add(list.get(i).getId());
-        }
-        String json = gson.toJson(ids);
-        try {
-            entity.addPart("list", new StringBody(json));
+			for (int i = 0; i < list.size(); i++) {
+				ids.add(list.get(i).getId());
+			}
+			String json = gson.toJson(ids);
+			try {
+				entity.addPart("list", new StringBody(json));
 
-            Log.d("zhuchao",json);
-            JSONObject obj= HttpUtil.getRequestJson(deleteCollectionUrl, entity);
-            /**
-             * process data to update
-             */
-            JSONArray array=obj.getJSONArray("data");
-            result.clear();
-            for(int i=0,j=array.size();i<j;i++)
-                result.add(array.getString(i));
+				Log.d("zhuchao", json);
+				JSONObject obj = HttpUtil.getRequestJson(deleteCollectionUrl, entity);
+				/**
+				 * process data to update
+				 */
+				JSONArray array = obj.getJSONArray("data");
+				result.clear();
+				for (int i = 0, j = array.size(); i < j; i++)
+					result.add(array.getString(i));
 
-            /**
-             * start upload list view
-             */
-            handler.sendEmptyMessage(2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+				/**
+				 * start upload list view
+				 */
+				handler.sendEmptyMessage(2);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			Toast.makeText(PersonCollectActivity.this, "未连接网络", Toast.LENGTH_SHORT).show();
+		}
     }
 }

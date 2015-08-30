@@ -73,7 +73,7 @@ public class HttpUtil {
 	/**
 	 * @param url
 	 *            发送请求的URL
-	 * @param params
+	 * @param rawParams
 	 *            请求参数
 	 * @return 服务器响应字符串
 	 * @throws Exception
@@ -121,13 +121,10 @@ public class HttpUtil {
 		return task.get();
 	}
 
-	public static com.alibaba.fastjson.JSONObject getRequestJson(
-			final String url, final MultipartEntity entity) throws Exception {
-		return com.alibaba.fastjson.JSONObject.parseObject(HttpUtil
-				.postRequestEntity(url, entity));
+	public static com.alibaba.fastjson.JSONObject getRequestJson(final String url, final MultipartEntity entity) throws Exception {
+		return com.alibaba.fastjson.JSONObject.parseObject(HttpUtil.postRequestEntity(url, entity));
 	}
-	public static void getRequestJsonRunnable(
-			final String url, final MultipartEntity entity,final Handler handler) throws Exception {
+	public static void getRequestJsonRunnable(final String url, final MultipartEntity entity,final Handler handler) throws Exception {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 
 			@Override
@@ -153,12 +150,9 @@ public class HttpUtil {
 					public String call() throws Exception {
 						// 创建HttpPost对象。
 						HttpClient client = new DefaultHttpClient();
-						client.getParams().setParameter(
-								CoreConnectionPNames.CONNECTION_TIMEOUT,
-								3000000);
+						client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 12000);
 						// 请求超时
-						client.getParams().setParameter(
-								CoreConnectionPNames.SO_TIMEOUT, 300000);
+						client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 12000);
 						StringBuilder builder = new StringBuilder();
 						HttpResponse response = null;
 						BufferedReader reader = null;

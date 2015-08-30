@@ -2,6 +2,7 @@ package cn.luquba678.activity;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.luquba678.utils.ToolUtils;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 import cn.luquba678.R;
@@ -10,6 +11,8 @@ import cn.luquba678.ui.HttpUtil;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,7 +26,25 @@ public class ResetPassActivity1 extends CommonActivity implements TextWatcher {
 	private Button nextButton;
 	private boolean flag = false;
 	private AlertDialog alertDialog;
+	private Handler handler = new Handler(){
 
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case 0:
+					toast("发送验证码成功");
+					finish();
+					break;
+				case 1:
+					toast("发送验证码成功失败,请重试");
+					break;
+				default:
+					break;
+			}
+			super.handleMessage(msg);
+		}
+
+	};
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -44,10 +65,12 @@ public class ResetPassActivity1 extends CommonActivity implements TextWatcher {
 					Intent intent = new Intent(this, ResetPassActivity2.class);
 					intent.putExtra("tel", tel);
 					this.startActivity(intent);
+					handler.sendEmptyMessage(0);
 				} else {
-					toast(obj.getString("errmsg"));
+					handler.sendEmptyMessage(1);
 				}
 			} catch (Exception e) {
+				handler.sendEmptyMessage(1);
 				e.printStackTrace();
 			}
 			break;

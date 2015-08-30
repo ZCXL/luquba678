@@ -27,7 +27,7 @@ import cn.luquba678.R;
  * Created by zhuchao on 7/19/15.
  */
 public class ImageLoader {
-
+    private int REQUIRED_SIZE = 500;
     MemoryCache memoryCache = new MemoryCache();
     FileCache fileCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
@@ -100,11 +100,11 @@ public class ImageLoader {
             BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             // Find the correct scale value. It should be the power of 2.
-            final int REQUIRED_SIZE = 500;
+
             int width_tmp = o.outWidth, height_tmp = o.outHeight;
             int scale = 1;
             while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+                if (width_tmp / 2 < REQUIRED_SIZE && height_tmp / 2 < REQUIRED_SIZE)
                     break;
                 width_tmp /= 2;
                 height_tmp /= 2;
@@ -209,5 +209,6 @@ public class ImageLoader {
     public void setStub_id(int stub_id) {
         this.stub_id = stub_id;
     }
+    public void setREQUIRED_SIZE(int required_size){this.REQUIRED_SIZE=required_size;}
 }
 

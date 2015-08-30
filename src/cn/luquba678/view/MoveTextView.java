@@ -84,6 +84,8 @@ public class MoveTextView extends View {
         this.context=context;
         left = LayoutUtils.dpToPx(36.66f,getResources());
         top=LayoutUtils.dpToPx(8.33f,getResources());
+
+		autoBorder();
 	}
 
 	public MoveTextView(Context context, String text) {
@@ -95,6 +97,8 @@ public class MoveTextView extends View {
         this.context=context;
         left = LayoutUtils.dpToPx(36.66f, getResources());
         top=LayoutUtils.dpToPx(8.33f,getResources());
+
+		autoBorder();
 	}
 
 	@Override
@@ -185,13 +189,13 @@ public class MoveTextView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 x = event.getX() - TextWidth / 2;
-                y = event.getY() - TextHeight / 2;
+                y = event.getY();
                 autoBorder();
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 x = event.getX() - TextWidth / 2;
-                y = event.getY() - TextHeight / 2;
+                y = event.getY();
                 autoBorder();
                 invalidate();
                 break;
@@ -324,14 +328,14 @@ public class MoveTextView extends View {
 			}
 		}
 		if (top + BitmapHeight < windowHeight) {
-			if (y >= top + BitmapHeight - TextHeight) {
-				y = top + BitmapHeight - TextHeight;
+			if (y >= windowHeight - TextHeight-LayoutUtils.dpToPx(180,getResources())) {
+				y = windowHeight - TextHeight-LayoutUtils.dpToPx(180,getResources());
 			} else if (y <= top) {
 				y = top;
 			}
 		} else {
-			if (y >= windowHeight - TextHeight-LayoutUtils.dpToPx(16.33f,getResources())) {
-				y = windowHeight - TextHeight-LayoutUtils.dpToPx(16.33f,getResources());
+			if (y >= windowHeight - TextHeight-LayoutUtils.dpToPx(50,getResources())) {
+				y = windowHeight - TextHeight-LayoutUtils.dpToPx(50,getResources());
 			} else if (y <= top) {
 				y = top;
 			}
@@ -362,6 +366,8 @@ public class MoveTextView extends View {
 	 */
 	public void setOrientation(int orientation) {
 		this.orientation = orientation;
+		x=left;
+		y=top;
 		invalidate();
 	}
 
@@ -421,6 +427,7 @@ public class MoveTextView extends View {
         if(size<=30)
             size=30;
 		this.size = size;
+		autoBorder();
 		invalidate();
 	}
 	public int getTextSize(){

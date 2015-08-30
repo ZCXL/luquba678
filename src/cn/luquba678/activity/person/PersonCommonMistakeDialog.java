@@ -15,9 +15,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import cn.luquba678.R;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.User;
@@ -32,6 +36,8 @@ public class PersonCommonMistakeDialog extends FullScreenDialog {
 	private QAAdpter adapter;
 	private ArrayList<QA>qas;
 	private LoadingDialog loadingDialog;
+	private RelativeLayout error_layout;
+	private Button refresh_button;
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -53,6 +59,19 @@ public class PersonCommonMistakeDialog extends FullScreenDialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.person_common_mistake);
+		/**
+		 * network error bg
+		 */
+		error_layout=(RelativeLayout)findViewById(R.id.network_error);
+		refresh_button=(Button)findViewById(R.id.network_error_button);
+		refresh_button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				loadCommonMistake();
+			}
+		});
+
+
 		back=(LinearLayout)findViewById(R.id.top_back);
 		back.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -75,18 +94,21 @@ public class PersonCommonMistakeDialog extends FullScreenDialog {
 	}
 
 	private void loadCommonMistake() {
-		if(Network.checkNetWorkState(context))
+		if(Network.checkNetWorkState(context)) {
+			loadingDialog.startProgressDialog();
+			if(error_layout.getVisibility()==View.VISIBLE)
+				error_layout.setVisibility(View.INVISIBLE);
 			Executors.newSingleThreadExecutor().execute(new Runnable() {
 				@Override
 				public void run() {
 					try {
-						String get_help_url = Const.GET_HELP+"?uid="+User.getUID(context)+"&login_token="+User.getLoginToken(context);
+						String get_help_url = Const.GET_HELP + "?uid=" + User.getUID(context) + "&login_token=" + User.getLoginToken(context);
 						JSONObject obj = HttpUtil.getRequestJson(get_help_url, null);
-						int err_code=obj.getIntValue("errcode");
-						if(err_code==0){
-							JSONArray array=obj.getJSONArray("data");
-							for(int i=0;i<array.size();i++){
-								QA qa=new QA(array.getString(i));
+						int err_code = obj.getIntValue("errcode");
+						if (err_code == 0) {
+							JSONArray array = obj.getJSONArray("data");
+							for (int i = 0; i < array.size(); i++) {
+								QA qa = new QA(array.getString(i));
 								qas.add(qa);
 							}
 							handler.sendEmptyMessage(0);
@@ -97,5 +119,10 @@ public class PersonCommonMistakeDialog extends FullScreenDialog {
 					}
 				}
 			});
+		}else{
+			Toast.makeText(context, "未连接网络", Toast.LENGTH_SHORT).show();
+			if(error_layout.getVisibility()==View.INVISIBLE)
+				error_layout.setVisibility(View.VISIBLE);
+		}
 	}
 }

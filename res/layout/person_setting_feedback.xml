@@ -55,14 +55,13 @@
             android:id="@+id/ed_feedback"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
             android:layout_marginTop="10dp"
             android:background="@color/white"
             android:textAlignment="center"
             android:gravity="start|top"
             android:hint="    请不要吝啬地写下您的意见和建议，这是对我们最大的支持，谢谢！" />
-
         <Button
             android:id="@+id/ed_commit_btn"
             android:layout_width="match_parent"
@@ -72,6 +71,8 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/new_select_birthday_confirm"
             android:layout_marginTop="30dp"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
             android:text="确认提交" />
     </RelativeLayout>
 

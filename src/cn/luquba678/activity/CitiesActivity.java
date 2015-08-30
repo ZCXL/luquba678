@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.luquba678.entity.CityMsg;
+import cn.luquba678.entity.School;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -15,7 +17,9 @@ import org.json.JSONObject;
 
 import cn.luquba678.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -180,6 +184,17 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.showChooseOK:
+				/**
+				 * save area info
+				 */
+				CityMsg home_provence = CityMsg.getAreaFromShortName(null, mCurrentProvinceName);
+				String home_id = home_provence.getArea_id() + "";
+				SharedPreferences sharedPreferences=getSharedPreferences("luquba_login", Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor=sharedPreferences.edit();
+				editor.putString(School.HOME_AREA_ID, home_id);
+				editor.commit();
+
+
 				int position = mArea.getCurrentItem();
 				Intent intent = new Intent();
 				intent.putExtra("proviceName", mCurrentProvinceName);

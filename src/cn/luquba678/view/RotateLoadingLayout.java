@@ -79,12 +79,9 @@ public class RotateLoadingLayout extends LoadingLayout {
 
 		mArrowImageView.setScaleType(ScaleType.CENTER);
 		mArrowImageView.setImageResource(R.drawable.default_ptr_rotate);
-
 		float pivotValue = 0.5f; // SUPPRESS CHECKSTYLE
 		float toDegree = 720.0f; // SUPPRESS CHECKSTYLE
-		mRotateAnimation = new RotateAnimation(0.0f, toDegree,
-				Animation.RELATIVE_TO_SELF, pivotValue,
-				Animation.RELATIVE_TO_SELF, pivotValue);
+		mRotateAnimation = new RotateAnimation(0.0f, toDegree, Animation.RELATIVE_TO_SELF, pivotValue, Animation.RELATIVE_TO_SELF, pivotValue);
 		mRotateAnimation.setFillAfter(true);
 		mRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
 		mRotateAnimation.setDuration(ROTATION_ANIMATION_DURATION);
@@ -102,9 +99,7 @@ public class RotateLoadingLayout extends LoadingLayout {
 	@Override
 	public void setLastUpdatedLabel(CharSequence label) {
 		// 如果最后更新的时间的文本是空的话，隐藏前面的标题
-		mHeaderTimeViewTitle
-				.setVisibility(TextUtils.isEmpty(label) ? View.INVISIBLE
-						: View.VISIBLE);
+		mHeaderTimeViewTitle.setVisibility(TextUtils.isEmpty(label) ? View.INVISIBLE : View.VISIBLE);
 		mHeaderTimeView.setText(label);
 	}
 

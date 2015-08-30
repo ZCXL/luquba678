@@ -65,6 +65,7 @@ public class ResetPassActivity2 extends CommonActivity {
 						resend.setEnabled(false);
 						resend.setFocusable(false);
 						timer=new Timer();
+						mTimerTask=new MyTimerTask();
 						timer.schedule(mTimerTask, 0, 1000);
 					} else {
 						toast(obj.getString("errmsg"));
@@ -72,6 +73,7 @@ public class ResetPassActivity2 extends CommonActivity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				alertDialog.dismiss();
 				break;
 			case R.id.btn_cancel:
 				alertDialog.dismiss();
@@ -130,8 +132,10 @@ public class ResetPassActivity2 extends CommonActivity {
 				editor.putString(User.TEL, tel);
 				editor.putString(User.PASSWORD, password);
 				editor.commit();// 提交修改
+				Toast.makeText(ResetPassActivity2.this,"修改密码成功",Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(this, LoginActivity.class);
 				this.startActivity(intent);
+				finish();
 			} else {
 				toast(obj.getString("errmsg"));
 			}
@@ -174,10 +178,12 @@ public class ResetPassActivity2 extends CommonActivity {
 		timer.schedule(mTimerTask,0,1000);
 	}
 
-	TimerTask mTimerTask = new TimerTask() {
+	MyTimerTask mTimerTask=new MyTimerTask();
+	public class MyTimerTask extends TimerTask {
+
 		@Override
 		public void run() {
 			handler.sendEmptyMessage(0);
 		}
-	};
+	}
 }

@@ -95,8 +95,23 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
 	    }
 	   return null;
    }
+	public static File saveTempFile(String file_name){
+		String parentPath="/sdcard/luquba/";
+		String folderPath=parentPath+"image_tmp/";
+		if(FileSystem.isSDExit()){
+			File parent=new File(parentPath);
+			File folder=new File(folderPath);
+			if(!parent.exists())
+				parent.mkdir();
+			if(!folder.exists())
+				folder.mkdir();
+			File file=new File(folderPath+file_name);
+			return file;
+		}
+		return null;
+	}
    public static boolean SearchImage(FileType_Image fImage,String filename){
-	   String fileFolderPath="";//�ļ��е�ַ
+	   String fileFolderPath="";
 	   String parentPath="/sdcard/luquba/";
 	   if(fImage== FileType_Image.StoryImage){
 		   fileFolderPath=parentPath+"StoryImages/";
@@ -113,7 +128,8 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
    }
    public static boolean DeleteImage(){
 	   DeleteImage("/sdcard/luquba/StoryImages");
-	   DeleteImage("/sdcard/luquba/Movies");
+	   DeleteImage("/sdcard/luquba/HeadImages");
+	   DeleteImage("/sdcard/luquba/image_tmp");
 	   return true;
    }
 	public static boolean DeleteImage(String url){
@@ -169,12 +185,12 @@ public static boolean InputImage(Bitmap bitmap,FileType_Image fImage,String file
 	   matrix.postScale(scaleWidth,scaleHeight);
        return Bitmap.createBitmap(bitmap, (bitmap.getWidth() - width) / 2, (bitmap.getHeight() - height) / 2, width, height, matrix, true);
    }
-	public static Bitmap compressImage(Bitmap image) {
+	public static Bitmap compressImage(Bitmap image,int size) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
 		int options = 100;
-		while ( baos.toByteArray().length / 1024>50) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+		while ( baos.toByteArray().length / 1024>size) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
             Log.d("length", String.valueOf(baos.toByteArray().length / 1024) + "k");
 			baos.reset();//重置baos即清空baos
 			image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中

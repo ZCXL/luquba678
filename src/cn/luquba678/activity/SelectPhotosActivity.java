@@ -28,10 +28,11 @@ public class SelectPhotosActivity extends Activity {
 	AlbumHelper helper;
 	public static final String EXTRA_IMAGE_LIST = "imagelist";
 	public static Bitmap bimap;
-
+    public static Activity selectPhoto;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_bucket);
+        selectPhoto=this;
 		InitTopView();
 		helper = AlbumHelper.getHelper();
 		helper.init(getApplicationContext());
@@ -64,14 +65,11 @@ public class SelectPhotosActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SelectPhotosActivity.this,
-						ImageGridActivity.class);
-				intent.putExtra(SelectPhotosActivity.EXTRA_IMAGE_LIST,
-						(Serializable) dataList.get(position).imageList);
+				Intent intent = new Intent(SelectPhotosActivity.this, ImageGridActivity.class);
+				Bundle bundle=new Bundle();
+				intent.putExtra(SelectPhotosActivity.EXTRA_IMAGE_LIST, (Serializable) dataList.get(position).imageList);
 				startActivity(intent);
-				finish();
 			}
-
 		});
 	}
 }

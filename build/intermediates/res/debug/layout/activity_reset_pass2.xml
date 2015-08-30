@@ -73,7 +73,7 @@
                         <EditText
                             android:id="@+id/password"
                             style="@style/regist_editor_style"
-                            android:hint="重新设置密码"
+                            android:hint="重置密码"
                             android:layout_gravity="center_vertical"
                             android:inputType="textPassword"
                             android:password="true" />

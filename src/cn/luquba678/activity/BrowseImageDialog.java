@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -150,12 +151,18 @@ public class BrowseImageDialog extends FullScreenDialog implements android.view.
 			if (onChangeListener != null)
 				onChangeListener.onChange(wishs);
 			dismiss();
+		}else{
+			mPos=mGallery.getSelectedItemPosition();
+			Log.d("zhuchao",String.valueOf(mPos));
+			if(mPos>=wishs.size())
+				mPos=wishs.size()-1;
+			top_text.setText(DateUtils.timeHint(Long.parseLong(wishs.get(mPos).getCreate_time()) * 1000, "yyyy年MM月dd日"));
 		}
 	}
 
 	@Override
 	public void onFail() {
-		Toast.makeText(context,"Delete failed",Toast.LENGTH_SHORT).show();
+		Toast.makeText(context,"删除失败",Toast.LENGTH_SHORT).show();
 	}
 
 	/**

@@ -47,7 +47,14 @@
             android:textSize="20sp" />
 
     </RelativeLayout>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animationCache="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_head_img"
         android:layout_width="match_parent"
@@ -345,5 +352,6 @@
         android:layout_width="fill_parent"
         android:layout_height="20.66dp"
         android:background="#fff4f4f4"/>
-
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

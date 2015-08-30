@@ -49,7 +49,7 @@ public class QueryResultActivity extends CommonActivity implements OnClickListen
 		dialog.setMessage("正在查询...");
 		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		dialog.show();
-		ptrlv = getView(R.id.universityList);
+		ptrlv = getView(R.id.university_list_query);
 		// 设置下拉刷新可用
 		ptrlv.setPullRefreshEnabled(true);
 		// 设置上拉加载可用
@@ -80,7 +80,7 @@ public class QueryResultActivity extends CommonActivity implements OnClickListen
 		boolean hasMoreData = false;
 		try {
 
-			String jsonData = HttpUtil.postRequestEntity(Const.QUERY_SCHOOL + page, entity);
+			String jsonData = HttpUtil.getRequestJson(Const.QUERY_SCHOOL + page, entity).toString();
 			if (StringUtils.isNotEmpty(jsonData)) {
 				JSONObject obj = JSONObject.parseObject(jsonData);
 				Integer errCode = obj.getInteger("errcode");
@@ -105,11 +105,13 @@ public class QueryResultActivity extends CommonActivity implements OnClickListen
 						} else {
 							adapter.changeDateInThread(schools);
 						}
-					} else {
-						toast("亲,没有可刷新的了!");
 					}
 				} else {
-					toast("没有查询到可上学校！");
+					if(schools.size()>0)
+						toast("亲,没有可刷新的了!");
+					else{
+						toast("没有可上学校!");
+					}
 				}
 				dialog.dismiss();
 

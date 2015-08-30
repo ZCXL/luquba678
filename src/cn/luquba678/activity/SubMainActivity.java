@@ -62,7 +62,7 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
 
     private ArrayList<News> newsList=new ArrayList<News>();
     private int page = 1;
-    private boolean hasMoreData = false;
+    private boolean hasMoreData = true;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,7 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
                     JSONObject array = obj.getJSONObject("data");
                     FamousSays famousSays = FamousSays.getListFromJson(array.toString());
 
-                    famous_says.setText("    " + famousSays.getContent());
+                    famous_says.setText("        " + famousSays.getContent());
                     famous_says_author.setText("——" + famousSays.getAuthor());
                 }
             } catch (Exception e) {
@@ -248,10 +248,6 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
 					} else {
 						adapter.notifyDataSetChanged();
 					}
-
-					ptrlv.onPullDownRefreshComplete();
-					ptrlv.onPullUpRefreshComplete();
-					ptrlv.setHasMoreData(hasMoreData);
 					break;
 				case 1:
 					Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
@@ -262,6 +258,9 @@ public class SubMainActivity extends CommonActivity implements OnItemClickListen
                 default:
                     break;
 			}
+			ptrlv.onPullDownRefreshComplete();
+			ptrlv.onPullUpRefreshComplete();
+			ptrlv.setHasMoreData(hasMoreData);
 			loadingDialog.stopProgressDialog();
 		}
 	};

@@ -38,7 +38,7 @@ public class PersonNameEditDialog extends FullScreenDialog implements android.vi
 		tv_save = (TextView) findViewById(R.id.save);
 		tv_count = (TextView) findViewById(R.id.tv_count);
 		int tv_length = tv_name.length();
-		int maxInputLength = 8;
+		int maxInputLength = 30;
 		int showLenth = maxInputLength - tv_length;
 		if (tv_length > 0) {
 			if (showLenth > 0) {
@@ -72,7 +72,6 @@ public class PersonNameEditDialog extends FullScreenDialog implements android.vi
             case R.id.save:
                 String name = et_name.getText().toString();
                 if (checkIsCanSaveName(name)) {
-                    ToolUtils.showShortToast(context, "保存成功!!!");
                     tv_name.setText(et_name.getText().toString());
                     context.uploadChange(nick_name, name);
                     dismiss();
@@ -102,7 +101,7 @@ public class PersonNameEditDialog extends FullScreenDialog implements android.vi
 	@Override
 	public void afterTextChanged(Editable s) {
 		int tv_length = s.length();
-		int maxInputLength = 8;
+		int maxInputLength = 30;
 		int showLength = maxInputLength - tv_length;
 		if (tv_length > 0) {
 			if (showLength > 0) {
@@ -132,7 +131,7 @@ public class PersonNameEditDialog extends FullScreenDialog implements android.vi
 		if (checkName.length() == 0) {
 			ToolUtils.showShortToast(context, "内容不能为空");
 			return false;
-		} else if (checkName.length() > 8) {
+		} else if (checkName.length() > 30) {
 			ToolUtils.showShortToast(context, "内容不能超出字数限制");
 			return false;
 		}

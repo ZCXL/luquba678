@@ -91,6 +91,7 @@ public class PersonalFragment extends Fragment implements OnClickListener {
 		if (requestCode == 6) {
 			if(Network.checkNetWorkState(getActivity()))
 				new DownloadImageTask().execute(SPUtils.get(getActivity(), "headpic", "sss").toString());
+			name.setText(SPUtils.get(getActivity(), "nickname", "ss").toString());
 			HomeFragment.setYear((String)SPUtils.get(getActivity(),"year","2016"));
 		}
 	}

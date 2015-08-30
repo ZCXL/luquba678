@@ -14,10 +14,12 @@ public class FileSystem {
     public static long getFolderSize(){
         String movieImage="/sdcard/luquba/HeadImages";
         String movie="/sdcard/luquba/StoryImages";
+        String temp="/sdcard/luquba/image_tmp";
         if(isSDExit()){
             File file=new File(movie);
             File file1=new File(movieImage);
-            return getFolderSize(file)+getFolderSize(file1);
+            File tempFile=new File(temp);
+            return getFolderSize(file)+getFolderSize(file1)+getFolderSize(tempFile);
         }
         return 0;
     }

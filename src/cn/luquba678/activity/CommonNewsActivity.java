@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.navisdk.util.common.StringUtils;
 import com.zhuchao.adapter.CommentAdapter;
+import com.zhuchao.http.Network;
 import com.zhuchao.share.ShareInit;
 import com.zhuchao.view_rewrite.LoadingDialog;
 
@@ -27,11 +28,14 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.luquba678.R;
 import cn.luquba678.entity.Const;
@@ -58,6 +62,12 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	private News news;
 	private LoadingDialog loadingDialog;
     private TextView comment_number,praise_number;
+
+    private EditText comment_text;
+    private InputMethodManager imm;
+    private int page=1;
+    private RelativeLayout error_layout;
+    private Button refresh_button;
     /**
      * check page
      */
@@ -69,8 +79,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 		ShareInit.initSDK(this);
 		initView();
 
-		getMSG();
-		getCommentList(page);
+		loadData();
 	}
     /**
      * init view
@@ -78,6 +87,13 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
     private void initView(){
 
 		loadingDialog=new LoadingDialog(CommonNewsActivity.this);
+
+        /**
+         * network error bg
+         */
+        error_layout=(RelativeLayout)findViewById(R.id.network_error);
+        refresh_button=(Button)findViewById(R.id.network_error_button);
+        refresh_button.setOnClickListener(this);
         ptrlv= getView(R.id.comment_scroll_view);
         // 设置下拉刷新可用
         ptrlv.setPullRefreshEnabled(false);
@@ -112,7 +128,6 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
         story_content_web.getSettings().setJavaScriptEnabled(true);
         story_content_web.setWebViewClient(new StoryWebView());
         // 加载需要显示的网页
-        story_content_web.loadUrl(news.getUrl());
 
         container.setFocusable(false);
         container.setClickable(false);
@@ -131,6 +146,20 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
     }
 
 
+    private void loadData(){
+        if(Network.checkNetWorkState(this)){
+            if(error_layout.getVisibility()==View.VISIBLE)
+                error_layout.setVisibility(View.INVISIBLE);
+            loadingDialog.startProgressDialog();
+            story_content_web.loadUrl(news.getUrl());
+            getCommentList(page);
+            getMSG();
+        }else{
+            Toast.makeText(CommonNewsActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+            if(error_layout.getVisibility()==View.INVISIBLE)
+                error_layout.setVisibility(View.VISIBLE);
+        }
+    }
     /**
      * get comment list
      * @param page
@@ -138,7 +167,6 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	private void getCommentList(int page) {
 		String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self),news.getId(), page);
 		try {
-			loadingDialog.startProgressDialog();
 			HttpUtil.getRequestJsonRunnable(comment_list_url, null,
 					new Handler() {
 						public void handleMessage(Message msg) {
@@ -154,9 +182,10 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
                                     adapter.notifyDataSetChanged();
                                     comment_container.setVisibility(View.VISIBLE);
                                 }
-							} else if(errcode==40004){
-								comment_container.setVisibility(View.GONE);
-							}
+							}else{
+                                if(commentArrayList.size()>0)
+                                    Toast.makeText(CommonNewsActivity.this,"亲,没有可刷新的了!",Toast.LENGTH_SHORT).show();
+                            }
 							ptrlv.onPullDownRefreshComplete();
 							ptrlv.onPullUpRefreshComplete();
 							ptrlv.setHasMoreData(true);
@@ -225,18 +254,17 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 			}
 		}
 	};
-	EditText comment_text;
-	private InputMethodManager imm;
-	private int page=1;
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+            case R.id.network_error_button:
+                loadData();
+                break;
             case R.id.back_button:
                 this.finish();
                 break;
             case R.id.share:
-                ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),news.getContent(),news.getPic());
+                ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),"这里有好文一篇["+news.getTitle()+"]别人我可不告诉哟!"+"\n"+news.getUrl(),news.getPic());
                 break;
             case R.id.collection:
                 collectOrNot();
@@ -256,7 +284,7 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
                 imm.showSoftInput(comment_text, InputMethodManager.RESULT_SHOWN);
                 break;
             case R.id.ic_share:
-                ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),news.getIntro(),news.getPic());
+                ShareInit.showShare(false,null,CommonNewsActivity.this,news.getTitle(),news.getUrl(),"这里有好文一篇["+news.getTitle()+"]别人我可不告诉哟!"+"\n"+news.getUrl(),news.getPic());
                 break;
             case R.id.ic_collect:
                 collectOrNot();
@@ -395,7 +423,6 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 		switch (event.getKeyCode()) {
 		case KeyEvent.KEYCODE_ENTER:
 			sendComment();
-
 			break;
 
 		default:

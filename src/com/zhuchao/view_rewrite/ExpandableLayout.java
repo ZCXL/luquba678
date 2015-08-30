@@ -3,6 +3,7 @@ package com.zhuchao.view_rewrite;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -66,6 +67,7 @@ public class ExpandableLayout extends LinearLayout {
 		@Override
 		public final void onClick(View paramView) {
 			clearAnimation();
+			Log.d("zhuchao", String.valueOf(mContentHeight));
 			if (!isExpand) {
 				if (animationDown == null) {
 					animationDown = new DropDownAnim(mContentView, mContentHeight, true);
@@ -123,5 +125,10 @@ public class ExpandableLayout extends LinearLayout {
 		public boolean willChangeBounds() {
 			return true;
 		}
+	}
+	public void onRefresh(){
+        mContentView.measure(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+        int height =mContentView.getMeasuredHeight();
+        mContentHeight=height;
 	}
 }

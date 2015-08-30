@@ -20,7 +20,7 @@
 
     
       <cn.luquba678.view.PullToRefreshListView
-        android:id="@+id/universityList"
+        android:id="@+id/university_list_query"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:cacheColorHint="#0000"

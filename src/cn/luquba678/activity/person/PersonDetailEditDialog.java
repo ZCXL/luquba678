@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.luquba678.R;
 import cn.luquba678.activity.PersonMessageActivity;
@@ -21,7 +22,7 @@ public class PersonDetailEditDialog extends FullScreenDialog implements android.
 	private PersonMessageActivity context;
 	private final int intro = 6;
 	private ImageView back;
-	private TextView back_text;
+	private RelativeLayout back_text;
 	public PersonDetailEditDialog(PersonMessageActivity context, TextView tv_detail) {
 		super(context);
 		this.context = context;
@@ -52,7 +53,7 @@ public class PersonDetailEditDialog extends FullScreenDialog implements android.
 		et_detail.addTextChangedListener(this);
 
 		back=(ImageView)findViewById(R.id.title_top_image);
-		back_text=(TextView)findViewById(R.id.back_text);
+		back_text=(RelativeLayout)findViewById(R.id.back_text);
 		back_text.setOnClickListener(this);
 		back.setOnClickListener(this);
 	}
@@ -61,7 +62,6 @@ public class PersonDetailEditDialog extends FullScreenDialog implements android.
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.save:
-				ToolUtils.showShortToast(context, "保存成功!!!");
 				String content=et_detail.getText().toString();
 				if(content.length()>8)
 					content=content.substring(0,8)+"...";

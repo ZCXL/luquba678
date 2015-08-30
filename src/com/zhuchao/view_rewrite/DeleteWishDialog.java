@@ -50,7 +50,7 @@ public class DeleteWishDialog extends Dialog implements View.OnClickListener{
         }
     };
     public DeleteWishDialog(Context context) {
-        super(context, R.style.CustomProgressDialog);
+        super(context,android.R.style.Theme_Translucent);
         this.context=context;
         loadingDialog=new LoadingDialog(context);
     }

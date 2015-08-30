@@ -17,222 +17,229 @@
             android:layout_height="20dp"
             android:layout_margin="5dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/back_array" />
+            android:src="@drawable/new_wish_back" />
     </RelativeLayout>
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/back_button"
-        android:background="#DADADA" />
-
-    <cn.luquba678.view.PullToRefreshListView
-        android:id="@+id/comment_scroll_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/buttom_btns"
-        android:layout_below="@+id/line"
-        android:fadingEdge="none"
-        android:divider="#DADADA"
-        android:dividerHeight="0.5dp"
-        android:scrollbars="none"
-        android:fadingEdgeLength="0dp" />
-
-    <View
-        android:id="@+id/line2"
-        android:layout_width="fill_parent"
-        android:layout_height="0.33dp"
-        android:layout_alignTop="@+id/buttom_btns"
-        android:layout_above="@+id/buttom_btns"
-        android:background="#dfdfdf" />
-
-    <LinearLayout
-        android:id="@+id/buttom_btns"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:background="#f8f8f8">
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/back_button">
         <RelativeLayout
-            android:id="@+id/comment"
-            android:layout_width="90dp"
-            android:layout_height="50dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <cn.luquba678.view.PullToRefreshListView
+                android:id="@+id/comment_scroll_view"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/buttom_btns"
+                android:fadingEdge="none"
+                android:divider="#DADADA"
+                android:dividerHeight="0.5dp"
+                android:scrollbars="none"
+                android:fadingEdgeLength="0dp" />
 
-            <ImageButton
-                android:id="@+id/comment_icon"
-                android:layout_width="wrap_content"
+            <View
+                android:id="@+id/line2"
+                android:layout_width="fill_parent"
+                android:layout_height="0.33dp"
+                android:layout_alignTop="@+id/buttom_btns"
+                android:layout_above="@+id/buttom_btns"
+                android:background="#dfdfdf" />
+
+            <LinearLayout
+                android:id="@+id/buttom_btns"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="6.33dp"
-                android:background="@android:color/transparent"
-                android:layout_above="@+id/text_comment"
-                android:src="@drawable/new_comment_checked" />
-            <TextView
-                android:id="@+id/comment_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/comment_icon"
-                android:layout_toRightOf="@+id/comment_icon"
-                android:textColor="@android:color/white"
-                android:text="0"
-                android:gravity="center"
-                android:textSize="8dp"
-                android:background="@drawable/number_bg"/>
-            <TextView
-                android:id="@+id/text_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="10.33dp"
-                android:text="评论"
-                android:layout_marginTop="6dp"
                 android:layout_alignParentBottom="true"
-                android:textColor="@color/main_color"/>
-        </RelativeLayout>
+                android:orientation="horizontal"
+                android:background="#f8f8f8">
 
-        <RelativeLayout
-            android:id="@+id/good"
-            android:layout_width="90dp"
-            android:layout_height="50dp" >
+                <RelativeLayout
+                    android:id="@+id/comment"
+                    android:layout_weight="1.0"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp">
 
-            <ImageButton
-                android:id="@+id/ic_praise"
-                android:layout_width="wrap_content"
+                    <ImageButton
+                        android:id="@+id/comment_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6.33dp"
+                        android:background="@android:color/transparent"
+                        android:layout_above="@+id/text_comment"
+                        android:src="@drawable/new_comment_checked" />
+                    <TextView
+                        android:id="@+id/comment_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/comment_icon"
+                        android:layout_toRightOf="@+id/comment_icon"
+                        android:textColor="@android:color/white"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textSize="8dp"
+                        android:background="@drawable/number_bg"/>
+                    <TextView
+                        android:id="@+id/text_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="10.33dp"
+                        android:text="评论"
+                        android:layout_marginTop="6dp"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/main_color"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/good"
+                    android:layout_weight="1.0"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp" >
+
+                    <ImageButton
+                        android:id="@+id/ic_praise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6.33dp"
+                        android:layout_above="@+id/text_praise"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/new_good_checked" />
+                    <TextView
+                        android:id="@+id/praise_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/ic_praise"
+                        android:layout_toRightOf="@+id/ic_praise"
+                        android:textColor="@android:color/white"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textSize="8dp"
+                        android:background="@drawable/number_bg"/>
+                    <TextView
+                        android:id="@+id/text_praise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="10.33dp"
+                        android:text="点赞"
+                        android:layout_marginTop="6dp"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/main_color"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/collection"
+                    android:layout_weight="1.0"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp" >
+
+                    <ImageButton
+                        android:id="@+id/ic_collect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6.33dp"
+                        android:layout_above="@+id/text_collect"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/new_collect_checked" />
+                    <TextView
+                        android:id="@+id/text_collect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="10.33dp"
+                        android:text="收藏"
+                        android:layout_marginTop="6dp"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/main_color"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/share"
+                    android:layout_weight="1.0"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp" >
+
+                    <ImageButton
+                        android:id="@+id/ic_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6.33dp"
+                        android:layout_above="@+id/text_share"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/new_share_checked" />
+                    <TextView
+                        android:id="@+id/text_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="10.33dp"
+                        android:text="分享"
+                        android:layout_marginTop="6dp"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/main_color"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/comment_input"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="6.33dp"
-                android:layout_above="@+id/text_praise"
-                android:background="@android:color/transparent"
-                android:src="@drawable/new_good_checked" />
-            <TextView
-                android:id="@+id/praise_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ic_praise"
-                android:layout_toRightOf="@+id/ic_praise"
-                android:textColor="@android:color/white"
-                android:text="0"
-                android:gravity="center"
-                android:textSize="8dp"
-                android:background="@drawable/number_bg"/>
-            <TextView
-                android:id="@+id/text_praise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="10.33dp"
-                android:text="点赞"
-                android:layout_marginTop="6dp"
                 android:layout_alignParentBottom="true"
-                android:textColor="@color/main_color"/>
+                android:background="@color/white"
+                android:minHeight="40dp"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#8000" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:minHeight="40dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp" >
+
+                    <EditText
+                        android:id="@+id/comment_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="想说就说"
+                        android:minLines="1"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray_9"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/send_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/frame_radius5_alfa0_main_color"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:text="发送"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/collection"
-            android:layout_width="90dp"
-            android:layout_height="50dp" >
-
-            <ImageButton
-                android:id="@+id/ic_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="6.33dp"
-                android:layout_above="@+id/text_collect"
-                android:background="@android:color/transparent"
-                android:src="@drawable/new_collect_checked" />
-            <TextView
-                android:id="@+id/text_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="10.33dp"
-                android:text="收藏"
-                android:layout_marginTop="6dp"
-                android:layout_alignParentBottom="true"
-                android:textColor="@color/main_color"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/share"
-            android:layout_width="90dp"
-            android:layout_height="50dp" >
-
-            <ImageButton
-                android:id="@+id/ic_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="6.33dp"
-                android:layout_above="@+id/text_share"
-                android:background="@android:color/transparent"
-                android:src="@drawable/new_share_checked" />
-            <TextView
-                android:id="@+id/text_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="10.33dp"
-                android:text="分享"
-                android:layout_marginTop="6dp"
-                android:layout_alignParentBottom="true"
-                android:textColor="@color/main_color"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/comment_input"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:minHeight="40dp"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#8000" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:minHeight="40dp"
-            android:orientation="horizontal"
-            android:padding="10dp" >
-
-            <EditText
-                android:id="@+id/comment_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:hint="想说就说"
-                android:minLines="1"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray_9"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/send_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/frame_radius5_alfa0_main_color"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="2dp"
-                android:text="发送"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
-
+        <include
+            android:id="@+id/network_error"
+            layout="@layout/network_error"
+            android:visibility="invisible"/>
+    </FrameLayout>
 </RelativeLayout>

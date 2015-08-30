@@ -1,24 +1,16 @@
 package cn.luquba678.activity;
 
-import internal.org.apache.http.entity.mime.MultipartEntity;
-import internal.org.apache.http.entity.mime.content.StringBody;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhuchao.adapter.SchoolAdapter;
 import com.zhuchao.http.Network;
-import com.zhuchao.utils.ImageLoader;
 import com.zhuchao.view_rewrite.LoadingDialog;
 import cn.luquba678.R;
-import cn.luquba678.activity.adapter.CommonAdapter;
-import cn.luquba678.activity.adapter.ViewHolder;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.School;
-import cn.luquba678.service.LoadDataFromServer;
-import cn.luquba678.service.LoadDataFromServer.DataCallBack;
 import cn.luquba678.ui.HttpUtil;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
@@ -35,7 +27,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,9 +35,8 @@ import android.widget.Toast;
 public class UniversityListActivity extends CommonActivity implements OnClickListener, OnItemClickListener, OnRefreshListener<ListView> {
 
 	private ListView universityList;
-	private ImageLoader ima = new ImageLoader(this);
 	private ArrayList<School> schoolList;
-	private CommonAdapter<School> adapter;
+	private SchoolAdapter adapter;
 	private int page = 1;
 	private LoadingDialog loadingDialog;
 
@@ -63,7 +53,7 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 		public void handleMessage(Message msg) {
 			switch (msg.what){
 				case 0:
-					adapter.changeDateInThread(schoolList);
+					adapter.notifyDataSetChanged();
 					break;
 				case 1:
 					Toast.makeText(self, "没有更多！", Toast.LENGTH_SHORT).show();
@@ -80,16 +70,19 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 	};
 
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		try {
+			super.onCreate(savedInstanceState);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		setContentView(R.layout.activity_university_list);
 
 		initView();
 	}
 	private void initView(){
 		loadingDialog=new LoadingDialog(this);
-		ima.setStub_id(R.drawable.new_city_default);
 		findViewById(R.id.top_back).setOnClickListener(this);
-		((TextView) findViewById(R.id.top_text)).setText("学校排名");
+		((TextView) findViewById(R.id.top_text)).setText("大学排名");
 
 		/**
 		 * network error bg
@@ -109,30 +102,7 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 
 
 		schoolList=new ArrayList<School>();
-		adapter = new CommonAdapter<School>(self,schoolList , R.layout.list_university_item) {
-			@Override
-			public void setViews(ViewHolder holder, School t, int p) {
-				TextView count = holder.getView(R.id.grid_university_count);
-				count.setText("排名:" + t.getRank());
-				TextView university_name = holder.getView(R.id.university_name);
-				university_name.setText(t.getSchool_name() + "");
-				TextView university_area = holder.getView(R.id.university_area);
-				university_area.setText("地区:" + t.getAreaName());
-				ImageView logo = holder.getView(R.id.university_logo);
-				ima.DisplayImage(t.getLogo(), logo);
-				View mark_211 = holder.getView(R.id.is_211);
-				View mark_985 = holder.getView(R.id.is_985);
-				if (t.getIs_211() == 1) {
-					mark_211.setVisibility(View.VISIBLE);
-				} else
-					mark_211.setVisibility(View.GONE);
-				if (t.getIs_985() == 1)
-					mark_985.setVisibility(View.VISIBLE);
-				else
-					mark_985.setVisibility(View.GONE);
-
-			}
-		};
+		adapter =new SchoolAdapter(this,schoolList);
 		universityList.setAdapter(adapter);
 		universityList.setOnItemClickListener(this);
 		getSchoolList(page,ADD);
@@ -142,6 +112,7 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 		switch (v.getId()) {
 			case R.id.top_back:
 				this.finish();
+                System.gc();
 				break;
 			case R.id.get_more:
 				page++;
@@ -204,40 +175,12 @@ public class UniversityListActivity extends CommonActivity implements OnClickLis
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		School school = schoolList.get(arg2);
-
-		MultipartEntity entity = new MultipartEntity();
-
-		try {
-
-			sharedPreferences = getSharedPreferences("luquba_login",Context.MODE_PRIVATE);
-			editor = sharedPreferences.edit();// 获取编辑器
-			entity.addPart("school_id", new StringBody(school.getSchool_id().toString()));
-			entity.addPart("stu_area_id", new StringBody(sharedPreferences.getString(School.HOME_AREA_ID, "110000")));
-
-			LoadDataFromServer task = new LoadDataFromServer(Const.QUERY_SCHOOL_DETAIL, entity);
-			task.getData(new DataCallBack() {
-
-				@Override
-				public void onDataCallBack(int what, Object data) {
-					if (what == 200) {
-						JSONObject obj = JSONObject.parseObject(data.toString());
-						Integer errcode = obj.getInteger("errcode");
-						if (errcode == 0) {
-							Intent intent = new Intent(self, UniversityDetailActivity.class);
-							JSONObject school = obj.getJSONObject("school");
-							JSONArray gradeline = obj.getJSONArray("gradeline");
-							intent.putExtra("schoolJson", school.toJSONString());
-							intent.putExtra("gradeline", gradeline.toJSONString());
-							startActivity(intent);
-						}
-					}
-				}
-			});
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		sharedPreferences = getSharedPreferences("luquba_login",Context.MODE_PRIVATE);
+		editor = sharedPreferences.edit();// 获取编辑器
+		Intent intent = new Intent(this, UniversityDetailActivity.class);
+		intent.putExtra("school_id", String.valueOf(school.getSchool_id()));
+		intent.putExtra("school_area",sharedPreferences.getString(School.HOME_AREA_ID, "110000"));
+		startActivity(intent);
 	}
 
 	@Override

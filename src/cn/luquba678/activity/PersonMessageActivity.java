@@ -1,5 +1,6 @@
 package cn.luquba678.activity;
 
+import cn.luquba678.utils.ToolUtils;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
@@ -76,6 +77,10 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 
 			String changeBody = (String) msg.obj;
 
+			if(msg.what==0){
+				ToolUtils.showShortToast(PersonMessageActivity.this, "修改失败");
+				return;
+			}
 			switch (msg.what) {
 				case img_head:
 					break;
@@ -129,6 +134,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 				default:
 					break;
 			}
+			ToolUtils.showShortToast(PersonMessageActivity.this, "修改成功");
 		}
 		
 	};
@@ -281,7 +287,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
                 Uri uri=data.getData();
                 startPhotoZoom(uri);
             }else{
-                Toast.makeText(this, "No picture selected", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "未选择图片", Toast.LENGTH_LONG).show();
             }
 		}
 		/**
@@ -634,11 +640,13 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 					msg.obj = changeBody;
 					if (errcode == 0) {
 						handler.sendMessage(msg);
+					}else{
+						handler.sendEmptyMessage(0);
 					}
 				} catch (Exception e) {
+					handler.sendEmptyMessage(0);
 					e.printStackTrace();
 				}
-
 			}
 		});
 	}
@@ -741,16 +749,16 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
                             }
                         }).start();
                     }else{
-                        Toast.makeText(this, "Network wrong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "网络出错", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(this, "Photo is null", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "未选择图片", Toast.LENGTH_LONG).show();
                 }
             }else{
-                Toast.makeText(this, "Extra is null", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "未选择图片", Toast.LENGTH_LONG).show();
             }
         } else{
-            Toast.makeText(this, "Data is null", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "未选择图片", Toast.LENGTH_LONG).show();
         }
     }
 }

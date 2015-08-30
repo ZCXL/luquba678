@@ -16,7 +16,9 @@ import com.zhuchao.view_rewrite.ChangeTextFontDialog;
 import com.zhuchao.view_rewrite.ChangeTextSizeDialog;
 import com.zhuchao.view_rewrite.ChangeTextStyleWindow;
 import com.zhuchao.view_rewrite.ColorSelector;
+import com.zhuchao.view_rewrite.LargeBitmapImage;
 import com.zhuchao.view_rewrite.LoadingDialog;
+import com.zhuchao.view_rewrite.SelectPhotoDialog;
 
 import cn.luquba678.R;
 import cn.luquba678.activity.fragment.TabMyStoryFragment;
@@ -31,7 +33,6 @@ import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,7 +41,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -63,7 +63,7 @@ import android.widget.Toast;
 
 public class WdjySaveActivity extends CommonActivity implements OnClickListener,ColorSelector.OnColorSelectedListener,ChangeTextFontDialog.OnFontChangeListener,ChangeTextSizeDialog.OnSizeChangeListener,ChangImageStyle.OnImageChangeStyleListener{
 
-	private ImageView showImgView = null;
+	private LargeBitmapImage showImgView = null;
 
 	private FrameLayout fl;
 	private LinearLayout openAlbumTextView = null;
@@ -75,7 +75,7 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
     private LoadingDialog loadingDialog;
 	private String myWishString;
 
-	private Integer[] mImageIds = {R.drawable.wish_1,R.drawable.wish_2,R.drawable.wish_3,R.drawable.wish_4,R.drawable.wish_5,R.drawable.wish_6,R.drawable.wish_7,R.drawable.wish_8,R.drawable.wish_9,R.drawable.wish_10,R.drawable.wish_11,R.drawable.wish_12,R.drawable.wish_13,R.drawable.wish_14,R.drawable.wish_15,R.drawable.wish_16,R.drawable.wish_17,R.drawable.wish_18,R.drawable.wish_19,R.drawable.wish_20};
+	private Integer[] mImageIds = {R.drawable.wish_1,R.drawable.wish_2,R.drawable.wish_3,R.drawable.wish_4,R.drawable.wish_5,R.drawable.wish_6,R.drawable.wish_7,R.drawable.wish_8,R.drawable.wish_9,R.drawable.wish_10,R.drawable.wish_11};
 
 	private Gallery mGallery = null;
 	private Button nextButton;
@@ -84,8 +84,8 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
 
     private static final int SELECT_PICTURE = 1;
     private static final int SELECT_CAMERA= 2;
-    private AlertDialog photoDialog;
 
+    private SelectPhotoDialog photoDialog;
 
     /**
      * view of changing text style
@@ -115,14 +115,15 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
                     toast("保存成功！");
                     Intent intent=new Intent();
                     Bundle bundle=new Bundle();
-                    bundle.putParcelable("wish",w);
+                    bundle.putParcelable("wish", w);
                     intent.putExtras(bundle);
-                    setResult(2,intent);
+                    setResult(2, intent);
                     finish();
                     if(TabMyStoryFragment.activity!=null){
                         TabMyStoryFragment.activity.dismiss();
                     }
                     loadingDialog.stopProgressDialog();
+                    System.gc();
                     break;
                 case 2:
                     toast("保存寄语失败，请重试。。。");
@@ -152,6 +153,7 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
      * init view
      */
 	private void initView() {
+        photoDialog=new SelectPhotoDialog(this,this);
         /**
          * upload animation
          */
@@ -184,13 +186,14 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
         /**
          * background
          */
-		showImgView = (ImageView) findViewById(R.id.id_imgview_pic);
-		showImgView.setImageResource(mImageIds[7]);
+		showImgView = (LargeBitmapImage) findViewById(R.id.id_imgview_pic);
+		showImgView.setImageResource(mImageIds[4]);
 
         /**
          * button of save
          */
 		findViewById(R.id.top_back).setOnClickListener(this);
+        findViewById(R.id.title_top_image).setOnClickListener(this);
 		nextButton = (Button) findViewById(R.id.top_submit);
 		nextButton.setText("保存");
 		nextButton.setOnClickListener(this);
@@ -262,8 +265,9 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
         if (requestCode == SELECT_PICTURE) {
             String imgLocalPath = (String) SPUtils.get(this, "head_img", "nopath");
             if (!imgLocalPath.equals("nopath")) {
+                System.gc();
                 Bitmap bm = BitmapUtil.getLoacalBitmap(imgLocalPath);
-                bitmap=bm;
+                //bitmap=ImageProcess.compressImage(bm,512);
                 showImgView.setImageBitmap(bm);
             }
         }
@@ -273,8 +277,10 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
         else if (requestCode == SELECT_CAMERA){
             Uri uri = Uri.fromFile(tempFile);
             Bitmap bm = BitmapUtil.getLoacalBitmap(uri.getPath());
-            bitmap=bm;
-            showImgView.setImageBitmap(bm);
+            if(bm!=null) {
+                bitmap = bm;
+                showImgView.setImageBitmap(bm);
+            }
         }
 
 	}
@@ -299,6 +305,9 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
         }
 		switch (v.getId()) {
             case R.id.top_back:
+                this.finish();
+                break;
+            case R.id.title_top_image:
                 this.finish();
                 break;
             case R.id.rl_photo_album:
@@ -406,16 +415,7 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
      * select photo from album
      */
 	public void showSelectPhotoDialog() {
-		photoDialog = new AlertDialog.Builder(this).create();
-		photoDialog.show();
-		photoDialog.getWindow().setContentView(R.layout.person_select_photo);
-		RelativeLayout rl_camera, rl_photo_album, rl_cancel;
-		rl_camera = (RelativeLayout) photoDialog.findViewById(R.id.rl_camer);
-		rl_photo_album = (RelativeLayout) photoDialog.findViewById(R.id.rl_photo_album);
-		rl_cancel = (RelativeLayout) photoDialog.findViewById(R.id.rl_cancle);
-		rl_camera.setOnClickListener(this);
-		rl_photo_album.setOnClickListener(this);
-		rl_cancel.setOnClickListener(this);
+        photoDialog.show();
 	}
     /**
      * upload wish
@@ -460,7 +460,7 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
         startActivityForResult(new Intent(self, SelectPhotosActivity.class),SELECT_PICTURE);
     }
 
-    File tempFile = new File(Environment.getExternalStorageDirectory(),getPhotoFileName());
+    File tempFile =ImageProcess.saveTempFile(getPhotoFileName());
     /**
      * get image from camera
      */

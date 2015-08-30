@@ -84,7 +84,7 @@ public class PersonSettingDialog extends FullScreenDialog implements View.OnClic
 				pSettingAboutDialog.show();
 				break;
 			case R.id.share_friend:
-				ShareInit.showShare(false, null, context, "录取吧", "http://120.26.112.250/apk/luquba.apk", "录取吧Download link!", "http://120.26.112.250/apk/678icon.jpg");
+				ShareInit.showShare(false, null, context, "录取吧", "http://120.26.112.250/apk/luquba.apk", "[录取吧]为你开启大学之门\nhttp://120.26.112.250/apk/luquba.apk", "http://120.26.112.250/apk/678icon.jpg");
 				break;
 			case R.id.person_question:
 				personCommonMistakeDialog = new PersonCommonMistakeDialog(context);

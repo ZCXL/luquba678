@@ -45,7 +45,7 @@ public class StoryAdapter extends CommonAdapter<News> {
 				/**
 				 * decode twice
 				 */
-				story_content.setText(content);
+				story_content.setText(content+"\n");
 			}else{
 				story_content.setVisibility(View.GONE);
 				image.setVisibility(View.VISIBLE);

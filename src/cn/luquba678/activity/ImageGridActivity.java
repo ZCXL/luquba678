@@ -19,6 +19,9 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.zhuchao.view_rewrite.SelectPhotoDialog;
+
 import cn.luquba678.R;
 import cn.luquba678.photo.AlbumHelper;
 import cn.luquba678.photo.Bimp;
@@ -55,8 +58,7 @@ public class ImageGridActivity extends Activity {
 		InitTopView();
 		helper = AlbumHelper.getHelper();
 		helper.init(getApplicationContext());
-		dataList = (List<ImageItem>) getIntent().getSerializableExtra(
-				EXTRA_IMAGE_LIST);
+		dataList = (List<ImageItem>) getIntent().getSerializableExtra(EXTRA_IMAGE_LIST);
 		initView();
 		bt = (Button) findViewById(R.id.bt);
 		bt.setOnClickListener(new OnClickListener() {
@@ -81,6 +83,8 @@ public class ImageGridActivity extends Activity {
 				}
 				if (list.size() > 0) {
 					SPUtils.put(ImageGridActivity.this, "head_img", list.get(0));
+					if(SelectPhotosActivity.selectPhoto!=null)
+						SelectPhotosActivity.selectPhoto.finish();
 				}
 				finish();
 			}
@@ -113,8 +117,7 @@ public class ImageGridActivity extends Activity {
 
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				adapter.notifyDataSetChanged();
 			}
 

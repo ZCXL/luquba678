@@ -19,6 +19,8 @@ public class ImageAdapter extends CommonAdapter<Wish> implements OnClickListener
 	public ImageAdapter(Context context, ArrayList<Wish> dates, int layoutId,BrowseImageDialog browseImageDialog) {
 		super(context, dates, layoutId);
 		imageLoader = new ImageLoader(context);
+        imageLoader.setREQUIRED_SIZE(600);
+		imageLoader.setStub_id(R.drawable.new_wish_default_1);
 		this.browseImageDialog= browseImageDialog;
 		// TODO Auto-generated constructor stub
 	}

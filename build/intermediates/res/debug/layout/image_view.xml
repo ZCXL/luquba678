@@ -2,12 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <ImageView 
+    android:orientation="vertical"
+    android:background="@drawable/new_wish_bg">
+    <ImageView
         android:id="@+id/image_view"
-        style="@style/width_fill_height_fill"
-        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:src="@drawable/wish_1"
+        android:background="@drawable/new_wish_bg"
         />
-
 </LinearLayout>
 <!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/image_view.xml -->

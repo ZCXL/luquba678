@@ -142,10 +142,8 @@ public class TabMyStoryFragment extends Fragment implements OnClickListener,Pull
 	private void getWish(int page,int action) {
 		try {
 			String url = String.format(Const.QUERY_WORD, User.getUID(this.getActivity()),User.getLoginToken(getActivity()));
-			MultipartEntity entity=new MultipartEntity();
-			Log.d("zhuchao", String.valueOf(page));
-			entity.addPart("page",new StringBody(String.valueOf(page), Charset.forName("utf-8")));
-			JSONObject jsonObj = JSONObject.parseObject(HttpUtil.postRequestEntity(url, entity));
+			url +="&page="+String.valueOf(page);
+			JSONObject jsonObj =HttpUtil.getRequestJson(url, null);
 			if (jsonObj.getInteger("errcode") == 0) {
 				JSONArray jyItems = jsonObj.getJSONArray("data");
 				ArrayList<Wish> temp=new ArrayList<Wish>();

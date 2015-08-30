@@ -32,6 +32,7 @@
                 android:layout_below="@id/pull_to_refresh_header_hint_textview"
                 android:layout_marginTop="@dimen/picture_pull_to_refresh_last_update_time_top_margin"
                 android:text="@string/pull_to_refresh_header_last_time"
+                android:visibility="gone"
                 android:textSize="@dimen/picture_pull_to_refresh_last_update_time_text_size" 
                 android:textColor="#999999"/>
             <TextView

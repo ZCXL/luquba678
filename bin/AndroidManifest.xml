@@ -63,10 +63,6 @@
         </activity>
         <activity android:name="cn.luquba678.activity.welcome.WelcomeActivity" >
         </activity>
-        <activity android:name="cn.luquba678.activity.welcome.HomeActivity" >
-        </activity>
-        <activity android:name="cn.luquba678.activity.fragment.SearchFragment" >
-        </activity>
         <activity android:name="cn.luquba678.activity.CityChooserActivity" >
         </activity>
         <activity android:name="cn.luquba678.activity.QueryResultActivity" >
@@ -79,13 +75,9 @@
         </activity>
         <activity android:name="cn.luquba678.activity.MajorsDetailActivity" >
         </activity>
-        <activity android:name="cn.luquba678.activity.WdjyWriteActivity" >
-        </activity>
         <activity android:name="cn.luquba678.activity.WdjySaveActivity" >
         </activity>
         <activity android:name="cn.luquba678.activity.SubMainActivity" >
-        </activity>
-        <activity android:name="cn.luquba678.activity.FunnyDetailActivity" >
         </activity>
         <activity android:name="cn.luquba678.activity.CommonNewsActivity" >
         </activity>

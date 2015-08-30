@@ -16,6 +16,10 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animationCache="false"
+            android:cacheColorHint="@null"
+            android:scrollingCache="false"
+            android:persistentDrawingCache="none"
             android:layout_gravity="center" />
     </LinearLayout>
 

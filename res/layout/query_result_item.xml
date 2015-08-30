@@ -7,11 +7,12 @@
     android:paddingBottom="15dp"
     android:paddingTop="15dp" >
 
-    <cn.luquba678.view.CircularImage
+    <com.zhuchao.view_rewrite.RoundImageView
         android:id="@+id/school_logo"
-        android:layout_width="50dp"
-        android:src="@color/gray_6"
-        android:layout_height="50dp" />
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:scaleType="matrix"
+        android:src="@drawable/bg_jy"/>
 
     <LinearLayout
         android:id="@+id/school_info"
@@ -62,6 +63,12 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/frame_radius5_alfa0_main_color"
                 android:text="211" />
+            <TextView
+                android:id="@+id/pici"
+                style="@style/text_frame_radius_style"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/frame_radius5_alfa0_main_color"
+                android:text="本一" />
         </LinearLayout>
 
         <LinearLayout

@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     android:background="@android:color/white"
     android:orientation="vertical" >
-
     <WebView
         android:id="@+id/story_content_web"
         android:layout_width="fill_parent"
@@ -21,13 +20,10 @@
         android:id="@+id/comment_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
+        android:orientation="vertical">
         <View
             style="@style/gray_e_line"
             />
-
         <LinearLayout
             android:id="@+id/comment_con"
             android:layout_width="fill_parent"
@@ -39,7 +35,6 @@
             <View
                 android:layout_width="5dp"
                 android:layout_height="20dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="3dp"
                 android:background="@color/main_color" />
@@ -47,6 +42,7 @@
             <TextView
                 style="@style/width_wrap_height_wrap"
                 android:text="热门评论"
+                android:layout_marginLeft="5dp"
                 android:textColor="@color/gray_5"
                 android:textSize="16sp" />
         </LinearLayout>

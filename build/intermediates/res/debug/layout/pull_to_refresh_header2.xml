@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@string/pull_to_refresh_header_hint_normal"
-                android:textSize="14dp" 
+                android:textSize="14dp"
                 android:textColor="#999999"/>
             <TextView
                 android:id="@+id/pull_to_refresh_last_update_time_text"
@@ -38,6 +38,7 @@
                 android:layout_below="@id/pull_to_refresh_header_hint_textview"
                 android:layout_marginTop="@dimen/picture_pull_to_refresh_last_update_time_top_margin"
                 android:text="@string/pull_to_refresh_header_last_time"
+                android:visibility="gone"
                 android:textSize="@dimen/picture_pull_to_refresh_last_update_time_text_size" 
                 android:textColor="#999999"/>
             <TextView
@@ -58,12 +59,14 @@
             android:layout_height="28dip"
             android:layout_marginRight="8dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/pull_to_refresh_header_text">
+            android:layout_toLeftOf="@id/pull_to_refresh_header_text"
+            android:visibility="gone">
             <ImageView
                 android:id="@+id/pull_to_refresh_header_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center" 
+                android:layout_gravity="center"
+                android:visibility="gone"
                 android:src="@drawable/xsearch_msg_pull_arrow_down" />
             
             <ProgressBar

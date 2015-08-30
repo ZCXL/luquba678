@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
+import android.widget.Toast;
+
 import cn.luquba678.R;
 import cn.luquba678.entity.Const;
 import cn.luquba678.ui.HttpUtil;
@@ -204,6 +206,7 @@ public class RegisterActivity extends CommonActivity implements TextWatcher {
 			JSONObject obj = HttpUtil.getRequestJson(Const.REGIST_URL, entity);
 			int errcode = obj.getIntValue("errcode");
 			if (errcode == 0) {
+				Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
 				RegisterActivity.this.finish();
 			} else {
 				toast(obj.getString("errmsg"));

@@ -10,12 +10,10 @@
         android:layout_height="32dp"
         customer:circle_color="#ff38c8ee"
         customer:width="1.33dp"
-        android:visibility="gone"
         />
-    <com.zhuchao.view_rewrite.GifView
+    <com.zhuchao.gif.GifView
         android:id="@+id/loading_animation"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        customer:gif="@drawable/loading_animation"
-        customer:paused="false"/>
+        android:visibility="gone"/>
 </LinearLayout>

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent">
+<LinearLayout
     android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_centerInParent="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,4 +58,5 @@
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
-</LinearLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/person_select_examinaton_year_dialog.xml -->
+</LinearLayout>
+    </RelativeLayout><!-- From: file:/home/zhuchao/AndroidStudioProjects/luquba678/res/layout/person_select_examinaton_year_dialog.xml -->

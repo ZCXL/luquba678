@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zhuchao.http.Network;
+import com.zhuchao.utils.ImageLoader;
 import com.zhuchao.view_rewrite.LoadingDialog;
 
 import cn.luquba678.R;
@@ -15,8 +16,6 @@ import cn.luquba678.activity.adapter.ViewHolder;
 import cn.luquba678.entity.Const;
 import cn.luquba678.entity.News;
 import cn.luquba678.ui.HttpUtil;
-import cn.luquba678.utils.ImageLoader;
-import cn.luquba678.utils.Until;
 import cn.luquba678.view.PullToRefreshBase;
 import cn.luquba678.view.PullToRefreshBase.OnRefreshListener;
 import cn.luquba678.view.PullToRefreshGridView;
@@ -99,7 +98,6 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 
 		setOnClickLinstener(R.id.top_back, R.id.pretty_boy, R.id.pretty_girl, R.id.pretty_girl_btn, R.id.pretty_boy_btn);
 		((TextView) findViewById(R.id.top_text)).setText(PRETTY);
-		// mGrid = getView(R.id.pretty_school_mates);
 		imageLoader = new ImageLoader(this);
 		rb_pretty_girl = getView(R.id.pretty_girl);
 		rb_pretty_boy = getView(R.id.pretty_boy);
@@ -112,6 +110,7 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
 		ptrlv.setPullLoadEnabled(true);
 		// 滑到底部是否自动加载数据，这句话一定要加要不然"已经到底啦"显示不出来
 		mGrid = ptrlv.getRefreshableView();
+        mGrid.setNumColumns(2);
 		ptrlv.setOnRefreshListener(this);
 
         /**
@@ -198,8 +197,10 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
             switch (msg.what){
                 case 1:
                    if(currentType==GIRL){
+                       //adapter.notifyDataSetChanged();
                        adapter.changeDateInThread(girls);
                    }else if(currentType==BOY){
+                       //adapter.notifyDataSetChanged();
                        adapter.changeDateInThread(boys);
                    }
                     break;
@@ -230,7 +231,7 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
                 TextView name = holder.getView(R.id.name);
                 String picUrl = t.getPic();
                 imageView.setImageBitmap(null);
-                imageLoader.DisplayImage(picUrl, imageView, false,350);
+                imageLoader.DisplayImage(picUrl, imageView);
                 name.setText(t.getTitle());
             }
         };

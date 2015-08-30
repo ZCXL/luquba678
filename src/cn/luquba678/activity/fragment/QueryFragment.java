@@ -90,9 +90,6 @@ public class QueryFragment extends Fragment implements OnClickListener, OnChecke
 		etSchoolPlace = (RelativeLayout) findViewById(R.id.query_school_place);
 		etHomePlace.setOnClickListener(this);
 		etSchoolPlace.setOnClickListener(this);
-		back = new BackChangeOnTouchListener(R.drawable.frame_radius8_alfa8_black, R.drawable.frame_radius8_alfa0_black);
-		etHomePlace.setOnTouchListener(back);
-		etSchoolPlace.setOnTouchListener(back);
 		query_home_place_home = (TextView) findViewById(R.id.query_home_place_home);
 		query_home_place_home.setText("请选择考试地点");
 		query_school_place_school = (TextView) findViewById(R.id.query_school_place_school);
@@ -180,7 +177,7 @@ public class QueryFragment extends Fragment implements OnClickListener, OnChecke
 			}
 			home_provence = CityMsg.getAreaFromShortName(null, home_area);
 			if(home_provence==null){
-				Toast.makeText(this.getActivity(), "No location info", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this.getActivity(), "同学,你在哪啊?", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			String home_id = home_provence.getArea_id() + "";
