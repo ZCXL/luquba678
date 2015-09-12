@@ -27,7 +27,8 @@
             android:layout_marginTop="5dp"
             android:minWidth="80dp"
             android:textSize="18sp"
-            android:text="北京大学"
+            android:text="北京大学北京大学北京大学北京大学北京大学"
+            android:gravity="left"
             android:textColor="@color/main_color" />
 
         <LinearLayout

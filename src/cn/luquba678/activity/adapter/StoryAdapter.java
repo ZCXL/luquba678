@@ -20,6 +20,7 @@ public class StoryAdapter extends CommonAdapter<News> {
 	public StoryAdapter(Context context, List<News> dates, int layoutId) {
 		super(context, dates, layoutId);
 		this.ima = new ImageLoader(context);
+		ima.setStub_id(R.drawable.app_default_big);
 	}
 
 	@Override

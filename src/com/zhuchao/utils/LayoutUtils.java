@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -48,6 +49,16 @@ public class LayoutUtils {
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
 		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 		listView.setLayoutParams(params);
+	}
+	public static int getHeight(LinearLayout view){
+		int count=view.getChildCount();
+		int height=0;
+		for(int i=0;i<count;i++){
+			View child=view.getChildAt(i);
+			child.measure(0,0);
+			height+=child.getMeasuredHeight();
+		}
+		return height;
 	}
 
 }

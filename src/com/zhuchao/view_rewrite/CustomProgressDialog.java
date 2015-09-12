@@ -28,7 +28,7 @@ public class CustomProgressDialog extends Dialog implements GifListener{
 	public CustomProgressDialog(Context context, int theme) {
         super(context, theme);
         this.context=context;
-        this.setCancelable(false);
+        //this.setCancelable(false);
         this.setCanceledOnTouchOutside(false);
         this.setContentView(R.layout.customerprogressdialog);
         this.getWindow().getAttributes().gravity = Gravity.CENTER;

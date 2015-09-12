@@ -110,8 +110,7 @@ public class HttpUtil {
 
 						{
 							// 获取服务器响应字符串
-							String result = EntityUtils.toString(httpResponse
-									.getEntity());
+							String result = EntityUtils.toString(httpResponse.getEntity());
 							return result;
 						}
 						return null;
@@ -142,8 +141,7 @@ public class HttpUtil {
 		});
 	}
 
-	public static String postRequestEntity(final String path,
-			final MultipartEntity entity) throws Exception {
+	public static String postRequestEntity(final String path, final MultipartEntity entity) throws Exception {
 		FutureTask<String> task = new FutureTask<String>(
 				new Callable<String>() {
 					@Override
@@ -194,8 +192,7 @@ public class HttpUtil {
 							}
 
 						}
-						return null;
-
+						return "{\"errorcode\":500}";
 					}
 				});
 		new Thread(task).start();

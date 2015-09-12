@@ -283,7 +283,7 @@ public class FunnyActivity extends CommonActivity implements OnItemClickListener
 			page++;
 			map.put(type,page);
 		}else{
-			map.put(type,1);
+			map.put(type,2);
 		}
 		/**
 		 * change type of data

@@ -165,57 +165,65 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
      * @param page
      */
 	private void getCommentList(int page) {
-		String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self),news.getId(), page);
-		try {
-			HttpUtil.getRequestJsonRunnable(comment_list_url, null,
-					new Handler() {
-						public void handleMessage(Message msg) {
-							JSONObject json = JSONObject.parseObject(msg.obj.toString());
-							int errcode = json.getIntValue("errcode");
-							if (errcode == 0) {
-								JSONArray array = json.getJSONArray("data");
-								ArrayList<Comment> arrayList = new ArrayList<Comment>();
-                                for(int i=0;i<array.size();i++)
-                                    arrayList.add(new Comment(array.get(i).toString()));
-                                if(arrayList!=null){
-                                    commentArrayList.addAll(arrayList);
-                                    adapter.notifyDataSetChanged();
-                                    comment_container.setVisibility(View.VISIBLE);
+        if(Network.checkNetWorkState(this)) {
+            String comment_list_url = String.format(Const.COMMENT_LIST_URL, User.getUID(self), User.getLoginToken(self), news.getId(), page);
+            try {
+                HttpUtil.getRequestJsonRunnable(comment_list_url, null,
+                        new Handler() {
+                            public void handleMessage(Message msg) {
+                                JSONObject json = JSONObject.parseObject(msg.obj.toString());
+                                int errcode = json.getIntValue("errcode");
+                                if (errcode == 0) {
+                                    JSONArray array = json.getJSONArray("data");
+                                    ArrayList<Comment> arrayList = new ArrayList<Comment>();
+                                    for (int i = 0; i < array.size(); i++)
+                                        arrayList.add(new Comment(array.get(i).toString()));
+                                    if (arrayList != null) {
+                                        commentArrayList.addAll(arrayList);
+                                        adapter.notifyDataSetChanged();
+                                        comment_container.setVisibility(View.VISIBLE);
+                                    }
+                                } else {
+                                    if (commentArrayList.size() > 0)
+                                        Toast.makeText(CommonNewsActivity.this, "亲,没有可刷新的了!", Toast.LENGTH_SHORT).show();
                                 }
-							}else{
-                                if(commentArrayList.size()>0)
-                                    Toast.makeText(CommonNewsActivity.this,"亲,没有可刷新的了!",Toast.LENGTH_SHORT).show();
+                                ptrlv.onPullDownRefreshComplete();
+                                ptrlv.onPullUpRefreshComplete();
+                                ptrlv.setHasMoreData(true);
+                                if (isLoad)
+                                    loadingDialog.stopProgressDialog();
                             }
-							ptrlv.onPullDownRefreshComplete();
-							ptrlv.onPullUpRefreshComplete();
-							ptrlv.setHasMoreData(true);
-                            if(isLoad)
-                                loadingDialog.stopProgressDialog();
-						}
-					});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            Toast.makeText(CommonNewsActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+        }
 	}
 
     /**
      * get message
      */
 	public void getMSG() {
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self),news.getId());
-					JSONObject obj = HttpUtil.getRequestJson(url, null);
-					handler.sendMessage(handler.obtainMessage(0, obj));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        if(Network.checkNetWorkState(this)) {
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String url = String.format(Const.GET_DETAIL_MSG_URL, User.getUID(self), User.getLoginToken(self), news.getId());
+                        JSONObject obj = HttpUtil.getRequestJson(url, null);
+                        handler.sendMessage(handler.obtainMessage(0, obj));
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
 
-			}
-		});
+                }
+            });
+        }else{
+            Toast.makeText(CommonNewsActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+        }
 	}
 
     /**
@@ -313,85 +321,67 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	 * send comment to server
 	 */
 	private void sendComment() {
-		String comment = comment_text.getText().toString();
-		if(StringUtils.isEmpty(comment))
-		{
-			toast("评论不能为空！");
-			return;
-		}
-		imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-		buttom_btns.setVisibility(View.VISIBLE);
-		comment_input.setVisibility(View.GONE);
-		String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self),news.getId());
-		try {
-			MultipartEntity entity = new MultipartEntity();
-			entity.addPart("content", new StringBody(comment, Charset.forName("utf-8")));
-			HttpUtil.getRequestJsonRunnable(comment_url, entity, new Handler() {
-				@Override
-				public void handleMessage(Message msg) {
-					super.handleMessage(msg);
-					try {
+        if(Network.checkNetWorkState(this)) {
+            String comment = comment_text.getText().toString();
+            if (StringUtils.isEmpty(comment)) {
+                toast("评论不能为空！");
+                return;
+            }
+            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+            buttom_btns.setVisibility(View.VISIBLE);
+            comment_input.setVisibility(View.GONE);
+            String comment_url = String.format(Const.COMMENT_URL, User.getUID(self), User.getLoginToken(self), news.getId());
+            try {
+                MultipartEntity entity = new MultipartEntity();
+                entity.addPart("content", new StringBody(comment, Charset.forName("utf-8")));
+                HttpUtil.getRequestJsonRunnable(comment_url, entity, new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        try {
 
-                        String result=msg.obj.toString();
-                        JSONObject object=JSONObject.parseObject(result);
-						int code = object.getIntValue("errcode");
-						if(code==0){
-							toast("评论成功！");
-                            //refresh comment number;
-							getMSG();
+                            String result = msg.obj.toString();
+                            JSONObject object = JSONObject.parseObject(result);
+                            int code = object.getIntValue("errcode");
+                            if (code == 0) {
+                                toast("评论成功！");
+                                //refresh comment number;
+                                getMSG();
 
-                            Comment comment_result=new Comment();
-                            JSONObject jsonObject= object.getJSONObject("data");
-                            comment_result.setContent(jsonObject.getString("content"));
-                            comment_result.setComment_time(jsonObject.getString("createtime"));
-                            comment_result.setHeadpic(jsonObject.getString("headpic"));
-                            comment_result.setNickname(jsonObject.getString("nickname"));
+                                Comment comment_result = new Comment();
+                                JSONObject jsonObject = object.getJSONObject("data");
+                                comment_result.setContent(jsonObject.getString("content"));
+                                comment_result.setComment_time(jsonObject.getString("createtime"));
+                                comment_result.setHeadpic(jsonObject.getString("headpic"));
+                                comment_result.setNickname(jsonObject.getString("nickname"));
 
-                            commentArrayList.add(0, comment_result);
-                            adapter.notifyDataSetChanged();
-						}else{
-							toast("评论失败!");
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					}});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+                                commentArrayList.add(0, comment_result);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                toast("评论失败!");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }else{
+            Toast.makeText(CommonNewsActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+        }
 	}
 
     /**
      * good
      */
     private void recognise(){
-        String praise_url = String.format(Const.PRAISE_URL,
-                User.getUID(self), User.getLoginToken(self),news.getId());
-        try {
-            HttpUtil.getRequestJsonRunnable(praise_url, null,
-                    new Handler() {
-                        public void handleMessage(Message msg) {
-                            JSONObject obj = JSONObject.parseObject(msg.obj.toString());
-                            int errcode = obj.getIntValue("errcode");
-                            if (errcode == 0) {
-                                getMSG();
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * collect or cancel
-     */
-    private void collectOrNot(){
-        if(!isCollect) {
-            String add_collection_url = String.format(Const.ADD_COLLECTION_URL, User.getUID(self), User.getLoginToken(self), news.getId());
+        if(Network.checkNetWorkState(this)) {
+            String praise_url = String.format(Const.PRAISE_URL, User.getUID(self), User.getLoginToken(self), news.getId());
             try {
-                HttpUtil.getRequestJsonRunnable(add_collection_url, null,
+                HttpUtil.getRequestJsonRunnable(praise_url, null,
                         new Handler() {
                             public void handleMessage(Message msg) {
                                 JSONObject obj = JSONObject.parseObject(msg.obj.toString());
@@ -405,17 +395,45 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
                 e.printStackTrace();
             }
         }else{
-            String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(self), User.getLoginToken(self));
-            MultipartEntity entity = new MultipartEntity();
-            try {
-                entity.addPart("list",new StringBody("[\""+news.getId()+"\"]"));
-                JSONObject obj= HttpUtil.getRequestJson(deleteCollectionUrl, entity);
-                int err_code=obj.getIntValue("errcode");
-                if(err_code==0)
-                    getMSG();
-            }catch (Exception e){
-                e.printStackTrace();
+            Toast.makeText(CommonNewsActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
+        }
+    }
+    /**
+     * collect or cancel
+     */
+    private void collectOrNot(){
+        if(Network.checkNetWorkState(this)) {
+            if (!isCollect) {
+                String add_collection_url = String.format(Const.ADD_COLLECTION_URL, User.getUID(self), User.getLoginToken(self), news.getId());
+                try {
+                    HttpUtil.getRequestJsonRunnable(add_collection_url, null,
+                            new Handler() {
+                                public void handleMessage(Message msg) {
+                                    JSONObject obj = JSONObject.parseObject(msg.obj.toString());
+                                    int errcode = obj.getIntValue("errcode");
+                                    if (errcode == 0) {
+                                        getMSG();
+                                    }
+                                }
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                String deleteCollectionUrl = String.format(Const.DELETECOLLECTION, User.getUID(self), User.getLoginToken(self));
+                MultipartEntity entity = new MultipartEntity();
+                try {
+                    entity.addPart("list", new StringBody("[\"" + news.getId() + "\"]"));
+                    JSONObject obj = HttpUtil.getRequestJson(deleteCollectionUrl, entity);
+                    int err_code = obj.getIntValue("errcode");
+                    if (err_code == 0)
+                        getMSG();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        }else{
+            Toast.makeText(CommonNewsActivity.this,"未连接网络",Toast.LENGTH_SHORT).show();
         }
     }
     @Override
@@ -442,14 +460,12 @@ public class CommonNewsActivity extends CommonActivity implements OnClickListene
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO Auto-generated method stub
-		
+        ptrlv.onPullDownRefreshComplete();
 	}
 	
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
         getCommentList(++page);
-		
 	}
 
 	class StoryWebView extends WebViewClient{

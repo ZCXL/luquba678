@@ -214,8 +214,8 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
                         }
 
 					} else {
-                        loadingDialog.stopProgressDialog();
-						toast("服务器出错...");
+						loadingDialog.stopProgressDialog();
+						toast("未连接网络");
 					}
 				}
 			});
@@ -266,6 +266,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 			weibo.removeAccount();
 			weibo.setPlatformActionListener(mActionListener);
 			weibo.showUser(null);
+			loadingDialog.setCancelable(true);
             loadingDialog.startProgressDialog();
 			break;
 		case R.id.login_qq:
@@ -289,8 +290,6 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 
 		@Override
 		public void onComplete(Platform arg0, int arg1, HashMap<String, Object> res) {
-
-
             String platformName=arg0.getName();
             info=new Info();
             if(platformName.equals(SinaWeibo.NAME)){
@@ -472,9 +471,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 
                             } else {
                                 toast("服务器繁忙请重试...");
-
                             }
-
                         } catch (JSONException e) {
                             toast("数据解析错误...");
                             e.printStackTrace();
@@ -484,7 +481,7 @@ public class LoginActivity extends CommonActivity implements OnClickListener, Te
 
                     } else {
                         loadingDialog.stopProgressDialog();
-                        toast("服务器出错...");
+                        toast("未连接网络");
                     }
                 }
             });

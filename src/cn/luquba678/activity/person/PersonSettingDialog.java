@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,11 +12,7 @@ import android.widget.RelativeLayout;
 import com.zhuchao.share.ShareInit;
 
 import cn.luquba678.R;
-import cn.luquba678.activity.Test;
-import cn.luquba678.entity.Const;
 import cn.luquba678.ui.FullScreenDialog;
-import cn.luquba678.utils.Until;
-
 public class PersonSettingDialog extends FullScreenDialog implements View.OnClickListener {
 	private Context context;
 	private RelativeLayout ll_feedback, ll_person_about, ll_share,person_question,ll_comment;
@@ -31,16 +25,6 @@ public class PersonSettingDialog extends FullScreenDialog implements View.OnClic
 		super(context);
 		this.context = context;
 	}
-
-	private Handler mHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-		}
-
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -8,6 +8,7 @@ import android.content.Context;
 public class LoadingDialog {
     private Context context;
     private CustomProgressDialog dialog;
+    private boolean isCancelable=false;
     public LoadingDialog(Context context){
         this.context=context;
     }
@@ -17,11 +18,14 @@ public class LoadingDialog {
         }
         dialog.show();
     }
-
     public void stopProgressDialog(){
         if (dialog != null){
             dialog.dismiss();
             dialog = null;
+            isCancelable=false;
         }
+    }
+    public void setCancelable(boolean isCancelable){
+        this.isCancelable=isCancelable;
     }
 }

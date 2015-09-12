@@ -10,8 +10,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.text.Layout;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,6 +27,8 @@ import cn.luquba678.entity.Const;
 import cn.luquba678.entity.GradeLine;
 import cn.luquba678.entity.School;
 import cn.luquba678.ui.HttpUtil;
+
+import com.baidu.navisdk.util.common.StringUtils;
 import com.zhuchao.utils.ImageLoader;
 import cn.luquba678.view.CircularImage;
 import internal.org.apache.http.entity.mime.MultipartEntity;
@@ -91,7 +96,7 @@ public class UniversityDetailActivity extends CommonActivity implements OnClickL
 		topTitle.setText("大学简介");
 		findViewById(R.id.top_back).setOnClickListener(this);
 		logo = (CircularImage) findViewById(R.id.school_detail_logo);
-        setOnClickLinstener(R.id.top_back, R.id.web_text);
+        setOnClickLinstener(R.id.top_back, R.id.web_text,R.id.phone);
 		school = School.getSchoolFromJson(schoolJson);
 		schoolNameTv = getView(R.id.school_name);
 		introduce = getView(R.id.introduce);
@@ -162,10 +167,23 @@ public class UniversityDetailActivity extends CommonActivity implements OnClickL
 				this.finish();
 				break;
 			case R.id.web_text:
-				Uri uri = Uri.parse(school.getWeb());
+				Uri uri = Uri.parse(web_text.getText().toString());
 				Intent it = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(it);
 				break;
+            case R.id.phone:
+                // toast("打电话");
+                String phoneno =tel_text.getText().toString();
+                if (phoneno.contains("，")) {
+                    phoneno = phoneno.substring(0, phoneno.indexOf("，"));
+                }
+                if (StringUtils.isEmpty(phoneno)) {
+                    Toast.makeText(getApplicationContext(), "没有电话号码",Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ phoneno));
+                    startActivity(intent);
+                }
+                break;
 			default:
 				break;
 		}

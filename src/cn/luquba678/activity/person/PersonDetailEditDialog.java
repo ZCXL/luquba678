@@ -62,12 +62,10 @@ public class PersonDetailEditDialog extends FullScreenDialog implements android.
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.save:
-				String content=et_detail.getText().toString();
-				if(content.length()>8)
-					content=content.substring(0,8)+"...";
-				tv_detail.setText(content);
-				context.uploadChange(intro, et_detail.getText().toString());
-				dismiss();
+				if(checkIsCanSaveDetail(et_detail.getText().toString())) {
+					context.uploadChange(intro, et_detail.getText().toString());
+					dismiss();
+				}
 			case R.id.title_top_image:
 				dismiss();
 				break;
@@ -97,6 +95,16 @@ public class PersonDetailEditDialog extends FullScreenDialog implements android.
 			tv_save.setEnabled(false);
 			tv_save.setTextColor(0xFFCFCBCB);
 		}
+	}
+	private boolean checkIsCanSaveDetail(String checkName) {
+		if (checkName.length() == 0) {
+			ToolUtils.showShortToast(context, "内容不能为空");
+			return false;
+		} else if (checkName.length() > 30) {
+			ToolUtils.showShortToast(context, "内容不能超出字数限制");
+			return false;
+		}
+		return true;
 	}
 
 }

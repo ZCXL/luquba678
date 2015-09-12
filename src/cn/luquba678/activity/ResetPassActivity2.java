@@ -58,9 +58,8 @@ public class ResetPassActivity2 extends CommonActivity {
 					if (errcode == 0) {
 						Toast.makeText(ResetPassActivity2.this,"已发送",Toast.LENGTH_SHORT).show();
 						count=60;
-						resend.setBackgroundResource(R.drawable.new_select_birthday_cancel);
+						resend.setBackgroundResource(R.drawable.bg_btn_forbid_click);
 						resend.setText("60秒后重发");
-						resend.setTextColor(Color.parseColor("#888888"));
 						resend.setClickable(false);
 						resend.setEnabled(false);
 						resend.setFocusable(false);
@@ -92,9 +91,8 @@ public class ResetPassActivity2 extends CommonActivity {
 						resend.setText(String.valueOf(count)+"秒后重发");
 					}else{
 						timer.cancel();
-						resend.setBackgroundResource(R.drawable.new_select_birthday_confirm);
-						resend.setTextColor(Color.parseColor("#ffffff"));
-						resend.setText("重发验证码");
+						resend.setBackgroundResource(R.drawable.frame_radius5_alfa0_main_color);
+						resend.setText("重发验证码", TextView.BufferType.NORMAL);
 						resend.setClickable(true);
 						resend.setEnabled(true);
 						resend.setFocusable(true);
@@ -168,9 +166,8 @@ public class ResetPassActivity2 extends CommonActivity {
 		tel = getIntent().getStringExtra("tel");
 		resend=(Button)findViewById(R.id.resend);
 		resend.setOnClickListener(this);
-		resend.setTextColor(Color.parseColor("#888888"));
 		resend.setText("60秒后重发");
-		resend.setBackgroundResource(R.drawable.new_select_birthday_cancel);
+		resend.setBackgroundResource(R.drawable.bg_btn_forbid_click);
 		resend.setClickable(false);
 		resend.setEnabled(false);
 		resend.setFocusable(false);

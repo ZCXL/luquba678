@@ -22,6 +22,7 @@ import cn.luquba678.view.PullToRefreshGridView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -156,7 +157,8 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
             if(error_layout.getVisibility()==View.VISIBLE)
                 error_layout.setVisibility(View.INVISIBLE);
             loadingDialog.startProgressDialog();
-			Executors.newSingleThreadExecutor().execute(new Runnable() {
+            Log.d("zhuchao","page:"+String.valueOf(page));
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -273,7 +275,7 @@ public class PrettySchoolMateActivity extends CommonActivity implements OnClickL
             page++;
             map.put(type,page);
         }else{
-            map.put(type,1);
+            map.put(type,2);
         }
         /**
          * change type of data

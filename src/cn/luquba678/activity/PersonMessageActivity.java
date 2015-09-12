@@ -180,7 +180,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		name.setText(SPUtils.get(this, "nickname", "ss").toString());
 		sex = (TextView) findViewById(R.id.sex);
 		sex.setText(SPUtils.get(this, "sex", "男").toString());
-		if(SPUtils.get(this, "sex", "男").toString().equals("1")){
+		if(SPUtils.get(this, "sex", "男").toString().equals("男")){
 			sex.setText("男");
 		}else {
 			sex.setText("女");
@@ -198,7 +198,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		score = (TextView) findViewById(R.id.score);
 		score.setText(SPUtils.get(this, "grade", "0").toString());
 		type = (TextView) findViewById(R.id.type);
-		if(SPUtils.get(this, "type", "理科").toString().equals("1")){
+		if(SPUtils.get(this, "type", "理科").toString().equals("理科")){
 			type.setText("理科");
 		}else {
 			type.setText("文科");
@@ -377,7 +377,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		final Button rl_boy, rl_girl, rl_cancle;
 		rl_boy = (Button) sexDialog.findViewById(R.id.female);
 		rl_girl = (Button) sexDialog.findViewById(R.id.male);
-		if(SPUtils.get(this, "sex", "男").toString().equals("1")){
+		if(SPUtils.get(this, "sex", "男").toString().equals("男")){
 			rl_boy.setBackgroundResource(R.drawable.new_sex_checked);
 			rl_girl.setBackgroundResource(R.drawable.new_sex_unchecked);
 		}else {
@@ -426,7 +426,7 @@ public class PersonMessageActivity extends Activity implements OnClickListener {
 		rl_liberal_arts = (Button) subjectDialog.findViewById(R.id.messy);
 		rl_science_subject = (Button) subjectDialog.findViewById(R.id.math);
 		rl_cancle = (Button) subjectDialog.findViewById(R.id.rl_cancel);
-		if(SPUtils.get(this, "type", "理科").toString().equals("1")){
+		if(SPUtils.get(this, "type", "理科").toString().equals("理科")){
 			rl_science_subject.setBackgroundResource(R.drawable.new_sex_checked);
 			rl_liberal_arts.setBackgroundResource(R.drawable.new_sex_unchecked);
 		}else {

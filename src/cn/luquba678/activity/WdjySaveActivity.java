@@ -55,7 +55,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -206,8 +205,8 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
 		mGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 fl.addView(textView);
-                showImgView.setImageResource(mImageIds[position]);
-                bitmap = BitmapFactory.decodeResource(getResources(), mImageIds[position]);
+                bitmap=BitmapFactory.decodeStream(WdjySaveActivity.this.getResources().openRawResource(mImageIds[position]));
+                showImgView.setImageBitmap(bitmap);
                 bg_gallery.setVisibility(View.INVISIBLE);
             }
         });
@@ -268,7 +267,14 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
                 System.gc();
                 Bitmap bm = BitmapUtil.getLoacalBitmap(imgLocalPath);
                 //bitmap=ImageProcess.compressImage(bm,512);
-                showImgView.setImageBitmap(bm);
+                if(bm!=null) {
+                    if(!bitmap.isRecycled()) {
+                        bitmap.recycle();
+                        System.gc();
+                    }
+                    bitmap = bm;
+                    showImgView.setImageBitmap(bm);
+                }
             }
         }
         /**
@@ -278,6 +284,10 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
             Uri uri = Uri.fromFile(tempFile);
             Bitmap bm = BitmapUtil.getLoacalBitmap(uri.getPath());
             if(bm!=null) {
+                if(!bitmap.isRecycled()) {
+                    bitmap.recycle();
+                    System.gc();
+                }
                 bitmap = bm;
                 showImgView.setImageBitmap(bm);
             }
@@ -393,8 +403,8 @@ public class WdjySaveActivity extends CommonActivity implements OnClickListener,
                 public void run() {
                     // TODO Auto-generated method stub
                     String result= NetworkFunction.UploadHeadImage(WdjySaveActivity.this, path, "/sdcard/luquba/StoryImages/" + path);
-                    Log.d("zhuchao", result);
-                    if(result.contains("http:")&&result.contains(".jpg")){
+                    if(result!=null&&result.contains("http:")&&result.contains(".jpg")){
+                        Log.d("zhuchao", result);
                         JSONObject obj=JSONObject.parseObject(result);
                         Message message=new Message();
                         message.obj=obj.getString("data");

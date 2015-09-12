@@ -22,7 +22,7 @@
         android:layout_marginRight="14.66dp"
         android:layout_marginLeft="14.66dp"
         android:textColor="#7c7d7a"
-        android:textSize="15dp"
+        android:textSize="17dp"
         android:text="lll"
         android:layout_marginBottom="15dp"/>
 

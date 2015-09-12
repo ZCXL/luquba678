@@ -72,7 +72,6 @@ public class PersonNameEditDialog extends FullScreenDialog implements android.vi
             case R.id.save:
                 String name = et_name.getText().toString();
                 if (checkIsCanSaveName(name)) {
-                    tv_name.setText(et_name.getText().toString());
                     context.uploadChange(nick_name, name);
                     dismiss();
                 }

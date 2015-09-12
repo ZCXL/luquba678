@@ -1,8 +1,8 @@
 package cn.luquba678.activity;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zhuchao.http.Network;
 
-import cn.luquba678.utils.ToolUtils;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.StringBody;
 import cn.luquba678.R;
@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ResetPassActivity1 extends CommonActivity implements TextWatcher {
 
@@ -54,24 +55,28 @@ public class ResetPassActivity1 extends CommonActivity implements TextWatcher {
 			break;
 		case R.id.btn_ok:
 			alertDialog.dismiss();
-			try {
-				MultipartEntity entity = new MultipartEntity();
-				String tel = phoneNumber.getText().toString();
-				entity.addPart("tel", new StringBody(tel));
-				String json = HttpUtil.postRequestEntity(Const.FORGETPASS_GETMSG_URL, entity);
-				JSONObject obj = JSONObject.parseObject(json);
-				Integer errcode = obj.getInteger("errcode");
-				if (errcode == 0) {
-					Intent intent = new Intent(this, ResetPassActivity2.class);
-					intent.putExtra("tel", tel);
-					this.startActivity(intent);
-					handler.sendEmptyMessage(0);
-				} else {
+			if(Network.checkNetWorkState(this)) {
+				try {
+					MultipartEntity entity = new MultipartEntity();
+					String tel = phoneNumber.getText().toString();
+					entity.addPart("tel", new StringBody(tel));
+					String json = HttpUtil.postRequestEntity(Const.FORGETPASS_GETMSG_URL, entity);
+					JSONObject obj = JSONObject.parseObject(json);
+					Integer errcode = obj.getInteger("errcode");
+					if (errcode == 0) {
+						Intent intent = new Intent(this, ResetPassActivity2.class);
+						intent.putExtra("tel", tel);
+						this.startActivity(intent);
+						handler.sendEmptyMessage(0);
+					} else {
+						handler.sendEmptyMessage(1);
+					}
+				} catch (Exception e) {
 					handler.sendEmptyMessage(1);
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				handler.sendEmptyMessage(1);
-				e.printStackTrace();
+			}else{
+				Toast.makeText(this, "未连接网络", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.btn_cancel:

@@ -1,14 +1,11 @@
 package cn.luquba678.utils;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android.content.Context;
@@ -23,8 +20,11 @@ public class BitmapUtil {
 
 	public static Bitmap getLoacalBitmap(String url) {
 		try {
+			BitmapFactory.Options options=new BitmapFactory.Options();
+			options.inJustDecodeBounds = false;
+			options.inSampleSize = 4;
 			FileInputStream fis = new FileInputStream(url);
-			return BitmapFactory.decodeStream(fis);
+			return BitmapFactory.decodeStream(fis,null,options);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;

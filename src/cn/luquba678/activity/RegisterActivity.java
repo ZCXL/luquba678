@@ -106,8 +106,7 @@ public class RegisterActivity extends CommonActivity implements TextWatcher {
 		// 把消息从消息队列中取出处理
 		public void handleMessage(Message msg) {
 			if (msg.what < 0) {
-				btn_get_verify
-						.setBackgroundResource(R.drawable.frame_radius5_alfa0_main_color);
+				btn_get_verify.setBackgroundResource(R.drawable.frame_radius5_alfa0_main_color);
 				btn_get_verify.setEnabled(true);
 				btn_get_verify.setText(R.string.get_verify, BufferType.NORMAL);
 			} else {

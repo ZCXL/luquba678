@@ -11,6 +11,8 @@ import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.zhuchao.utils.LayoutUtils;
+
 import cn.luquba678.R;
 
 public class ExpandableLayout extends LinearLayout {
@@ -66,26 +68,30 @@ public class ExpandableLayout extends LinearLayout {
 	private class ExpandListener implements OnClickListener {
 		@Override
 		public final void onClick(View paramView) {
-			clearAnimation();
-			Log.d("zhuchao", String.valueOf(mContentHeight));
-			if (!isExpand) {
-				if (animationDown == null) {
-					animationDown = new DropDownAnim(mContentView, mContentHeight, true);
-					animationDown.setDuration(200); // SUPPRESS CHECKSTYLE
-				}
-				startAnimation(animationDown);
-				mContentView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.animalpha));
-				mIconExpand.setImageResource(up_arrow);
-				isExpand = true;
-			} else {
-				isExpand = false;
-				if (animationUp == null) {
-					animationUp = new DropDownAnim(mContentView, mContentHeight, false);
-					animationUp.setDuration(200); // SUPPRESS CHECKSTYLE
-				}
-				startAnimation(animationUp);
-				mIconExpand.setImageResource(down_arrow);
-			}
+//			clearAnimation();
+//			Log.d("zhuchao", String.valueOf(mContentHeight));
+//			if (!isExpand) {
+//				if (animationDown == null) {
+//					animationDown = new DropDownAnim(mContentView, mContentHeight, true);
+//					animationDown.setDuration(200); // SUPPRESS CHECKSTYLE
+//				}
+//				startAnimation(animationDown);
+//				mContentView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.animalpha));
+//				mIconExpand.setImageResource(up_arrow);
+//				isExpand = true;
+//			} else {
+//				isExpand = false;
+//				if (animationUp == null) {
+//					animationUp = new DropDownAnim(mContentView, mContentHeight, false);
+//					animationUp.setDuration(200); // SUPPRESS CHECKSTYLE
+//				}
+//				startAnimation(animationUp);
+//				mIconExpand.setImageResource(down_arrow);
+//			}
+			if(mContentView.getVisibility()==GONE)
+				mContentView.setVisibility(VISIBLE);
+			else
+				mContentView.setVisibility(GONE);
 		}
 	}
 
@@ -116,8 +122,7 @@ public class ExpandableLayout extends LinearLayout {
 		}
 
 		@Override
-		public void initialize(int width, int height, int parentWidth,
-				int parentHeight) {
+		public void initialize(int width, int height, int parentWidth, int parentHeight) {
 			super.initialize(width, height, parentWidth, parentHeight);
 		}
 
@@ -127,8 +132,6 @@ public class ExpandableLayout extends LinearLayout {
 		}
 	}
 	public void onRefresh(){
-        mContentView.measure(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-        int height =mContentView.getMeasuredHeight();
-        mContentHeight=height;
+		mContentHeight = LayoutUtils.getHeight(mContentView);
 	}
 }

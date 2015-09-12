@@ -53,11 +53,13 @@
                             android:id="@+id/resend"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="重发验证码"
-                            android:layout_alignParentRight="true"
+                            android:background="@drawable/new_select_birthday_confirm"
+                            android:padding="4dp"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/new_select_birthday_confirm"/>
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:textSize="18sp"
+                            android:text="重发验证码" />
                     </RelativeLayout>
 
                     <View

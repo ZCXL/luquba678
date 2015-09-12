@@ -17,19 +17,5 @@ public class Test extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
 
-        searchRotateView=(SearchRotateView)findViewById(R.id.search);
-
-        searchRotateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isRotate) {
-                    searchRotateView.startSearch();
-                    isRotate=true;
-                }else {
-                    searchRotateView.endSearch();
-                    isRotate=false;
-                }
-            }
-        });
     }
 }

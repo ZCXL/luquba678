@@ -194,34 +194,17 @@ public class CitiesActivity extends Activity implements OnWheelChangedListener,
 				editor.putString(School.HOME_AREA_ID, home_id);
 				editor.commit();
 
-
 				int position = mArea.getCurrentItem();
 				Intent intent = new Intent();
 				intent.putExtra("proviceName", mCurrentProvinceName);
 				intent.putExtra("cityName", mCurrentCityName);
 				if (mAreaDataMap.get(mCurrentCityName) != null) {
-					intent.putExtra("areaName",
-							mAreaDataMap.get(mCurrentCityName)[position]);
+					intent.putExtra("areaName",mAreaDataMap.get(mCurrentCityName)[position]);
 				}
 				setResult(5, intent);
 				finish();
 				break;
 			case R.id.showChooseCancel:
-				finish();
-				break;
-			case R.id.confirm_button:
-				position = mArea.getCurrentItem();
-				intent = new Intent();
-				intent.putExtra("proviceName", mCurrentProvinceName);
-				intent.putExtra("cityName", mCurrentCityName);
-				if (mAreaDataMap.get(mCurrentCityName) != null) {
-					intent.putExtra("areaName",
-							mAreaDataMap.get(mCurrentCityName)[position]);
-				}
-				setResult(5, intent);
-				finish();
-				break;
-			case R.id.cancel_button:
 				finish();
 				break;
 			default:

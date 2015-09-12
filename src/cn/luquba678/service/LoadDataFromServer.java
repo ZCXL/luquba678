@@ -85,8 +85,7 @@ public class LoadDataFromServer {
 				client.getParams().setParameter(
 						CoreConnectionPNames.CONNECTION_TIMEOUT, 3000000);
 				// 请求超时
-				client.getParams().setParameter(
-						CoreConnectionPNames.SO_TIMEOUT, 300000);
+				client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 300000);
 				StringBuilder builder = new StringBuilder();
 				HttpResponse response = null;
 				BufferedReader reader = null;

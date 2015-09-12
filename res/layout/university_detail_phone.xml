@@ -62,13 +62,21 @@
 
             <TextView
                 android:id="@+id/tel_text"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="招生电话    027-88888888"
+                android:text="027-88888888"
                 android:textColor="@color/text_black_color"
                 android:textSize="13sp" />
+            <ImageView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_phone"/>
         </RelativeLayout>
     </LinearLayout>
 </com.zhuchao.view_rewrite.ExpandableLayout>
